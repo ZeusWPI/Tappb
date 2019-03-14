@@ -1,7 +1,7 @@
 # Verslag UX testing
 
 ## User stories
-Geordend qua prioriteit.
+Geordend volgens prioriteit.
 
   * As a user I want to login easily
   * As a zeus member I want to check the availability of an item
@@ -23,8 +23,8 @@ Pilot test verliep vlot
 
 ### Test 2
 
-  1. onduidelijk iconen, vage instellingen
-  2. wilt item verwijderen uit confirmation
+  1. onduidelijke iconen, vage instellingen
+  2. wil item verwijderen uit confirmation
   3. onduidelijke settings
   4. verliep vlot
   5. wist waar te vinden doordat hij het scherm reeds had gezien
@@ -33,7 +33,6 @@ Pilot test verliep vlot
   8. verliep vlot
 
 ### Test 3
-
 
   1-6. verliep vlot
 
@@ -45,7 +44,7 @@ Pilot test verliep vlot
 1. Vindt balans niet, verkent de app
 2. had history al gevonden
 3. verliep vlot
-4. Wilt stock item ingedrukt houden
+4. Wil stock item ingedrukt houden
 5. Moet teruggaan naar het startscherm
 
 6-8. Verliep vlot
@@ -53,17 +52,17 @@ Pilot test verliep vlot
 
 ### Test 5
 
-- verwart camera met fotogallerij
+- verwart camera met fotogalerij
 - instellingen onduidelijk
 - € symbool ipv pijltjes
 - denkt dat de order knop de favorite besteld
-- wilt naar history via actiebalk onderaan
-- swipen niet handig, wilt kunnen tappen
-- transfers en topup samen zetten
+- wil naar history via actiebalk onderaan
+- swipen niet handig, wil kunnen tappen
+- transfers en top-up samen zetten
 
 ## Opmerkingen
 
 - Favorite item zit te diep weg.
 - Stock op loginscherm is niet zo nuttig
-- Topup en geld transfers zouden op dezelfde plaats moeten staan
+- Top-up en geld transfers zouden op dezelfde plaats moeten staan
 
