@@ -81,8 +81,8 @@
 
 #### Happy flow
 
-User klikt op het stock icoontje en ziet de stock
-Zoeken op naam
+* User klikt op het stock icoontje en ziet de stock
+* Zoeken op naam
 
 #### Sad flow 
 /
@@ -91,11 +91,19 @@ Zoeken op naam
 ± 4 uur
 
 ## 5. As a user, I want to login easily
-Context: Gebruiker is niet ingelogd
-Regels: Aanmelden met de Zeus-OAuth
-Happy flow: De user klik op login, geeft zijn login gegevens in in het juiste veld, de app vervolgt naar het homescreen
-Sad flow:
 
-User geeft het verkeerde wachtwoord/username in: tonen de response van de OAuth
-Wachtwoord vergeten: stuur een mail naar de sysadmin
-Uren: 4
+#### Context
+* Gebruiker is niet ingelogd
+
+#### Regels
+* Aanmelden met de Zeus-OAuth
+
+#### Happy flow
+* De user klikt op login, geeft zijn login gegevens in in het juiste veld, de app vervolgt naar het homescreen
+
+#### Sad flow
+* User geeft het verkeerde wachtwoord/username in: tonen de response van de OAuth
+* Wachtwoord vergeten: stuur een mail naar de sysadmin
+
+#### Complexiteit 
+± 4 uur
