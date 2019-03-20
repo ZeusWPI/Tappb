@@ -1,6 +1,7 @@
 # Use cases
 
-## As a zeus member, I want to top up my balance
+## 1. As a zeus member, I want to top up my balance
 
-### Context 
-ingelogd, geklikt op "geld"
+### Context:
+* Ingelogd
+* Geklikt op geldmenu
