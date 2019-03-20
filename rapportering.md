@@ -45,7 +45,45 @@
 
 ## 3. As a Zeus member, I want to order a snack
 
+#### Context 
+* Ingelogd
+* Heeft op "order" geklikt
+
+#### Regels
+* Niet meer dan 5 euro negatief, tenzij de user een admin is.
+
+#### Happy flow
+* Selecteer een of meer items, deze komen in het winkelmandje
+..* Scan de barcode met de camera
+..* Ik kies een item uit de lijst
+* Klik op (+) of (-) om meer of minder van een item te bestellen
+* Ga naar het winkelmandje en betaal
+
+#### Sad flow:
+Niet genoeg geld:
+Geven een popup met 3 opties: "terug naar winkelmandje", "top-up", "betaal cash (als guest)"
+Barcode niet in de lijst:
+Pop-up "Item niet gevonden, kies uit de lijst, of scan een andere barcode"
+Er is geen camera/ de user geeft geen toestemming
+Pop-up "Camera niet gevonden"
+Mogelijk camera-venster vervangen door lijst
+Uren: 35+
+
 ## 4. As a Zeus member, I want to check the availability of an item
+Context: ingelogd
+Regels: /
+Happy flow:
+
+User klikt op het stock icoontje en ziet de stock
+Zoeken op naam
+Uren: 4
 
 ## 5. As a user, I want to login easily
+Context: Gebruiker is niet ingelogd
+Regels: Aanmelden met de Zeus-OAuth
+Happy flow: De user klik op login, geeft zijn login gegevens in in het juiste veld, de app vervolgt naar het homescreen
+Sad flow:
 
+User geeft het verkeerde wachtwoord/username in: tonen de response van de OAuth
+Wachtwoord vergeten: stuur een mail naar de sysadmin
+Uren: 4
