@@ -38,7 +38,14 @@
 * Ik zie mijn geld
 
 #### Sad flow
+/
 
 #### Complexiteit
 ± 2 uur
+
+## 3. As a Zeus member, I want to order a snack
+
+## 4. As a Zeus member, I want to check the availability of an item
+
+## 5. As a user, I want to login easily
 
