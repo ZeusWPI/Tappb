@@ -1,21 +1,12 @@
-# Use cases
+# Rapportering: Planning sprint 1
+## Use cases
 
-[## 1. As a zeus member, I want to top up my balance][iss1]
+- [As a user, I want to login easily][iss1]
+- [As a Zeus member, I want to check the availability of an item][iss2]
+- [As a Zeus member I want to order a snack][iss3]
+- [As a Zeus member, I want to check my balance][iss4]
+- [As a zeus member, I want to top up my balance][iss5]
 
-[## 2. As a Zeus member, I want to check my balance][iss2]
-
-
-
-## 3. As a Zeus member, I want to order a snack
-
-
-#### Complexiteit
-35+ uur
-
-## 4. As a Zeus member, I want to check the availability of an item
-
-
-## 5. As a user, I want to login easily
 
 [iss1]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/1
 [iss2]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/2
