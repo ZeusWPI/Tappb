@@ -54,20 +54,22 @@
 
 #### Happy flow
 * Selecteer een of meer items, deze komen in het winkelmandje
-..* Scan de barcode met de camera
-..* Ik kies een item uit de lijst
+  * Scan de barcode met de camera
+  * Ik kies een item uit de lijst
 * Klik op (+) of (-) om meer of minder van een item te bestellen
 * Ga naar het winkelmandje en betaal
 
-#### Sad flow:
-Niet genoeg geld:
-Geven een popup met 3 opties: "terug naar winkelmandje", "top-up", "betaal cash (als guest)"
-Barcode niet in de lijst:
-Pop-up "Item niet gevonden, kies uit de lijst, of scan een andere barcode"
-Er is geen camera/ de user geeft geen toestemming
-Pop-up "Camera niet gevonden"
-Mogelijk camera-venster vervangen door lijst
-Uren: 35+
+#### Sad flow
+* Niet genoeg geld:
+  *Geven een popup met 3 opties: "terug naar winkelmandje", "top-up", "betaal cash (als guest)"
+* Barcode niet in de lijst:
+  * Pop-up "Item niet gevonden, kies uit de lijst, of scan een andere barcode"
+* Er is geen camera/ de user geeft geen toestemming
+  * Pop-up "Camera niet gevonden"
+  * Mogelijk camera-venster vervangen door lijst
+
+####
+35 + uur
 
 ## 4. As a Zeus member, I want to check the availability of an item
 Context: ingelogd
