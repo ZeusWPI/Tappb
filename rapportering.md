@@ -7,6 +7,12 @@
 - [As a Zeus member, I want to check my balance][iss4]
 - [As a zeus member, I want to top up my balance][iss5]
 
+## Ontwerp
+
+## Backlog
+
+## Planningstabel
+
 
 [iss1]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/1
 [iss2]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/2
