@@ -22,7 +22,7 @@
 * De betaling is geanulleerd
 * Terug naar het krediet-scherm
 
-#### Complexiteit
+### Complexiteit
 ± 30 uur
 
 ## 2. As a Zeus member, I want to check my balance
