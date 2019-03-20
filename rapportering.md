@@ -68,17 +68,27 @@
   * Pop-up "Camera niet gevonden"
   * Mogelijk camera-venster vervangen door lijst
 
-####
-35 + uur
+#### Complexiteit
+35+ uur
 
 ## 4. As a Zeus member, I want to check the availability of an item
-Context: ingelogd
-Regels: /
-Happy flow:
+
+#### Context
+* Ingelogd
+
+#### Regels
+/
+
+#### Happy flow
 
 User klikt op het stock icoontje en ziet de stock
 Zoeken op naam
-Uren: 4
+
+#### Sad flow 
+/
+
+#### Complexiteit
+± 4 uur
 
 ## 5. As a user, I want to login easily
 Context: Gebruiker is niet ingelogd
