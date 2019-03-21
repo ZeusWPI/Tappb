@@ -14,7 +14,14 @@ De verfijnde use cases zijn terug te vinden in de issues. Extra uitleg staat hie
 Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon is degende die de taak zal uitvoeren. (Het is mogelijk dat meerdere personen aan een zelfde taak werken.) Het aantal uren dat het in beslag zal nemen en de "definition of done" staan ook bij de issue zelf vermeld.
 
 - [Login flow][login_flow]
-- 
+- [TAB/TAP API manager][api_manager]
+- [TAB/TAP API extensions and docs][api_ex_docs]
+- [Barcode reader / Camera][barcode]
+- [TAB transactions][tab_trans]
+- [Bank transactions][bank_trans]
+- [Permissions][permissions]
+
+-
 
 
 ## Planningstabel
@@ -32,13 +39,13 @@ Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon 
 [settings_page]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/16
 [home_page]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/18
 [history_page]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/21
+[basket]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/13
+[nav_bar]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/20
 
 [login_flow]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/7
 [api_manager]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/8
 [api_ex_docs]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/9
 [barcode]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/12
-[basket]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/13
 [tab_trans]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/17
 [bank_trans]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/19
-[nav_bar]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/20
 [permissions]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/22
