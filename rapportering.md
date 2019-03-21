@@ -20,7 +20,6 @@ Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon 
 - [TAB transactions][tab_trans]
 - [Bank transactions][bank_trans]
 - [Permission management][permissions]
-
 - [Login page][login_page]
 - [Home page][home_page]
 - [Stock page][stock_page]
