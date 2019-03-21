@@ -60,4 +60,4 @@ Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon 
 [bank_trans]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/19
 [permissions]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/22
 
-[tabel][planning.md]
+[tabel]: planning.md
