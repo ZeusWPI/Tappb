@@ -11,7 +11,7 @@ De verfijnde use cases zijn terug te vinden in de issues. Extra uitleg staat hie
 ## Ontwerp
 
 ## Backlog
-Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon is degende die de taak uitvoeren. (Het is mogelijk dat meerdere personen aan een zelfde taak werken.) Het aantal uren dat een taak in beslag neemt en de "definition of done" staan ook bij de issue zelf vermeld.
+Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon is degende die de taak zal uitvoeren. (Het is mogelijk dat meerdere personen aan een zelfde taak werken.) Het aantal uren dat het in beslag zal nemen en de "definition of done" staan ook bij de issue zelf vermeld.
 
 
 
