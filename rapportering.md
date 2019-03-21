@@ -2,11 +2,11 @@
 ## Use cases
 De verfijnde use cases zijn terug te vinden in de issues. Extra uitleg staat hier vermeld.
 
-- [As a user, I want to login easily][iss1]
-- [As a Zeus member, I want to check the availability of an item][iss2]
-- [As a Zeus member I want to order a snack][iss3]
-- [As a Zeus member, I want to check my balance][iss4]
-- [As a zeus member, I want to top up my balance][iss5]
+- [As a user, I want to login easily][uc1]
+- [As a Zeus member, I want to check the availability of an item][uc2]
+- [As a Zeus member I want to order a snack][uc3]
+- [As a Zeus member, I want to check my balance][uc4]
+- [As a zeus member, I want to top up my balance][uc5]
 
 ## Ontwerp
 
