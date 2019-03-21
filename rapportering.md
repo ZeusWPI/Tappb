@@ -19,10 +19,17 @@ Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon 
 - [Barcode reader / Camera][barcode]
 - [TAB transactions][tab_trans]
 - [Bank transactions][bank_trans]
-- [Permissions][permissions]
+- [Permission management][permissions]
 
--
-
+- [Login page][login_page]
+- [Home page][home_page]
+- [Stock page][stock_page]
+- [Account page][account_page]
+- [Money page][money_page]
+- [Settings page][settings_page]
+- [History page][history_page]
+- [Shopping basket][basket]
+- [Navigation bar][navbar]
 
 ## Planningstabel
 
