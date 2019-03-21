@@ -34,7 +34,7 @@ Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon 
 - [Permission management][permissions]
 
 
-## Planningstabel
+## [Planningstabel][tabel]
 
 [uc1]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/1
 [uc2]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/2
@@ -59,3 +59,5 @@ Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon 
 [tab_trans]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/17
 [bank_trans]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/19
 [permissions]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/22
+
+[tabel][planning.md]
