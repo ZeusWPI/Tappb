@@ -13,13 +13,7 @@ De verfijnde use cases zijn terug te vinden in de issues. Extra uitleg staat hie
 ## Backlog
 Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon is degende die de taak zal uitvoeren. (Het is mogelijk dat meerdere personen aan een zelfde taak werken.) Het aantal uren dat het in beslag zal nemen en de "definition of done" staan ook bij de issue zelf vermeld.
 
-- [Login flow][login_flow]
-- [TAB/TAP API manager][api_manager]
-- [TAB/TAP API extensions and docs][api_ex_docs]
-- [Barcode reader / Camera][barcode]
-- [TAB transactions][tab_trans]
-- [Bank transactions][bank_trans]
-- [Permission management][permissions]
+### Android
 - [Login page][login_page]
 - [Home page][home_page]
 - [Stock page][stock_page]
@@ -29,6 +23,16 @@ Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon 
 - [History page][history_page]
 - [Shopping basket][basket]
 - [Navigation bar][navbar]
+
+### Other
+- [Login flow][login_flow]
+- [TAB/TAP API manager][api_manager]
+- [TAB/TAP API extensions and docs][api_ex_docs]
+- [Barcode reader / Camera][barcode]
+- [TAB transactions][tab_trans]
+- [Bank transactions][bank_trans]
+- [Permission management][permissions]
+
 
 ## Planningstabel
 
