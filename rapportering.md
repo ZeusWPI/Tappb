@@ -47,7 +47,7 @@ Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon 
 [home_page]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/18
 [history_page]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/21
 [basket]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/13
-[nav_bar]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/20
+[navbar]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/20
 
 [login_flow]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/7
 [api_manager]: https://github.ugent.be/SELab1/project-1819-groep-2/issues/8
