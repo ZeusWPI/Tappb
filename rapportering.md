@@ -9,7 +9,7 @@ De verfijnde use cases zijn terug te vinden in de issues. Extra uitleg staat hie
 - [As a zeus member, I want to top up my balance][uc5]
 
 ## Ontwerp
-<img src="./tap_uml.svg" />
+<img src="./tappb_uml.svg"/>
 
 ## Backlog
 Ook de taken staan uitgewerkt aan de hand van issues. De geässigneerde persoon is degende die de taak zal uitvoeren. (Het is mogelijk dat meerdere personen aan een zelfde taak werken.) Het aantal uren dat het in beslag zal nemen en de "definition of done" staan ook bij de issue zelf vermeld.
