@@ -1,28 +1,24 @@
 package com.example.tappb;
 
-
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.example.tappb.databinding.FragmentStockBinding;
 
-import java.util.ArrayList;
-import java.util.List;
+public class StockFragment extends Fragment implements StockAdapter.StockListener {
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class StockFragment extends Fragment {
-
-    LiveData<List<Product>> products;
+    StockViewModel viewModel;
+    StockAdapter adapter;
 
     public StockFragment() {
         // Required empty public constructor
@@ -31,30 +27,43 @@ public class StockFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        List<Product> p = new ArrayList<>();
-        p.add(new Product(0, "Cola", 1.20, 5));
-        p.add(new Product(1, "Ice-Tea", 1.20, 5));
-        p.add(new Product(2, "Bier", 1.20, 5));
-        p.add(new Product(3, "Mate", 1.20, 5));
-        p.add(new Product(4, "Cola", 1.20, 5));
-        p.add(new Product(5, "Ice-Tea", 1.20, 5));
-        p.add(new Product(6, "Bier", 1.20, 5));
-        p.add(new Product(7, "Mate", 1.20, 5));
-        p.add(new Product(8, "Cola", 1.20, 5));
-        p.add(new Product(9, "Ice-Tea", 1.20, 5));
-        p.add(new Product(10, "Bier", 1.20, 5));
-        p.add(new Product(11, "Mate", 1.20, 5));
-
-        products = new MutableLiveData<>();
-
         FragmentStockBinding binding = FragmentStockBinding.inflate(inflater, container, false);
-        StockListAdapter adapter = new StockListAdapter();
-        products.observe(this, adapter::submitList);
+        viewModel = ViewModelProviders.of(getActivity()).get(StockViewModel.class);
+        viewModel.init();
+
+        adapter = new StockAdapter(viewModel.getStock().getValue(), this);
         binding.recyclerView.setAdapter(adapter);
-        ((MutableLiveData<List<Product>>) products).setValue(p);
+        viewModel.getStock().observe(this, adapter::setProducts);
         binding.setLifecycleOwner(this);
+        setHasOptionsMenu(true);
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.stock_menu, menu);
+
+        MenuItem searched = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searched.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onClick(String name) {
+        StockDialogFragment dialog = new StockDialogFragment();
+        dialog.show(getFragmentManager(), "Confirm");
     }
 }

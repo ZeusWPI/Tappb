@@ -6,11 +6,17 @@
             name="product"
             type="com.example.tappb.Product" >
         </variable>
+
+        <variable
+            name="handler"
+            type="com.example.tappb.StockAdapter.StockListener">
+        </variable>
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> handler.onClick(product.getName())}">
 
         <ImageView
             android:id="@+id/image"

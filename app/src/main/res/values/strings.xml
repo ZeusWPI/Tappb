@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">tappb</string>
 
-    <string name="hello_blank_fragment">Ik ben een stockfragment</string>
+    <string name="action_search">Search</string>
 </resources>
