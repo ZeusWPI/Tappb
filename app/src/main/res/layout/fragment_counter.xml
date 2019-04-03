@@ -20,10 +20,10 @@
             android:text="@string/hello_blank_fragment" />
         <!-- lambda example -->
         <Button
-            android:layout_width="330dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:onClick="@{(view) -> handler.doTheThing(view)}"
-            android:text="BOI" />
+            android:text="LOGIN" />
 
     </FrameLayout>
 </layout>
