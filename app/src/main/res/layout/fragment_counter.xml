@@ -5,7 +5,7 @@
     <data>
         <variable
             name="handler"
-            type="com.example.tappb.Counter"/>
+            type="gent.zeus.tappb.Counter"/>
     </data>
 
     <FrameLayout

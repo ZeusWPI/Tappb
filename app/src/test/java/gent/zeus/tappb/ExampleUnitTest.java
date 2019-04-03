@@ -1,4 +1,4 @@
-package com.example.tappb;
+package gent.zeus.tappb;
 
 import org.junit.Test;
 

@@ -1,9 +1,11 @@
-package com.example.tappb;
+package gent.zeus.tappb;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import gent.zeus.tappb.R;
 
 public class LoginActivity extends AppCompatActivity {
 

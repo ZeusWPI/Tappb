@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.example.tappb.Counter"
+        android:name="gent.zeus.tappb.Counter"
         android:layout_width="440dp"
         android:layout_height="741dp"
         android:layout_marginStart="32dp"
