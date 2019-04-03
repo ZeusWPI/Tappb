@@ -21,7 +21,7 @@
         <!-- lambda example -->
         <Button
             android:layout_width="330dp"
-            android:layout_height="112dp"
+            android:layout_height="200dp"
             android:onClick="@{(view) -> handler.doTheThing(view)}"
             android:text="BOI" />
 
