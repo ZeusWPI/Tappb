@@ -1,11 +1,13 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
 
 import gent.zeus.tappb.R;
+import gent.zeus.tappb.main.MainMenu;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,7 +20,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         webView = findViewById(R.id.loginwebviewid);
-        webView.setWebViewClient(new LoginWebviewClient());
+        webView.setWebViewClient(new LoginWebviewClient() {
+            @Override
+            public void navigateAway() {
+                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                startActivity(intent);
+            }
+        });
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("https://tabbp.zeus.gent/login");
     }
