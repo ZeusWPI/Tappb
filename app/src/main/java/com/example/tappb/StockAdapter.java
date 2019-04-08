@@ -7,6 +7,7 @@ import android.widget.Filterable;
 
 import com.example.tappb.databinding.StockItemBinding;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> implements Filterable {
 
     public interface StockListener {
-        void onClick(String name);
+        void onClick();
     }
 
     private List<Product> products;
     private List<Product> productsFull;
     private StockListener listener;
+    private DecimalFormat formatter = new DecimalFormat("#0.00");
 
-    public StockAdapter(List<Product> products, StockListener listener) {
-        this.products = products;
-        productsFull = new ArrayList<>(products);
-
+    public StockAdapter(StockListener listener) {
         this.listener = listener;
     }
 
@@ -51,6 +50,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
 
     public void setProducts(List<Product> products) {
         this.products = products;
+        productsFull = new ArrayList<>(products);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -95,6 +96,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
             super(binding.getRoot());
             itemBinding = binding;
             itemBinding.setHandler(StockAdapter.this.listener);
+            itemBinding.setFormatter(StockAdapter.this.formatter);
         }
 
         public void bind(Product item) {

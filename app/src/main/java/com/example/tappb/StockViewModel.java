@@ -37,6 +37,4 @@ public class StockViewModel extends ViewModel {
 
         ((MutableLiveData<List<Product>>) stock).setValue(productList);
     }
-
-
 }
