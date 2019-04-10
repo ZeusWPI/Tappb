@@ -1,4 +1,4 @@
-package com.example.tappb;
+package gent.zeus.tappb;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.tappb", appContext.getPackageName());
+        assertEquals("gent.zeus.tappb", appContext.getPackageName());
     }
 }
