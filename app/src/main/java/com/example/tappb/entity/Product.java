@@ -1,4 +1,4 @@
-package com.example.tappb;
+package com.example.tappb.entity;
 
 public class Product {
 

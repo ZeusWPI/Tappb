@@ -4,12 +4,12 @@
     <data>
         <variable
             name="product"
-            type="com.example.tappb.Product" >
+            type="com.example.tappb.entity.Product" >
         </variable>
 
         <variable
             name="handler"
-            type="com.example.tappb.StockAdapter.StockListener">
+            type="com.example.tappb.adapters.StockAdapter.StockListener">
         </variable>
 
         <variable

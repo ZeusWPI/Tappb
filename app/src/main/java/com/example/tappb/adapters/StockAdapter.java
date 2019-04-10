@@ -1,10 +1,11 @@
-package com.example.tappb;
+package com.example.tappb.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.example.tappb.entity.Product;
 import com.example.tappb.databinding.StockItemBinding;
 
 import java.text.DecimalFormat;

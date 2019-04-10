@@ -1,4 +1,6 @@
-package com.example.tappb;
+package com.example.tappb.viewmodel;
+
+import com.example.tappb.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;

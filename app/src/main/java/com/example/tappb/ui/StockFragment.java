@@ -1,4 +1,4 @@
-package com.example.tappb;
+package com.example.tappb.ui;
 
 import android.os.Bundle;
 
@@ -16,6 +16,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.tappb.R;
+import com.example.tappb.adapters.StockAdapter;
+import com.example.tappb.viewmodel.StockViewModel;
 import com.example.tappb.databinding.FragmentStockBinding;
 
 public class StockFragment extends Fragment implements StockAdapter.StockListener {

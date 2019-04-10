@@ -1,7 +1,9 @@
-package com.example.tappb;
+package com.example.tappb.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.tappb.R;
 
 public class MainActivity extends AppCompatActivity {
 
