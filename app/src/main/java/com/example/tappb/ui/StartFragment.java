@@ -1,4 +1,4 @@
-package com.example.tappb;
+package com.example.tappb.ui;
 
 
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tappb.R;
 import com.example.tappb.databinding.FragmentStartBinding;
 
 import androidx.annotation.NonNull;
