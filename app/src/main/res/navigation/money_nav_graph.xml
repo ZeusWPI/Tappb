@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/money_nav_graph"
+    app:startDestination="@id/nav_money">
+
+    <fragment
+        android:id="@+id/nav_money"
+        android:name="gent.zeus.tappb.MoneyFragment"
+        android:label="MoneyFragment"
+        tools:layout="@layout/fragment_money" >
+        <action
+            android:id="@+id/action_nav_money_to_nav_top_up"
+            app:destination="@id/nav_top_up" />
+        <action
+            android:id="@+id/action_nav_money_to_nav_transfer"
+            app:destination="@id/nav_transfer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_top_up"
+        android:name="gent.zeus.tappb.TopUpFragment"
+        android:label="TopUpFragment"
+        tools:layout="@layout/fragment_top_up" />
+
+    <fragment
+        android:id="@+id/nav_transfer"
+        android:name="gent.zeus.tappb.TransferFragment"
+        android:label="TransferFragment"
+        tools:layout="@layout/fragment_transfer" />
+
+</navigation>
