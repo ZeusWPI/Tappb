@@ -1,4 +1,4 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
