@@ -28,6 +28,6 @@
         android:id="@+id/nav_transfer"
         android:name="gent.zeus.tappb.TransferFragment"
         android:label="TransferFragment"
-        tools:layout="@layout/fragment_transfergi" />
+        tools:layout="@layout/fragment_transfer" />
 
 </navigation>
