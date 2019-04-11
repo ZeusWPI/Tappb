@@ -2,18 +2,16 @@ package com.example.tappb;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tappb.databinding.FragmentStartBinding;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 
 /**
@@ -28,17 +26,16 @@ public class StartFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentStartBinding binding = FragmentStartBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
 
-        //THIS CRASHES APP
-        //FROM
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
-        //UNTIL
+        View view = binding.getRoot();
 
-        return binding.getRoot();
+        NavController navController = Navigation.findNavController(view.findViewById(R.id.nav_host_fragment));
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+
+        return view;
     }
 }
