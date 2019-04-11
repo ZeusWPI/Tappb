@@ -8,8 +8,8 @@
     tools:context=".ui.MainActivity">
 
     <fragment
-        android:id="@+id/fragment"
-        android:name="com.example.tappb.ui.HistoryFragment"
+        android:id="@+id/fragment2"
+        android:name="com.example.tappb.StartFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
