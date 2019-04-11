@@ -1,13 +1,12 @@
-package com.example.tappb.adapters;
+package gent.zeus.tappb.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.tappb.databinding.HistoryItemBinding;
-import com.example.tappb.entity.Transaction;
+import gent.zeus.tappb.databinding.HistoryItemBinding;
+import gent.zeus.tappb.entity.Transaction;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 import androidx.annotation.NonNull;

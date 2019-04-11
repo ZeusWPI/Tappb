@@ -1,4 +1,4 @@
-package com.example.tappb.entity;
+package gent.zeus.tappb.entity;
 
 public class Product {
 

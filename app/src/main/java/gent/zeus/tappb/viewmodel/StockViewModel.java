@@ -1,6 +1,6 @@
-package com.example.tappb.viewmodel;
+package gent.zeus.tappb.viewmodel;
 
-import com.example.tappb.entity.Product;
+import gent.zeus.tappb.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;

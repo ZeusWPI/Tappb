@@ -1,4 +1,4 @@
-package com.example.tappb.ui;
+package gent.zeus.tappb.ui;
 
 
 import android.os.Bundle;
@@ -9,18 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.tappb.R;
-import com.example.tappb.databinding.FragmentHistoryBinding;
-import com.example.tappb.databinding.FragmentHomeBinding;
-import com.example.tappb.databinding.FragmentStockBinding;
+import gent.zeus.tappb.databinding.FragmentMoneyBinding;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class MoneyFragment extends Fragment {
 
 
-    public HomeFragment() {
+    public MoneyFragment() {
         // Required empty public constructor
     }
 
@@ -28,7 +25,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
+        FragmentMoneyBinding binding = FragmentMoneyBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         return binding.getRoot();
     }

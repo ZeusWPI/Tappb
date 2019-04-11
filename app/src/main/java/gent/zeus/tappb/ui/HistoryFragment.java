@@ -1,4 +1,4 @@
-package com.example.tappb.ui;
+package gent.zeus.tappb.ui;
 
 import android.os.Bundle;
 
@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.tappb.adapters.HistoryListAdapter;
-import com.example.tappb.databinding.FragmentHistoryBinding;
-import com.example.tappb.viewmodel.HistoryViewModel;
+import gent.zeus.tappb.adapters.HistoryListAdapter;
+import gent.zeus.tappb.databinding.FragmentHistoryBinding;
+import gent.zeus.tappb.viewmodel.HistoryViewModel;
 
 
 /**

@@ -1,12 +1,12 @@
-package com.example.tappb.adapters;
+package gent.zeus.tappb.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.example.tappb.entity.Product;
-import com.example.tappb.databinding.StockItemBinding;
+import gent.zeus.tappb.entity.Product;
+import gent.zeus.tappb.databinding.StockItemBinding;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

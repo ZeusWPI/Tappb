@@ -4,12 +4,12 @@
     <data>
         <variable
             name="product"
-            type="com.example.tappb.entity.Product" >
+            type="gent.zeus.tappb.entity.Product" >
         </variable>
 
         <variable
             name="handler"
-            type="com.example.tappb.adapters.StockAdapter.StockListener">
+            type="gent.zeus.tappb.adapters.StockAdapter.StockListener">
         </variable>
 
         <variable

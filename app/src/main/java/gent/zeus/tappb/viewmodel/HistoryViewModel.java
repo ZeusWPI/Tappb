@@ -1,6 +1,6 @@
-package com.example.tappb.viewmodel;
+package gent.zeus.tappb.viewmodel;
 
-import com.example.tappb.entity.Transaction;
+import gent.zeus.tappb.entity.Transaction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
