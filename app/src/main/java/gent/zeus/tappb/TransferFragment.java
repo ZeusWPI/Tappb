@@ -4,6 +4,7 @@ package gent.zeus.tappb;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import gent.zeus.tappb.databinding.FragmentTransferBinding;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,9 @@ public class TransferFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transfer, container, false);
+        FragmentTransferBinding binding = FragmentTransferBinding.inflate(inflater, container, false);
+        binding.setLifecycleOwner(this);
+        return binding.getRoot();
     }
 
 }
