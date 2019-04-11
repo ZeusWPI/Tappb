@@ -6,9 +6,10 @@ public class Transaction {
 
     private int id;
 
+    private LocalDate date;
     private String description;
     private double cost;
-    private LocalDate date;
+
 
     public Transaction(int id, String description, double cost, LocalDate date) {
         this.id = id;
