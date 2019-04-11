@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentStartBinding;
 
@@ -34,7 +35,7 @@ public class StartFragment extends Fragment {
         binding.setLifecycleOwner(this);
 
         View view = binding.getRoot();
-
+        
         NavController navController = Navigation.findNavController(view.findViewById(R.id.nav_host_fragment));
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
 
