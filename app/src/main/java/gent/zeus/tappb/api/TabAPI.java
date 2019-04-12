@@ -8,44 +8,54 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import gent.zeus.tappb.User;
 import gent.zeus.tappb.entity.Transaction;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TabAPI {
+public class TabAPI extends API {
     public TabAPI() {
-        Log.d("TAB", "hi");
+        Log.d("TAB", "hi")
     }
 
-    private JSONArray getArray(String relativeURL) throws JSONException {
-        OkHttpClient client = new OkHttpClient();
+    private final static String endpoint = "https://tab.zeus.gent";
 
+    private Request.Builder buildRequest(String relativeURL) {
         // TODO remove this code, let api callers call this in another thread
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-        Request request = new Request.Builder()
-                .url("https://tab.zeus.gent" + relativeURL)
+        return new Request.Builder()
+                .url(endpoint + relativeURL)
                 .header("Accept", "application/json")
-                .header("Authorization", "Token " + User.getInstance().getTabToken())
-                .build();
-        Log.d("apiurl", request.url().toString());
+                .header("Authorization", "Token " + User.getInstance().getTabToken());
+    }
+
+    private String getBody(String relativeURL) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = buildRequest(relativeURL).build();
         try {
             Response response = client.newCall(request).execute();
-            String body = response.body().string();
-            Log.d("body", body);
-            return new JSONArray(body);
+            return response.body().string();
+        } catch (IOException ex) {
+            throw new APIException("Failed to get body of request: " + relativeURL);
+        }
+    }
+
+    private String postBody(String relativeURL, String jsondata) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, jsondata);
+        Request request = buildRequest(relativeURL)
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
         } catch (IOException ex) {
             throw new APIException("Failed to get body of request: " + relativeURL);
         }
@@ -54,7 +64,7 @@ public class TabAPI {
     public List<Transaction> getTransactions() {
         try {
             List<Transaction> result = new ArrayList<>();
-            JSONArray response = getArray("/users/" + User.getInstance().getUsername() + "/transactions");
+            JSONArray response = new JSONArray(getBody("/users/" + User.getInstance().getUsername() + "/transactions"));
             for (int i = 0 ; i < response.length(); i++) {
                 JSONObject obj = response.getJSONObject(i);
                 int transactionID = obj.getInt("id");
@@ -73,5 +83,34 @@ public class TabAPI {
             Log.d("exep", ex.toString());
             throw new APIException("Failed to parse JSON of request");
         }
+    }
+
+    public int getBalanceInCents() {
+        try {
+            JSONObject response = new JSONObject(getBody("/users/" + User.getInstance().getUsername()));
+            return response.getInt("balance");
+        }
+        catch (JSONException ex) {
+            Log.d("exep", ex.toString());
+            throw new APIException("Failed to parse JSON of request");
+        }
+    }
+
+    public boolean createTransaction(String debtor, String creditor, int cents, String message) {
+        JSONObject data = new JSONObject();
+        JSONObject transaction = new JSONObject();
+        try {
+            transaction.put("debtor", debtor);
+            transaction.put("creditor", creditor);
+            transaction.put("cents", cents);
+            transaction.put("message", message);
+            data.put("transaction", transaction);
+        } catch (JSONException ex) {
+            throw new APIException("Failed to create JSON");
+        }
+
+        String response = postBody("/transactions", data.toString());
+        // TODO check if transaction succeeded
+        return true;
     }
 }
