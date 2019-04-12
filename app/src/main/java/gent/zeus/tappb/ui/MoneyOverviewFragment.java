@@ -8,17 +8,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import gent.zeus.tappb.MoneyListener;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentMoneyOverviewBinding;
 
 
-public class MoneyOverviewFragment extends Fragment {
-
-    private FragmentMoneyOverviewBinding binding;
+public class MoneyOverviewFragment extends Fragment implements MoneyListener {
 
     public MoneyOverviewFragment() {
         // Required empty public constructor
@@ -28,15 +25,19 @@ public class MoneyOverviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentMoneyOverviewBinding.inflate(inflater, container, false);
+        FragmentMoneyOverviewBinding binding = FragmentMoneyOverviewBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
+        binding.setHandler(this);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        binding.topUp.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.toTopUp));
-        binding.transfer.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.toTransfer));
+    public void onTopUpClicked() {
+        NavHostFragment.findNavController(this).navigate(R.id.nav_top_up);
+    }
+
+    @Override
+    public void onTransferClicked() {
+        NavHostFragment.findNavController(this).navigate(R.id.nav_transfer);
     }
 }
