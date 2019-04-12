@@ -22,7 +22,7 @@ import gent.zeus.tappb.adapters.StockAdapter;
 import gent.zeus.tappb.viewmodel.StockViewModel;
 import gent.zeus.tappb.databinding.FragmentStockBinding;
 
-public class StockFragment extends Fragment implements StockAdapter.StockListener {
+public class StockFragment extends Fragment implements StockAdapter.StockListener, SearchView.OnQueryTextListener {
 
     private StockViewModel viewModel;
     private StockAdapter adapter;
@@ -63,25 +63,24 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
+        searchView.setOnQueryTextListener(this);
 
         if (searchString != null && !searchString.isEmpty()) {
             searchView.setIconified(false);
             searchView.setQuery(searchString, true);
             searchView.clearFocus();
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return false;
     }
 
    @Override
