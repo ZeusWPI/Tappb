@@ -1,6 +1,5 @@
 package gent.zeus.tappb.viewmodel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -22,6 +21,8 @@ public class OrderViewModel extends ViewModel {
 
     public void init() {
         if (scanningState.getValue() == null) {
+            order.addProduct(Product.fromBarcode("Dingen"));
+            order.addProduct(Product.fromBarcode("Dingen2"));
             scanningState.setValue(ScanningState.NOT_SCANNING);
         }
         calculateOrderProductLive();
@@ -47,5 +48,10 @@ public class OrderViewModel extends ViewModel {
 
     public void setScanningState(ScanningState state) {
         scanningState.setValue(state);
+    }
+
+    public void updateCount(Product p, int amount) {
+        order.updateCount(p, amount);
+        calculateOrderProductLive();
     }
 }

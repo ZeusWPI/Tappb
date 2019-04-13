@@ -1,7 +1,8 @@
 package gent.zeus.tappb.adapters;
 
-import android.util.Log;
+import android.text.Editable;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.text.DecimalFormat;
@@ -19,6 +20,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     public interface OrderListener {
         void onClick(OrderProduct orderProduct);
+        void afterTextChanged(Editable s, OrderProduct orderProduct);
     }
 
     private List<OrderProduct> products;

@@ -7,6 +7,8 @@
 
     <string name="action_search">Search</string>
 
+    <string name="amount">Amount</string>
+
     <string name="nav_home">Home</string>
     <string name="nav_stock">Stock</string>
     <string name="nav_money">Money</string>

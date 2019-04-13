@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -176,5 +177,13 @@ public class OrderPageFragment extends Fragment implements OrderAdapter.OrderLis
     @Override
     public void onClick(OrderProduct orderProduct) {
         Toast.makeText(getContext(),orderProduct.getCount() + " " + orderProduct.getProduct().getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void afterTextChanged(Editable newValue, OrderProduct orderProduct) {
+        if (newValue.length() == 0) {
+            return;
+        }
+        viewModel.updateCount(orderProduct.getProduct(), Integer.parseInt(newValue.toString()));
     }
 }

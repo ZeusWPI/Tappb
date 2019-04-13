@@ -58,11 +58,12 @@
             android:layout_marginTop="17dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="18dp"
-            android:ems="20"
+            android:hint="@string/amount"
+            android:importantForAutofill="no"
             android:inputType="number"
-            android:selectAllOnFocus="true"
             android:singleLine="true"
             android:text="@{Integer.toString(orderProduct.getCount())}"
+            android:afterTextChanged="@{(newVal) -> handler.afterTextChanged(newVal, orderProduct)}"
             android:textSize="24sp" />
 
     </RelativeLayout>

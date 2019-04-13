@@ -46,4 +46,12 @@ public class Order {
     public List<OrderProduct> getOrderProducts() {
         return new ArrayList<>(products.values());
     }
+
+    public void updateCount(Product p, int amount) {
+        OrderProduct orderProduct = products.get(p);
+        products.remove(p);
+        if (amount != 0) {
+            products.put(p, new OrderProduct(p, amount));
+        }
+    }
 }
