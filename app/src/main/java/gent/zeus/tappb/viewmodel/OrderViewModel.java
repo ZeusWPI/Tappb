@@ -10,7 +10,7 @@ import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
 
 public class OrderViewModel extends ViewModel {
-    private Order order;
+    private Order order = new Order();
     private MutableLiveData<List<OrderProduct>> orderProductLive;
     private MutableLiveData<ScanningState> scanningState;
     public enum ScanningState {
@@ -22,9 +22,8 @@ public class OrderViewModel extends ViewModel {
     public void init() {
         orderProductLive = new MutableLiveData<>();
         scanningState = new MutableLiveData<>();
-        order = new Order();
         order.addProduct(Product.fromBarcode("REE"));
-        setOrder(order);
+        calculateOrderProductLive();
         setScanningState(ScanningState.NOT_SCANNING);
     }
 
@@ -36,9 +35,13 @@ public class OrderViewModel extends ViewModel {
         return scanningState;
     }
 
-    public void setOrder(Order o) {
-        this.order = o;
-        orderProductLive.setValue(o.getOrderProducts());
+    public void addOrder(Order o) {
+        this.order.combine(o);
+        calculateOrderProductLive();
+    }
+
+    private void calculateOrderProductLive() {
+        orderProductLive.setValue(this.order.getOrderProducts());
     }
 
     public void setScanningState(ScanningState state) {

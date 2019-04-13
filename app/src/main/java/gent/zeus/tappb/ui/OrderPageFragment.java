@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import gent.zeus.tappb.R;
@@ -146,7 +145,7 @@ public class OrderPageFragment extends Fragment implements OrderAdapter.OrderLis
                                 Log.i("OrderPageFragment", barcode.getDisplayValue());
                                 newOrder.addProduct(Product.fromBarcode(barcode.getDisplayValue()));
                             }
-                            viewModel.setOrder(newOrder);
+                            viewModel.addOrder(newOrder);
                             viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
                         })
                         .addOnFailureListener(e -> {
