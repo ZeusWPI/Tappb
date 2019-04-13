@@ -19,12 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import gent.zeus.tappb.adapters.OrderAdapter;
 import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
 import gent.zeus.tappb.entity.Order;
+import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
+import gent.zeus.tappb.viewmodel.OrderViewModel;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
@@ -34,12 +37,14 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
-public class OrderPageFragment extends Fragment {
+public class OrderPageFragment extends Fragment implements OrderAdapter.OrderListener {
     private FirebaseVisionBarcodeDetectorOptions firebaseOptions;
     private final int REQUEST_IMAGE_CAPTURE = 1;
     private String currentPhotoPath;
+    private OrderViewModel viewModel;
+    private OrderAdapter adapter;
+
 
     public OrderPageFragment() {
         // Required empty public constructor
@@ -58,6 +63,12 @@ public class OrderPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentOrderpageBinding binding = FragmentOrderpageBinding.inflate(inflater, container, false);
+        viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
+        viewModel.init();
+        adapter = new OrderAdapter(this);
+        binding.productList.setAdapter(adapter);
+        binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        viewModel.getOrders().observe(this, adapter::setProducts);
         binding.setHandler(this);
         return binding.getRoot();
     }
@@ -95,6 +106,7 @@ public class OrderPageFragment extends Fragment {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             FirebaseVisionImage image;
             try {
+                viewModel.setScanningState(OrderViewModel.ScanningState.SCANNING);
                 Log.d("OrderPageFragment", "Getting picture from " + currentPhotoPath);
                 image = FirebaseVisionImage.fromFilePath(getContext(), Uri.fromFile(new File(currentPhotoPath)));
                 FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance()
@@ -102,20 +114,21 @@ public class OrderPageFragment extends Fragment {
                 detector.detectInImage(image)
                         .addOnSuccessListener(barcodes -> {
                             Order newOrder = new Order();
-                            Toast.makeText(getContext(), "Found " + barcodes.size() + " barcodes", Toast.LENGTH_SHORT).show();
-                            Log.d("OrderPageFragment", "Found barcodes");
+                            Log.i("OrderPageFragment", "Found " + barcodes.size() + " barcodes");
                             for (FirebaseVisionBarcode barcode : barcodes) {
-                                Log.d("OrderPageFragment", barcode.getDisplayValue());
+                                Log.i("OrderPageFragment", barcode.getDisplayValue());
                                 newOrder.addProduct(Product.fromBarcode(barcode.getDisplayValue()));
                             }
-                            //TODO do something with `newOrder`
+                            viewModel.setOrder(newOrder);
+                            viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
                         })
                         .addOnFailureListener(e -> {
                             Log.e("OrderPageFragment", "detectInImage failed", e);
-                            Toast.makeText(getContext(), "An error occured finding barcodes...", Toast.LENGTH_SHORT).show();
+                            viewModel.setScanningState(OrderViewModel.ScanningState.ERROR);
                         });
             } catch (IOException e) {
                 Log.e("OrderPageFragment", "An error occured finding barcodes", e);
+                viewModel.setScanningState(OrderViewModel.ScanningState.ERROR);
             }
         }
     }
@@ -132,5 +145,10 @@ public class OrderPageFragment extends Fragment {
 
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    @Override
+    public void onClick(OrderProduct orderProduct) {
+        Toast.makeText(getContext(),orderProduct.getCount() + " " + orderProduct.getProduct().getName(), Toast.LENGTH_SHORT).show();
     }
 }

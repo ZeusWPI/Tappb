@@ -45,6 +45,7 @@ dependencies {
     def nav_version = "2.1.0-alpha02"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
 }
 
 apply plugin: 'com.google.gms.google-services'
