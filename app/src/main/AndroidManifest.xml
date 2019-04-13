@@ -22,7 +22,10 @@
                 android:resource="@xml/file_paths"/>
         </provider>
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".main.MainMenu">
+        <activity android:name=".main.MainMenu"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity android:name=".login.LoginActivity"/>
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

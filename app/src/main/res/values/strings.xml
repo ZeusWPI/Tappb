@@ -3,5 +3,9 @@
 
     <string name="scan_barcode">Scan using barcode</string>
 
-    <string name="hello_blank_fragment">REEEEEE</string>
+    <string name="action_search">Search</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_stock">Stock</string>
+    <string name="nav_money">Money</string>
 </resources>

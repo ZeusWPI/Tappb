@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/start_nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="gent.zeus.tappb.ui.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_stock"
+        android:name="gent.zeus.tappb.ui.StockFragment"
+        android:label="StockFragment"
+        tools:layout="@layout/fragment_stock"/>
+    <fragment
+        android:id="@+id/nav_money"
+        android:name="gent.zeus.tappb.ui.MoneyFragment"
+        android:label="MoneyFragment"
+        tools:layout="@layout/fragment_money"/>
+
+</navigation>
