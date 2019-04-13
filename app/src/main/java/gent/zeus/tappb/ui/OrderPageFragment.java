@@ -93,6 +93,10 @@ public class OrderPageFragment extends Fragment implements OrderAdapter.OrderLis
                     button.setText(R.string.scan_barcode);
                     button.setEnabled(true);
                     break;
+                case EMPTY:
+                    button.setText(R.string.scanning_empty);
+                    button.setEnabled(true);
+                    break;
             }
         });
 
@@ -137,17 +141,21 @@ public class OrderPageFragment extends Fragment implements OrderAdapter.OrderLis
                 Log.d("OrderPageFragment", "Getting picture from " + currentPhotoPath);
                 image = FirebaseVisionImage.fromFilePath(getContext(), Uri.fromFile(new File(currentPhotoPath)));
                 FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance()
-                        .getVisionBarcodeDetector();
+                        .getVisionBarcodeDetector(firebaseOptions);
                 detector.detectInImage(image)
                         .addOnSuccessListener(barcodes -> {
-                            Order newOrder = new Order();
                             Log.i("OrderPageFragment", "Found " + barcodes.size() + " barcodes");
-                            for (FirebaseVisionBarcode barcode : barcodes) {
-                                Log.i("OrderPageFragment", barcode.getDisplayValue());
-                                newOrder.addProduct(Product.fromBarcode(barcode.getDisplayValue()));
+                            if (barcodes.isEmpty()) {
+                                viewModel.setScanningState(OrderViewModel.ScanningState.EMPTY);
+                            } else {
+                                Order newOrder = new Order();
+                                for (FirebaseVisionBarcode barcode : barcodes) {
+                                    Log.i("OrderPageFragment", barcode.getDisplayValue());
+                                    newOrder.addProduct(Product.fromBarcode(barcode.getDisplayValue()));
+                                }
+                                viewModel.addOrder(newOrder);
+                                viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
                             }
-                            viewModel.addOrder(newOrder);
-                            viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
                         })
                         .addOnFailureListener(e -> {
                             Log.e("OrderPageFragment", "detectInImage failed", e);
@@ -169,6 +177,9 @@ public class OrderPageFragment extends Fragment implements OrderAdapter.OrderLis
                 ".jpg",
                 storageDir
         );
+
+        // Make sure it's a temp file
+        image.deleteOnExit();
 
         currentPhotoPath = image.getAbsolutePath();
         return image;

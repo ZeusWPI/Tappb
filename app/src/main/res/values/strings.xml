@@ -3,7 +3,8 @@
 
     <string name="scan_barcode">Scan using barcode</string>
     <string name="scanning">Scanning…</string>
-    <string name="scanning_error">An error occurred…</string>
+    <string name="scanning_error">An error occurred</string>
+    <string name="scanning_empty">No barcodes found</string>
 
     <string name="action_search">Search</string>
 

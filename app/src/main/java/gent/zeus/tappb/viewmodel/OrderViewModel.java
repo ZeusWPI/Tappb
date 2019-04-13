@@ -16,13 +16,12 @@ public class OrderViewModel extends ViewModel {
     public enum ScanningState {
         NOT_SCANNING,
         SCANNING,
-        ERROR
+        ERROR,
+        EMPTY
     }
 
     public void init() {
         if (scanningState.getValue() == null) {
-            order.addProduct(Product.fromBarcode("Dingen"));
-            order.addProduct(Product.fromBarcode("Dingen2"));
             scanningState.setValue(ScanningState.NOT_SCANNING);
         }
         calculateOrderProductLive();
