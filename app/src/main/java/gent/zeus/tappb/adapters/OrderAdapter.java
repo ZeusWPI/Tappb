@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import gent.zeus.tappb.databinding.OrderItemBinding;
 import gent.zeus.tappb.entity.OrderProduct;
+import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
+
+    private OrderViewModel.ScanningState state;
 
     public interface OrderListener {
         void onClick(OrderProduct orderProduct);

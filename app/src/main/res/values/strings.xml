@@ -2,6 +2,8 @@
     <string name="app_name">tappb</string>
 
     <string name="scan_barcode">Scan using barcode</string>
+    <string name="scanning">Scanning…</string>
+    <string name="scanning_error">An error occurred…</string>
 
     <string name="action_search">Search</string>
 
