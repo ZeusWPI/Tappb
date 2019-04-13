@@ -15,6 +15,11 @@ public class Product {
         this.stock = stock;
     }
 
+    public static Product fromBarcode(String barcode) {
+        //TODO: preform API request to get actual data
+        return new Product(0, barcode, 13.37, 1);
+    }
+
     public int getId() {
         return id;
     }

@@ -8,4 +8,5 @@
     <string name="nav_home">Home</string>
     <string name="nav_stock">Stock</string>
     <string name="nav_money">Money</string>
+    <string name="nav_order">Order</string>
 </resources>

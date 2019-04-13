@@ -19,7 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import gent.zeus.tappb.databinding.FragmentBarcodeBinding;
+import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
+import gent.zeus.tappb.entity.Order;
+import gent.zeus.tappb.entity.Product;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -33,12 +36,12 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public class BarcodeFragment extends Fragment {
+public class OrderPageFragment extends Fragment {
     private FirebaseVisionBarcodeDetectorOptions firebaseOptions;
     private final int REQUEST_IMAGE_CAPTURE = 1;
     private String currentPhotoPath;
 
-    public BarcodeFragment() {
+    public OrderPageFragment() {
         // Required empty public constructor
     }
 
@@ -54,13 +57,13 @@ public class BarcodeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentBarcodeBinding binding = FragmentBarcodeBinding.inflate(inflater, container, false);
+        FragmentOrderpageBinding binding = FragmentOrderpageBinding.inflate(inflater, container, false);
         binding.setHandler(this);
         return binding.getRoot();
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 
@@ -78,7 +81,7 @@ public class BarcodeFragment extends Fragment {
             } catch (IOException ignored2) {}
 
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this.getContext(),
+                Uri photoURI = FileProvider.getUriForFile(getContext(),
                         "gent.zeus.tappb.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -92,30 +95,27 @@ public class BarcodeFragment extends Fragment {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             FirebaseVisionImage image;
             try {
-                Log.d("BarcodeFragment", "Getting picture from " + currentPhotoPath);
+                Log.d("OrderPageFragment", "Getting picture from " + currentPhotoPath);
                 image = FirebaseVisionImage.fromFilePath(getContext(), Uri.fromFile(new File(currentPhotoPath)));
                 FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance()
                         .getVisionBarcodeDetector();
                 detector.detectInImage(image)
-                        .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionBarcode>>() {
-                            @Override
-                            public void onSuccess(List<FirebaseVisionBarcode> barcodes) {
-                                Toast.makeText(getContext(), "Found " + barcodes.size() + " barcodes", Toast.LENGTH_SHORT).show();
-                                Log.d("BarcodeFragment", "Found barcodes");
-                                for (FirebaseVisionBarcode barcode : barcodes) {
-                                    Log.d("BarcodeFragment", barcode.getDisplayValue());
-                                }
+                        .addOnSuccessListener(barcodes -> {
+                            Order newOrder = new Order();
+                            Toast.makeText(getContext(), "Found " + barcodes.size() + " barcodes", Toast.LENGTH_SHORT).show();
+                            Log.d("OrderPageFragment", "Found barcodes");
+                            for (FirebaseVisionBarcode barcode : barcodes) {
+                                Log.d("OrderPageFragment", barcode.getDisplayValue());
+                                newOrder.addProduct(Product.fromBarcode(barcode.getDisplayValue()));
                             }
+                            //TODO do something with `newOrder`
                         })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e("BarcodeFragment", "detectInImage failed", e);
-                                Toast.makeText(getContext(), "An error occured finding barcodes...", Toast.LENGTH_SHORT).show();
-                            }
+                        .addOnFailureListener(e -> {
+                            Log.e("OrderPageFragment", "detectInImage failed", e);
+                            Toast.makeText(getContext(), "An error occured finding barcodes...", Toast.LENGTH_SHORT).show();
                         });
             } catch (IOException e) {
-                Log.e("BarcodeFragment", "An error occured finding barcodes", e);
+                Log.e("OrderPageFragment", "An error occured finding barcodes", e);
             }
         }
     }

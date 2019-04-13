@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="order"
+            type="gent.zeus.tappb.entity.Order" />
 
         <variable
             name="handler"
-            type="gent.zeus.tappb.ui.BarcodeFragment" />
+            type="gent.zeus.tappb.ui.OrderPageFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
