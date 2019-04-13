@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tappb">
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
     package="gent.zeus.tappb">
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,18 +14,15 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
+            android:authorities="gent.zeus.tappb.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-        <activity android:name=".MainActivity">
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".main.MainMenu"></activity>
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".main.MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

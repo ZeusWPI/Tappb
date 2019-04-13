@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.tappb.databinding.FragmentBarcodeScanMainBinding;
+import gent.zeus.tappb.databinding.FragmentBarcodeScanMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -79,7 +79,7 @@ public class BarcodeScan extends Fragment {
 
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this.getContext(),
-                        "com.example.android.fileprovider",
+                        "gent.zeus.tappb.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
