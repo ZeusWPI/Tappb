@@ -1,4 +1,4 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import gent.zeus.tappb.databinding.FragmentBarcodeScanMainBinding;
+import gent.zeus.tappb.databinding.FragmentBarcodeBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -33,12 +33,12 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public class BarcodeScan extends Fragment {
+public class BarcodeFragment extends Fragment {
     private FirebaseVisionBarcodeDetectorOptions firebaseOptions;
     private final int REQUEST_IMAGE_CAPTURE = 1;
     private String currentPhotoPath;
 
-    public BarcodeScan() {
+    public BarcodeFragment() {
         // Required empty public constructor
     }
 
@@ -54,7 +54,7 @@ public class BarcodeScan extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentBarcodeScanMainBinding binding = FragmentBarcodeScanMainBinding.inflate(inflater, container, false);
+        FragmentBarcodeBinding binding = FragmentBarcodeBinding.inflate(inflater, container, false);
         binding.setHandler(this);
         return binding.getRoot();
     }
@@ -92,7 +92,7 @@ public class BarcodeScan extends Fragment {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             FirebaseVisionImage image;
             try {
-                Log.d("BarcodeScan", "Getting picture from " + currentPhotoPath);
+                Log.d("BarcodeFragment", "Getting picture from " + currentPhotoPath);
                 image = FirebaseVisionImage.fromFilePath(getContext(), Uri.fromFile(new File(currentPhotoPath)));
                 FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance()
                         .getVisionBarcodeDetector();
@@ -101,21 +101,21 @@ public class BarcodeScan extends Fragment {
                             @Override
                             public void onSuccess(List<FirebaseVisionBarcode> barcodes) {
                                 Toast.makeText(getContext(), "Found " + barcodes.size() + " barcodes", Toast.LENGTH_SHORT).show();
-                                Log.d("BarcodeScan", "Found barcodes");
+                                Log.d("BarcodeFragment", "Found barcodes");
                                 for (FirebaseVisionBarcode barcode : barcodes) {
-                                    Log.d("BarcodeScan", barcode.getDisplayValue());
+                                    Log.d("BarcodeFragment", barcode.getDisplayValue());
                                 }
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.e("BarcodeScan", "detectInImage failed", e);
+                                Log.e("BarcodeFragment", "detectInImage failed", e);
                                 Toast.makeText(getContext(), "An error occured finding barcodes...", Toast.LENGTH_SHORT).show();
                             }
                         });
             } catch (IOException e) {
-                Log.e("BarcodeScan", "An error occured finding barcodes", e);
+                Log.e("BarcodeFragment", "An error occured finding barcodes", e);
             }
         }
     }

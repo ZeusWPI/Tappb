@@ -7,7 +7,7 @@
 
         <variable
             name="handler"
-            type="gent.zeus.tappb.BarcodeScan" />
+            type="gent.zeus.tappb.ui.BarcodeFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
