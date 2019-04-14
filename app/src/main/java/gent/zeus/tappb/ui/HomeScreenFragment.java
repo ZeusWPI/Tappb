@@ -9,22 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Objects;
-
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.viewpager.widget.PagerAdapter;
 import gent.zeus.tappb.R;
-import gent.zeus.tappb.adapters.HomeViewPagerAdapter;
-import gent.zeus.tappb.databinding.FragmentHomeBinding;
+import gent.zeus.tappb.databinding.FragmentHomeScreenBinding;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
-    PagerAdapter adapter;
+public class HomeScreenFragment extends Fragment implements HomeListener {
 
 
-    public HomeFragment() {
+    public HomeScreenFragment() {
         // Required empty public constructor
     }
 
@@ -32,12 +27,17 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
-        adapter = new HomeViewPagerAdapter(Objects.requireNonNull(this.getActivity()).getSupportFragmentManager());
-        binding.viewPager.setAdapter(adapter);
+        // Inflate the layout for this fragment
+        FragmentHomeScreenBinding binding = FragmentHomeScreenBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-
+        binding.setHandler(this);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onCartClicked() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_shoppingCartFragment);
+
     }
 
 }
