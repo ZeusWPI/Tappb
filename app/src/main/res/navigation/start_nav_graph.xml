@@ -11,8 +11,8 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_nav_home_to_placeholder"
-            app:destination="@id/placeholder" />
+            android:id="@+id/action_nav_home_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_stock"
@@ -24,6 +24,9 @@
         android:name="gent.zeus.tappb.ui.MoneyFragment"
         android:label="MoneyFragment"
         tools:layout="@layout/fragment_money"/>
-    <fragment android:id="@+id/placeholder" />
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="gent.zeus.tappb.ui.ShoppingCartFragment"
+        android:label="ShoppingCartFragment" />
 
 </navigation>

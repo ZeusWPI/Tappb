@@ -9,17 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
-import gent.zeus.tappb.databinding.FragmentHomeBinding;
+import gent.zeus.tappb.databinding.FragmentShoppingCartBinding;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements HomeListener{
+public class ShoppingCartFragment extends Fragment {
 
 
-    public HomeFragment() {
+    public ShoppingCartFragment() {
         // Required empty public constructor
     }
 
@@ -27,15 +26,10 @@ public class HomeFragment extends Fragment implements HomeListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
+        // Inflate the layout for this fragment
+        FragmentShoppingCartBinding binding = FragmentShoppingCartBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-        binding.setHandler(this);
         return binding.getRoot();
     }
 
-    @Override
-    public void onCartClicked() {
-        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_shoppingCartFragment);
-
-    }
 }
