@@ -12,13 +12,14 @@ import android.view.ViewGroup;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeBinding;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeListener{
 
 
     public HomeFragment() {
@@ -34,9 +35,10 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public void navShoppingCart(View view) {
+    @Override
+    public void onCartClicked() {
         Log.d("test", "test");
-        NavController navController = Navigation.findNavController(view.findViewById(R.id.nav_host_fragment));
-        navController.navigate(R.id.action_nav_home_to_placeholder);
+        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_placeholder);
+
     }
 }

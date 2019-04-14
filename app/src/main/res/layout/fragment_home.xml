@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="navigation"
-            type="gent.zeus.tappb.navigation.NavigationHandlers"/>
+            name="handler"
+            type="gent.zeus.tappb.ui.HomeListener"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:onClick="@{(view) -> navigation.navToPlaceholder(view)}"
+            android:onClick="@{() -> handler.onCartClicked()}"
             android:text="@string/shopping_cart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
