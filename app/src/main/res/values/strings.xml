@@ -2,6 +2,13 @@
     <string name="app_name">tappb</string>
 
     <string name="action_search">Search</string>
+    <string name="ok">OK</string>
+
+    <string name="profile_picture">Profile picture</string>
+    <string name="favorite_drink">Favorite drink</string>
+
+    <string name="top_up_balance">Top up balance</string>
+    <string name="top_up_alert">To top up your balance, transfer money to (INSERT ZEUSREKENING HIER) and poke your nearest board member. Make sure to include your username! </string>
 
     <string name="nav_home">Home</string>
     <string name="nav_stock">Stock</string>

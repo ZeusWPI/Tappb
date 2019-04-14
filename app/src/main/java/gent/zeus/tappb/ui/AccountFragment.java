@@ -1,11 +1,14 @@
 package gent.zeus.tappb.ui;
 
+import android.content.DialogInterface;
 import android.icu.text.DecimalFormat;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentAccountBinding;
 import gent.zeus.tappb.viewmodel.AccountViewModel;
 
@@ -48,6 +51,14 @@ public class AccountFragment extends Fragment {
 
     public boolean setFavoriteDrink() {
         Toast.makeText(getContext(), "TODO: set favorite drink", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    public boolean topUpBalance() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.top_up_alert)
+                .setPositiveButton(R.string.ok, (dialog, id) -> {});
+        builder.create().show();
         return true;
     }
 }

@@ -34,7 +34,8 @@
             android:onLongClick="@{() -> handler.setProfilePicture()}"
             android:src="@drawable/ic_account"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/favorite_drink" />
 
         <TextView
             android:id="@+id/username"
@@ -70,6 +71,17 @@
             app:layout_constraintStart_toEndOf="@+id/profile_picture"
             app:layout_constraintTop_toBottomOf="@+id/profile_picture"
             android:onLongClick="@{() -> handler.setFavoriteDrink()}"
-            app:srcCompat="@drawable/ic_attach_money" />
+            app:srcCompat="@drawable/ic_attach_money"
+            android:contentDescription="@string/profile_picture" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/top_up_balance"
+            android:onClick="@{() -> handler.topUpBalance()}"
+            app:layout_constraintStart_toStartOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
