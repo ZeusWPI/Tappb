@@ -1,20 +1,26 @@
 package gent.zeus.tappb.ui;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import gent.zeus.tappb.R;
+import androidx.lifecycle.ViewModelProviders;
 import gent.zeus.tappb.databinding.FragmentAccountBinding;
+import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.viewmodel.AccountViewModel;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
 
 public class AccountFragment extends Fragment {
+
+    private AccountViewModel viewModel;
+    private DecimalFormat formatter = new DecimalFormat("#0.00");
+
 
     public AccountFragment() {
 
@@ -25,7 +31,20 @@ public class AccountFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentAccountBinding binding = FragmentAccountBinding.inflate(inflater, container, false);
+
+        viewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+        viewModel.init();
+        viewModel.getUser().observe(this, binding::setUser);
+
+        binding.setFormatter(formatter);
+        binding.setHandler(this);
+
         binding.setLifecycleOwner(this);
         return binding.getRoot();
+    }
+
+    public boolean setProfilePicture() {
+        Toast.makeText(getContext(), "TODO: set profile picture", Toast.LENGTH_SHORT).show();
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.entity;
 
 public class User {
     private String username;
@@ -9,5 +9,13 @@ public class User {
         this.username = username;
         this.tabToken = tabToken;
         this.tapToken = tapToken;
+    }
+
+    public double getBalance() {
+        return -12.34;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

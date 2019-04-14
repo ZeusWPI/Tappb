@@ -1,6 +1,5 @@
 package gent.zeus.tappb.login;
 
-import android.content.Intent;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
@@ -14,7 +13,7 @@ import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gent.zeus.tappb.User;
+import gent.zeus.tappb.entity.User;
 
 public class LoginWebviewClient extends WebViewClient {
     private static final String TAG = LoginActivity.class.getSimpleName();
