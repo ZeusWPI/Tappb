@@ -1,12 +1,12 @@
 package gent.zeus.tappb.ui;
 
+import android.icu.text.DecimalFormat;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import gent.zeus.tappb.databinding.FragmentAccountBinding;
-import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.viewmodel.AccountViewModel;
 
 import android.view.LayoutInflater;
@@ -14,12 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-
 public class AccountFragment extends Fragment {
 
     private AccountViewModel viewModel;
-    private DecimalFormat formatter = new DecimalFormat("#0.00");
+    private DecimalFormat formatter = new DecimalFormat("€ #0.00;€ -#0.00");
 
 
     public AccountFragment() {
@@ -45,6 +43,11 @@ public class AccountFragment extends Fragment {
 
     public boolean setProfilePicture() {
         Toast.makeText(getContext(), "TODO: set profile picture", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    public boolean setFavoriteDrink() {
+        Toast.makeText(getContext(), "TODO: set favorite drink", Toast.LENGTH_SHORT).show();
         return true;
     }
 }
