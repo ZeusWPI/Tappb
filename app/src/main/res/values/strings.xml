@@ -14,4 +14,6 @@
     <string name="nav_stock">Stock</string>
     <string name="nav_money">Money</string>
     <string name="nav_account">Account</string>
+
+    <string name="profile_picture_camera_gallery">Use camera or gallery?</string>
 </resources>

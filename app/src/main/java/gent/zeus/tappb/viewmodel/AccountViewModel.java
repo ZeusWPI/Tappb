@@ -1,8 +1,6 @@
 package gent.zeus.tappb.viewmodel;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import android.graphics.Bitmap;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -16,7 +14,9 @@ public class AccountViewModel extends ViewModel {
     MutableLiveData<User> user = new MutableLiveData<>();
 
     public void init() {
-        user.setValue(new User("Test", "tab","tap"));
+        if (user.getValue() == null) {
+            user.setValue(new User("Test", "tab", "tap"));
+        }
     }
 
     public LiveData<User> getUser() {
@@ -25,5 +25,11 @@ public class AccountViewModel extends ViewModel {
 
     public void setUser(User u) {
         user.setValue(u);
+    }
+
+    public void setProfilePicture(Bitmap icon) {
+        User currUser = user.getValue();
+        currUser.setProfilePicture(icon);
+        user.setValue(currUser);
     }
 }

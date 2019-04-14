@@ -61,18 +61,19 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/profile_picture"
+            android:onClick="@{() -> handler.setProfilePicture()}"
             app:layout_constraintBottom_toBottomOf="@+id/profile_picture"
             app:layout_constraintEnd_toEndOf="@+id/profile_picture"
             app:layout_constraintHorizontal_bias="0.729"
             app:layout_constraintStart_toEndOf="@+id/profile_picture"
             app:layout_constraintTop_toBottomOf="@+id/profile_picture"
-            android:onLongClick="@{() -> handler.setFavoriteDrink()}"
-            app:srcCompat="@drawable/ic_attach_money"
-            android:contentDescription="@string/profile_picture" />
+            app:srcCompat="@drawable/ic_edit" />
 
         <Button
             android:id="@+id/button2"
