@@ -5,13 +5,10 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeBinding;
@@ -32,13 +29,13 @@ public class HomeFragment extends Fragment implements HomeListener{
                              Bundle savedInstanceState) {
         FragmentHomeBinding binding = FragmentHomeBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
+        binding.setHandler(this);
         return binding.getRoot();
     }
 
     @Override
     public void onCartClicked() {
-        Log.d("test", "test");
-        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_placeholder);
+        NavHostFragment.findNavController(this).navigate(R.id.placeholder);
 
     }
 }
