@@ -32,6 +32,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-ml-vision:19.0.3'
     implementation 'com.android.support:appcompat-v7:28.1.0'
     implementation 'com.android.support:recyclerview-v7:28.1.0'
     implementation 'com.android.support:design:28.1.0'
@@ -44,3 +46,5 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 }
+
+apply plugin: 'com.google.gms.google-services'
