@@ -9,7 +9,9 @@ import java.util.Map;
 import androidx.annotation.Nullable;
 
 public class Order {
+
     private Map<Product, OrderProduct> products;
+
     public Order() {
         products = new HashMap<>();
     }
