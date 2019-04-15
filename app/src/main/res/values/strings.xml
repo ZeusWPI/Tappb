@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">tappb</string>
 
+    <string name="scan_barcode">Scan using barcode</string>
+    <string name="scanning">Scanning…</string>
+    <string name="scanning_error">An error occurred</string>
+    <string name="scanning_empty">No barcodes found</string>
+
     <string name="action_search">Search</string>
+
+    <string name="amount">Amount</string>
 
     <string name="nav_home">Home</string>
     <string name="nav_stock">Stock</string>
     <string name="nav_money">Money</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_order">Order</string>
 </resources>
