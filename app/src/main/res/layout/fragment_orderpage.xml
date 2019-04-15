@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="order"
+            type="gent.zeus.tappb.entity.Order" />
 
         <variable
             name="handler"
-            type="gent.zeus.tappb.ui.BarcodeFragment" />
+            type="gent.zeus.tappb.ui.OrderPageFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +28,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.9" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/product_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/order_item" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

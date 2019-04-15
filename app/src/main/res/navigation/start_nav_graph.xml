@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/start_nav_graph"
-    app:startDestination="@id/nav_barcode">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -21,10 +21,10 @@
         android:label="MoneyFragment"
         tools:layout="@layout/fragment_money"/>
     <fragment
-        android:id="@+id/nav_barcode"
-        android:name="gent.zeus.tappb.ui.BarcodeFragment"
+        android:id="@+id/nav_order"
+        android:name="gent.zeus.tappb.ui.OrderPageFragment"
         android:label="BarcodeFragment"
-        tools:layout="@layout/fragment_barcode"/>
+        tools:layout="@layout/fragment_orderpage"/>
 
 
 </navigation>
