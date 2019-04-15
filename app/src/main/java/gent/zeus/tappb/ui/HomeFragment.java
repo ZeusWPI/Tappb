@@ -11,9 +11,7 @@ import android.view.ViewGroup;
 
 import java.util.Objects;
 
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager.widget.PagerAdapter;
-import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.HomeViewPagerAdapter;
 import gent.zeus.tappb.databinding.FragmentHomeBinding;
 

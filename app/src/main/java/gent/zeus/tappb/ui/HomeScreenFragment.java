@@ -36,7 +36,7 @@ public class HomeScreenFragment extends Fragment implements HomeListener {
 
     @Override
     public void onCartClicked() {
-        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_shoppingCartFragment);
+        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_order);
 
     }
 
