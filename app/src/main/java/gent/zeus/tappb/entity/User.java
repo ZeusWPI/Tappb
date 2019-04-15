@@ -8,6 +8,7 @@ public class User {
     private String tapToken;
     private double balance = 12.34;
     private Bitmap profilePicture;
+    private Product favouriteItem = Product.fromId(1);
 
     public User(String username, String tabToken, String tapToken) {
         this.username = username;
@@ -34,5 +35,13 @@ public class User {
 
     public Bitmap getProfilePicture() {
         return profilePicture;
+    }
+
+    public Product getFavouriteItem() {
+        return favouriteItem;
+    }
+
+    public void setFavouriteItem(Product favouriteItem) {
+        this.favouriteItem = favouriteItem;
     }
 }

@@ -8,6 +8,10 @@ public class Product {
     private double price;
     private int stock;
 
+    static Product fromId(int id) {
+        return new Product(id, "AAAA", 1.24, 12);
+    }
+
     public Product(int id, String name, double price, int stock) {
         this.id = id;
         this.name = name;

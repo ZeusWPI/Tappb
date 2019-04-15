@@ -8,24 +8,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.DecimalFormat;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
-import android.os.RemoteException;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentAccountBinding;
 import gent.zeus.tappb.viewmodel.AccountViewModel;
@@ -126,8 +121,9 @@ public class AccountFragment extends Fragment {
         Log.i("REQUEST", finalImage.getWidth() + ", " + finalImage.getHeight());
     }
 
-    public boolean setFavoriteDrink() {
-        Toast.makeText(getContext(), "TODO: set favorite drink", Toast.LENGTH_SHORT).show();
+    public boolean setFavoriteItem() {
+        NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
+        navController.navigate(R.id.action_nav_account_to_nav_favorite_item);
         return true;
     }
 

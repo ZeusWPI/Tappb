@@ -1,11 +1,6 @@
 package gent.zeus.tappb.ui;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,18 +11,21 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.StockAdapter;
+import gent.zeus.tappb.databinding.FragmentStockBinding;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.viewmodel.StockViewModel;
-import gent.zeus.tappb.databinding.FragmentStockBinding;
 
-public class StockFragment extends Fragment implements StockAdapter.StockListener {
+public class FavoriteItemFragment extends Fragment implements StockAdapter.StockListener {
 
     StockViewModel viewModel;
     StockAdapter adapter;
 
-    public StockFragment() {
+    public FavoriteItemFragment() {
         // Required empty public constructor
     }
 
@@ -72,6 +70,6 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
 
     @Override
     public void onClick(Product p) {
-        Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Clicked2", Toast.LENGTH_SHORT).show();
     }
 }

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> implements Filterable {
 
     public interface StockListener {
-        void onClick();
+        void onClick(Product p);
     }
 
     private List<Product> products;
