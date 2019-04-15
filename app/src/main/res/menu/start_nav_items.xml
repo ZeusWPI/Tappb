@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_euro_symbol"
         android:title="@string/nav_money" />
 
+    <item
+        android:id="@+id/nav_order"
+        android:icon="@drawable/ic_order"
+        android:title="@string/nav_order" />
+
 </menu>
