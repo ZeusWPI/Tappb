@@ -122,7 +122,6 @@ public class CameraFragment extends Fragment {
                             Log.i("OrderPageFragment", "Found " + barcodes.size() + " barcodes");
                             if (barcodes.isEmpty()) {
                                 viewModel.setScanningState(OrderViewModel.ScanningState.EMPTY);
-                                navController.popBackStack();
                             } else {
                                 Order newOrder = new Order();
                                 for (FirebaseVisionBarcode barcode : barcodes) {
