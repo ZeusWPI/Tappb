@@ -6,15 +6,6 @@
     app:startDestination="@id/nav_home">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="gent.zeus.tappb.ui.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_nav_home_to_nav_order"
-            app:destination="@id/nav_order" />
-    </fragment>
-    <fragment
         android:id="@+id/nav_stock"
         android:name="gent.zeus.tappb.ui.StockFragment"
         android:label="StockFragment"
@@ -29,5 +20,13 @@
         android:name="gent.zeus.tappb.ui.OrderPageFragment"
         android:label="BarcodeFragment"
         tools:layout="@layout/fragment_orderpage"/>
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="gent.zeus.tappb.ui.HomeScreenFragment"
+        android:label="HomeScreenFragment" />
+    <fragment
+        android:id="@+id/nav_camera"
+        android:name="gent.zeus.tappb.ui.CameraFragment"
+        android:label="CameraFragment" />
 
 </navigation>
