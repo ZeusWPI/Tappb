@@ -1,16 +1,6 @@
 package gent.zeus.tappb.ui;
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +18,7 @@ import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
-public class OrderPageFragment extends Fragment implements OrderAdapter.OrderListener {
+public class OrderPageFragment extends Fragment implements OrderListAdapter.OrderListener {
     private OrderViewModel viewModel;
     private OrderListAdapter adapter;
 
@@ -93,6 +83,7 @@ public class OrderPageFragment extends Fragment implements OrderAdapter.OrderLis
     public void onDecreaseClicked() {
 
     }
+
 
     public void takePicture(View ignored) {
         NavHostFragment.findNavController(this).navigate(R.id.action_nav_order_to_nav_camera);
