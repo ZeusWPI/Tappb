@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import gent.zeus.tappb.R;
-import gent.zeus.tappb.adapters.OrderAdapter;
+import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
 import gent.zeus.tappb.entity.Order;
 import gent.zeus.tappb.entity.OrderProduct;
@@ -41,13 +40,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-public class OrderPageFragment extends Fragment implements OrderAdapter.OrderListener {
+public class OrderPageFragment extends Fragment implements OrderListAdapter.OrderListener {
     private FirebaseVisionBarcodeDetectorOptions firebaseOptions;
     private final int REQUEST_IMAGE_CAPTURE = 1;
     private String currentPhotoPath;
     private OrderViewModel viewModel;
-    private OrderAdapter adapter;
-
+    private OrderListAdapter adapter;
 
     public OrderPageFragment() {
         // Required empty public constructor
@@ -70,10 +68,10 @@ public class OrderPageFragment extends Fragment implements OrderAdapter.OrderLis
         viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
         viewModel.init();
 
-        adapter = new OrderAdapter(this);
+        adapter = new OrderListAdapter(this);
         binding.productList.setAdapter(adapter);
         binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        viewModel.getOrders().observe(this, adapter::setProducts);
+        viewModel.getOrders().observe(this, adapter::submitList);
 
         viewModel.getScanningState().observe(this, scanningState -> {
             Button button = this.getActivity().findViewById(R.id.button);
@@ -191,10 +189,12 @@ public class OrderPageFragment extends Fragment implements OrderAdapter.OrderLis
     }
 
     @Override
-    public void afterTextChanged(Editable newValue, OrderProduct orderProduct) {
-        if (newValue.length() == 0) {
-            return;
-        }
-        viewModel.updateCount(orderProduct.getProduct(), Integer.parseInt(newValue.toString()));
+    public void onIncreaseClicked() {
+
+    }
+
+    @Override
+    public void onDecreaseClicked() {
+
     }
 }

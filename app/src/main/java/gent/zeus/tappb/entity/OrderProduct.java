@@ -1,6 +1,7 @@
 package gent.zeus.tappb.entity;
 
 public class OrderProduct {
+
     private final Product product;
     private int count;
 

@@ -98,10 +98,6 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
 
     @Override
     public void onClick(StockProduct stockProduct) {
-        Order order = new Order();
-        order.addProduct(stockProduct.getProduct());
-        orderViewModel.addOrder(order);
-
         Toast.makeText(getContext(), stockProduct.getName(), Toast.LENGTH_SHORT).show();
     }
 }

@@ -31,7 +31,7 @@ public class OrderViewModel extends ViewModel {
     public LiveData<List<OrderProduct>> getOrders() {
         return orderProductLive;
     }
-    
+
     public LiveData<ScanningState> getScanningState() {
         return scanningState;
     }

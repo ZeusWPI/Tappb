@@ -26,7 +26,7 @@ public class Order {
 
     public void addProduct(Product p) {
         addProducts(p, 1);
-;    }
+    }
 
     public int getProductCount(Product p) {
         if (products.containsKey(p)) {
