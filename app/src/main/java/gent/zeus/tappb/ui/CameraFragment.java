@@ -130,7 +130,7 @@ public class CameraFragment extends Fragment {
                                 }
                                 viewModel.addOrder(newOrder);
                                 viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
-                                navController.navigate(R.id.action_nav_camera_to_nav_order);
+                                navController.navigate(R.id.nav_order);
                             }
                         })
                         .addOnFailureListener(e -> {
