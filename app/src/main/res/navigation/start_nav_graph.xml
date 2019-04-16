@@ -19,14 +19,29 @@
         android:id="@+id/nav_order"
         android:name="gent.zeus.tappb.ui.OrderPageFragment"
         android:label="BarcodeFragment"
-        tools:layout="@layout/fragment_orderpage"/>
+        tools:layout="@layout/fragment_orderpage">
+        <action
+            android:id="@+id/action_nav_order_to_nav_camera"
+            app:destination="@id/nav_camera" />
+    </fragment>
     <fragment
         android:id="@+id/nav_home"
         android:name="gent.zeus.tappb.ui.HomeScreenFragment"
-        android:label="HomeScreenFragment" />
+        android:label="HomeScreenFragment" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_camera"
+            app:destination="@id/nav_camera" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_order"
+            app:destination="@id/nav_order" />
+    </fragment>
     <fragment
         android:id="@+id/nav_camera"
         android:name="gent.zeus.tappb.ui.CameraFragment"
-        android:label="CameraFragment" />
+        android:label="CameraFragment" >
+        <action
+            android:id="@+id/action_nav_camera_to_nav_order"
+            app:destination="@id/nav_order" />
+    </fragment>
 
 </navigation>

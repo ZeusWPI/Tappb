@@ -42,7 +42,7 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
 
     @Override
     public void onCartClicked() {
-        NavHostFragment.findNavController(this).navigate(R.id.nav_order);
+        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_order);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
     }
 
     public void handleSwipeRight() {
-        NavHostFragment.findNavController(this).navigate(R.id.nav_camera);
+        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_camera);
     }
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
