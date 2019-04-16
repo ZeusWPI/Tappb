@@ -14,4 +14,8 @@
     <string name="nav_stock">Stock</string>
     <string name="nav_money">Money</string>
     <string name="nav_order">Order</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shopping_cart">Shopping Cart</string>
 </resources>
