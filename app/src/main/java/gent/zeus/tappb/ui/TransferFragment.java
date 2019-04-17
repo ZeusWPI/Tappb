@@ -1,23 +1,34 @@
 package gent.zeus.tappb.ui;
 
-
+import android.app.Activity;
+import android.content.Context;
+import android.hardware.input.InputManager;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import gent.zeus.tappb.ConfirmTransferDialogFragment;
+import gent.zeus.tappb.MoneyTextWatcher;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TransferFragment extends Fragment implements OnBackPressedCallback {
+public class TransferFragment extends Fragment implements OnBackPressedCallback,
+                                                          View.OnClickListener,
+                                                          ConfirmTransferDialogFragment.TransferDialogListener {
 
+    private FragmentTransferBinding binding;
 
     public TransferFragment() {
         // Required empty public constructor
@@ -27,8 +38,10 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentTransferBinding binding = FragmentTransferBinding.inflate(inflater, container, false);
+        binding = FragmentTransferBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
+        binding.transfer.setOnClickListener(this);
+        binding.amountInput.addTextChangedListener(new MoneyTextWatcher(binding.amountInput));
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), this);
 
@@ -37,7 +50,37 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback 
 
     @Override
     public boolean handleOnBackPressed() {
-        NavHostFragment.findNavController(this).navigateUp();
+        navigateBack();
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        String name = binding.nameInput.getText().toString();
+        if (name.isEmpty()) {
+            binding.nameInput.setError("No name given");
+            return;
+        }
+        //Close the keyboard
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
+        DialogFragment dialog = new ConfirmTransferDialogFragment(this);
+        dialog.show(getFragmentManager(), "ConfirmTransferDialogFragment");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        Toast.makeText(getContext(), "CONFRIMED", Toast.LENGTH_SHORT).show();
+        navigateBack();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        Toast.makeText(getContext(), "DECLINED", Toast.LENGTH_SHORT).show();
+    }
+
+    public void navigateBack() {
+        NavHostFragment.findNavController(this).navigateUp();
     }
 }

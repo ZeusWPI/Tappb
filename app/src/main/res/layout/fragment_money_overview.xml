@@ -18,12 +18,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="80dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
             android:text="Your current balance:"
             android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/balance"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,12 +32,10 @@
             android:id="@+id/balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:text="€38.52"
             android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/top_up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -45,12 +44,10 @@
             android:id="@+id/top_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="104dp"
-            android:layout_marginEnd="8dp"
+            android:onClick="@{() -> handler.onTopUpClicked()}"
             android:text="Top Up"
             android:textSize="24sp"
-            android:onClick="@{() -> handler.onTopUpClicked()}"
+            app:layout_constraintBottom_toTopOf="@+id/transfer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/balance" />
@@ -58,19 +55,14 @@
         <Button
             android:id="@+id/transfer"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Transfer"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
             android:onClick="@{() -> handler.onTransferClicked()}"
+            android:text="@string/transfer"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/top_up"
-            app:layout_constraintVertical_bias="0.231" />
+            app:layout_constraintTop_toBottomOf="@+id/top_up" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
