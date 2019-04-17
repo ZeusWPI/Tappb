@@ -56,22 +56,36 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
 
     @Override
     public void onClick(View v) {
-        String name = binding.nameInput.getText().toString();
-        if (name.isEmpty()) {
-            binding.nameInput.setError("No name given");
-            return;
-        }
         //Close the keyboard
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
-        DialogFragment dialog = new ConfirmTransferDialogFragment(this);
-        dialog.show(getFragmentManager(), "ConfirmTransferDialogFragment");
+        boolean isValid = true;
+
+        String name = binding.nameInput.getText().toString();
+        if (name.isEmpty()) {
+            binding.nameInput.setError("No name given");
+            isValid = false;
+        }
+
+        String amount = binding.amountInput.getText().toString();
+        if (amount.isEmpty()) {
+            binding.amountInput.setError("Invalid amount");
+            isValid = false;
+        } else {
+            double parsed = Double.parseDouble(amount);
+            isValid &= parsed > 0;
+        }
+
+        if (isValid) {
+            DialogFragment dialog = new ConfirmTransferDialogFragment(this);
+            dialog.show(getFragmentManager(), "ConfirmTransferDialogFragment");
+        }
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        Toast.makeText(getContext(), "CONFRIMED", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "CONFIRMED", Toast.LENGTH_SHORT).show();
         navigateBack();
     }
 
@@ -80,7 +94,7 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
         Toast.makeText(getContext(), "DECLINED", Toast.LENGTH_SHORT).show();
     }
 
-    public void navigateBack() {
+    private void navigateBack() {
         NavHostFragment.findNavController(this).navigateUp();
     }
 }
