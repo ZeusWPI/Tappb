@@ -1,4 +1,4 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.entity;
 
 public class User {
     private static final User instance = new User();

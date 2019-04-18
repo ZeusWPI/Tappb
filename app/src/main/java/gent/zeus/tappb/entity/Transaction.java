@@ -16,7 +16,6 @@ public class Transaction {
 
 
     public Transaction(int id, OffsetDateTime date, String debtor, String creditor, String message, double amount) {
-    public Transaction(int id, LocalDate date, String debtor, String creditor, String message, double amount) {
         this.id = id;
         this.date = date;
         this.debtor = debtor;
