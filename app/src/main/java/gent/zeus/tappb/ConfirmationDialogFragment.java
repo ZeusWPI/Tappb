@@ -8,13 +8,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class ConfirmTransferDialogFragment extends DialogFragment {
+public class ConfirmationDialogFragment extends DialogFragment {
 
     private BasicDialogListener listener;
+
+    private String title;
+    private String message;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            title = bundle.getString("title");
+            message = bundle.getString("message");
+        }
 
         try {
             listener = (BasicDialogListener) getTargetFragment();
@@ -27,9 +36,10 @@ public class ConfirmTransferDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.confirm_transfer)
-                .setPositiveButton("Confirm", (dialog, which) -> listener.onDialogPositiveClick(ConfirmTransferDialogFragment.this))
-                .setNegativeButton("Cancel", (dialog, which) -> listener.onDialogNegativeClick(ConfirmTransferDialogFragment.this));
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Confirm", (dialog, which) -> listener.onDialogPositiveClick(ConfirmationDialogFragment.this))
+                .setNegativeButton("Cancel", (dialog, which) -> listener.onDialogNegativeClick(ConfirmationDialogFragment.this));
         return builder.create();
     }
 }
