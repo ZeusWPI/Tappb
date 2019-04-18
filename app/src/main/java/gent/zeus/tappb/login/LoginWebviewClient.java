@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.api.TabAPI;
 
 public class LoginWebviewClient extends WebViewClient {
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -37,7 +38,8 @@ public class LoginWebviewClient extends WebViewClient {
                     Log.d(TAG, reader.getString("username"));
                     // TODO save user
                     // TODO tap token
-                    User u = new User(reader.getString("username"), reader.getString("tab_token"), "");
+                    User.getInstance().load(reader.getString("username"), reader.getString("tab_token"), "");
+                    System.out.println(new TabAPI().getTransactions());
                     navigateAway();
                 } catch (JSONException | UnsupportedEncodingException ex) {
                     Log.d(TAG, "Error parsing JSON from Tabbp");
