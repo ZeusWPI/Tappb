@@ -1,14 +1,14 @@
 package gent.zeus.tappb.entity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
 import androidx.annotation.Nullable;
 
-public class Order {
+public class Order extends Observable {
 
     private Map<Product, OrderProduct> products;
 
@@ -18,14 +18,20 @@ public class Order {
 
     public void addProducts(Product p, int count) {
         if (products.containsKey(p)) {
-            products.get(p).changeCount(count);
+            products.get(p).addCount(count);
         } else {
             products.put(p, new OrderProduct(p, count));
         }
+        setChanged();
+        notifyObservers();
     }
 
     public void addProduct(Product p) {
         addProducts(p, 1);
+    }
+
+    public void addOrderProduct(OrderProduct orderProduct) {
+        addProducts(orderProduct.getProduct(), orderProduct.getCount());
     }
 
     public int getProductCount(Product p) {
@@ -43,6 +49,8 @@ public class Order {
         for (OrderProduct orderProduct : o.getOrderProducts()) {
             addProducts(orderProduct.getProduct(), orderProduct.getCount());
         }
+        setChanged();
+        notifyObservers();
     }
 
     public List<OrderProduct> getOrderProducts() {
@@ -50,10 +58,14 @@ public class Order {
     }
 
     public void updateCount(Product p, int amount) {
-        OrderProduct orderProduct = products.get(p);
-        products.remove(p);
-        if (amount != 0) {
-            products.put(p, new OrderProduct(p, amount));
-        }
+        products.computeIfPresent(p, (k, v) -> {
+            if (amount == 0) {
+                return null;
+            }
+            v.setCount(amount);
+            return v;
+        });
+        setChanged();
+        notifyObservers();
     }
 }

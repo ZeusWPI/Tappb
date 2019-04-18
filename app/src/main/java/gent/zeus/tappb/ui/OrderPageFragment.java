@@ -75,12 +75,13 @@ public class OrderPageFragment extends Fragment implements OrderListAdapter.Orde
     }
 
     @Override
-    public void onIncreaseClicked() {
-
+    public void onIncreaseClicked(OrderProduct orderProduct) {
+        viewModel.updateCount(orderProduct.getProduct(), orderProduct.getCount() + 1);
     }
 
     @Override
-    public void onDecreaseClicked() {
+    public void onDecreaseClicked(OrderProduct orderProduct) {
+        viewModel.updateCount(orderProduct.getProduct(), orderProduct.getCount() - 1);
 
     }
 

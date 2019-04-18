@@ -1,6 +1,10 @@
 package gent.zeus.tappb.viewmodel;
 
+import android.util.Log;
+
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,10 +13,18 @@ import gent.zeus.tappb.entity.Order;
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
 
-public class OrderViewModel extends ViewModel {
+public class OrderViewModel extends ViewModel implements Observer {
     private Order order = new Order();
     private MutableLiveData<List<OrderProduct>> orderProductLive = new MutableLiveData<>();
     private MutableLiveData<ScanningState> scanningState = new MutableLiveData<>();
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Order newOrder = (Order) o;
+        Log.d("update", "observable updated");
+        orderProductLive.postValue(newOrder.getOrderProducts());
+    }
+
     public enum ScanningState {
         NOT_SCANNING,
         SCANNING,
@@ -24,8 +36,8 @@ public class OrderViewModel extends ViewModel {
         if (scanningState.getValue() == null) {
             scanningState.setValue(ScanningState.NOT_SCANNING);
         }
-        calculateOrderProductLive();
         setScanningState(scanningState.getValue());
+        order.addObserver(this);
     }
 
     public LiveData<List<OrderProduct>> getOrders() {
@@ -38,12 +50,8 @@ public class OrderViewModel extends ViewModel {
 
     public void addOrder(Order o) {
         this.order.combine(o);
-        calculateOrderProductLive();
     }
 
-    private void calculateOrderProductLive() {
-        orderProductLive.setValue(this.order.getOrderProducts());
-    }
 
     public void setScanningState(ScanningState state) {
         scanningState.setValue(state);
@@ -51,6 +59,8 @@ public class OrderViewModel extends ViewModel {
 
     public void updateCount(Product p, int amount) {
         order.updateCount(p, amount);
-        calculateOrderProductLive();
+    }
+    public void addProduct(Product product) {
+        this.order.addProduct(product);
     }
 }

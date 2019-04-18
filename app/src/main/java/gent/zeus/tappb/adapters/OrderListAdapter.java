@@ -17,8 +17,8 @@ public class OrderListAdapter extends ListAdapter<OrderProduct, OrderListAdapter
 
     public interface OrderListener {
         void onClick(OrderProduct orderProduct);
-        void onIncreaseClicked();
-        void onDecreaseClicked();
+        void onIncreaseClicked(OrderProduct orderProduct);
+        void onDecreaseClicked(OrderProduct orderProduct);
     }
 
     private List<OrderProduct> orderProducts;
