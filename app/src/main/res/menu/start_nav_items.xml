@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/nav_order"
-        android:icon="@drawable/ic_order"
+        android:icon="@drawable/ic_shopping_cart"
         android:title="@string/nav_order" />
 
 </menu>
