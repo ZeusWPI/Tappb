@@ -74,7 +74,10 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
             isValid = false;
         } else {
             double parsed = Double.parseDouble(amount);
-            isValid &= parsed > 0;
+            if (parsed <= 0) {
+                binding.amountInput.setError("Invalid amount");
+                isValid = false;
+            }
         }
 
         if (isValid) {
