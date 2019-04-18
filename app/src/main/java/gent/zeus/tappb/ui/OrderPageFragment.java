@@ -1,6 +1,7 @@
 package gent.zeus.tappb.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
-public class OrderPageFragment extends Fragment implements OrderListAdapter.OrderListener {
+public class OrderPageFragment extends Fragment implements OrderItemListener {
     private OrderViewModel viewModel;
     private OrderListAdapter adapter;
 
@@ -33,12 +35,14 @@ public class OrderPageFragment extends Fragment implements OrderListAdapter.Orde
         FragmentOrderpageBinding binding = FragmentOrderpageBinding.inflate(inflater, container, false);
 
         viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
-        viewModel.init();
 
         adapter = new OrderListAdapter(this);
         binding.productList.setAdapter(adapter);
         binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        viewModel.getOrders().observe(this, adapter::submitList);
+        viewModel.getOrders().observe(this, list -> {
+            Log.d("adapter", "update");
+            adapter.submitList(list);
+        });
 
         viewModel.getScanningState().observe(this, scanningState -> {
             Button button = this.getActivity().findViewById(R.id.button);
@@ -71,7 +75,7 @@ public class OrderPageFragment extends Fragment implements OrderListAdapter.Orde
 
     @Override
     public void onClick(OrderProduct orderProduct) {
-        Toast.makeText(getContext(),orderProduct.getCount() + " " + orderProduct.getProduct().getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), orderProduct.getCount() + " " + orderProduct.getProduct().getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

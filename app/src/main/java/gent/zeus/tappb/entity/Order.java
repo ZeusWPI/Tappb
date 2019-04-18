@@ -13,6 +13,7 @@ public class Order extends Observable {
     private Map<Product, OrderProduct> products;
 
     public Order() {
+        super();
         products = new HashMap<>();
     }
 
