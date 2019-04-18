@@ -8,7 +8,7 @@ public class User {
     private String tapToken;
     private double balance = 12.34;
     private Bitmap profilePicture;
-    private Product favouriteItem = Product.fromId(1);
+    private Product favouriteItem = new Product(7730, "Robbe", 1.33);
 
     public User(String username, String tabToken, String tapToken) {
         this.username = username;

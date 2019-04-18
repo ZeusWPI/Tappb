@@ -4,7 +4,7 @@
     <data>
         <variable
             name="product"
-            type="gent.zeus.tappb.entity.Product" >
+            type="gent.zeus.tappb.entity.StockProduct" >
         </variable>
 
         <variable
@@ -21,7 +21,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> handler.onClick(product)}">
+        android:onClick="@{() -> handler.onClick()}">
 
         <ImageView
             android:id="@+id/image"

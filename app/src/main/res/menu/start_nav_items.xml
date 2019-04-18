@@ -20,4 +20,9 @@
         android:id="@+id/nav_account"
         android:icon="@drawable/ic_account"
         android:title="@string/nav_account" />
+    <item
+        android:id="@+id/nav_order"
+        android:icon="@drawable/ic_shopping_cart"
+        android:title="@string/nav_order" />
+
 </menu>

@@ -69,7 +69,7 @@ public class FavoriteItemFragment extends Fragment implements StockAdapter.Stock
     }
 
     @Override
-    public void onClick(Product p) {
+    public void onClick() {
         Toast.makeText(getContext(), "Clicked2", Toast.LENGTH_SHORT).show();
     }
 }
