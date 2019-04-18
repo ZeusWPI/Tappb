@@ -21,7 +21,7 @@ import okhttp3.Response;
 
 public class TabAPI extends API {
     public TabAPI() {
-        Log.d("TAB", "hi")
+        Log.d("TAB", "hi");
     }
 
     private final static String endpoint = "https://tab.zeus.gent";
