@@ -14,6 +14,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import gent.zeus.tappb.entity.StockProduct;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> implements Filterable {
 
@@ -21,8 +22,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
         void onClick();
     }
 
-    private List<Product> products;
-    private List<Product> productsFull;
+    private List<StockProduct> products;
+    private List<StockProduct> productsFull;
     private StockListener listener;
     private DecimalFormat formatter = new DecimalFormat("#0.00");
 
@@ -49,7 +50,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
         return products.size();
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<StockProduct> products) {
         this.products = products;
         productsFull = new ArrayList<>(products);
         notifyDataSetChanged();
@@ -60,14 +61,14 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<Product> filteredProducts = new ArrayList<>();
+                List<StockProduct> filteredProducts = new ArrayList<>();
 
                 if (constraint == null || constraint.length() == 0) {
                     filteredProducts.addAll(productsFull);
                 } else {
                     String pattern = constraint.toString().toLowerCase().trim();
 
-                    for (Product product: productsFull) {
+                    for (StockProduct product: productsFull) {
                         if (product.getName().toLowerCase().contains(pattern)) {
                             filteredProducts.add(product);
                         }
@@ -100,7 +101,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
             itemBinding.setFormatter(StockAdapter.this.formatter);
         }
 
-        public void bind(Product item) {
+        public void bind(StockProduct item) {
             itemBinding.setProduct(item);
         }
     }

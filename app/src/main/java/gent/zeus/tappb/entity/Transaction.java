@@ -16,13 +16,13 @@ public class Transaction {
 
 
     public Transaction(int id, OffsetDateTime date, String debtor, String creditor, String message, double amount) {
+    public Transaction(int id, LocalDate date, String debtor, String creditor, String message, double amount) {
         this.id = id;
         this.date = date;
         this.debtor = debtor;
         this.creditor = creditor;
         this.message = message;
         this.amount = amount;
-
     }
 
     public int getId() {
@@ -52,11 +52,5 @@ public class Transaction {
     public String getDayString() {
         int day = date.getDayOfMonth();
         return day > 9 ? Integer.toString(day) : "0" + Integer.toString(day);
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "<Transaction (" + amount + ")"  + debtor + " -> " + creditor + " ," + message + ">";
     }
 }
