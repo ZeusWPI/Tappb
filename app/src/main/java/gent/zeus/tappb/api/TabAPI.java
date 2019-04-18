@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import gent.zeus.tappb.User;
+import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.entity.Transaction;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

@@ -47,10 +47,12 @@ public class AccountFragment extends Fragment {
         viewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
         viewModel.init();
         viewModel.getUser().observe(this, (user -> {
-            binding.setUser(user);
-            @Nullable Bitmap profilePicture = user.getProfilePicture();
-            if (profilePicture != null) {
-                binding.profilePicture.setImageBitmap(profilePicture);
+            if (user.isLoaded()) {
+                binding.setUser(user);
+                @Nullable Bitmap profilePicture = user.getProfilePicture();
+                if (profilePicture != null) {
+                    binding.profilePicture.setImageBitmap(profilePicture);
+                }
             }
         }));
 

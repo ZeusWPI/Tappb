@@ -14,17 +14,11 @@ public class AccountViewModel extends ViewModel {
     MutableLiveData<User> user = new MutableLiveData<>();
 
     public void init() {
-        if (user.getValue() == null) {
-            user.setValue(new User("Test", "tab", "tap"));
-        }
+        user.setValue(User.getInstance());
     }
 
     public LiveData<User> getUser() {
         return user;
-    }
-
-    public void setUser(User u) {
-        user.setValue(u);
     }
 
     public void setProfilePicture(Bitmap icon) {
