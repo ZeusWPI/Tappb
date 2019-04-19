@@ -1,8 +1,10 @@
 package gent.zeus.tappb.ui;
 
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.GestureDetector;
@@ -12,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.lifecycle.Observer;
 import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeScreenBinding;
@@ -54,9 +55,15 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
     @Override
     public void onLoginClicked() {
         if (User.getInstance().isLoaded()) {
-            //TODO: Confirm logout
-            User.logout();
-            Toast.makeText(getContext(), "Logged out", Toast.LENGTH_LONG).show();
+            DialogFragment dialogFragment = new DialogFragment();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.confirm_logout)
+                    .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
+                        User.logout();
+                        Toast.makeText(getContext(), "Logged out", Toast.LENGTH_LONG).show();
+                    })
+                    .setNegativeButton(getResources().getText(R.string.cancel), (dialog, which) -> {});
+            builder.create().show();
         } else {
             NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_login);
         }

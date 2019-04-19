@@ -63,6 +63,7 @@ public class LoginWebviewClient extends WebViewClient {
         switch (error.getErrorCode()) {
             case WebViewClient.ERROR_HOST_LOOKUP:
                 Toast.makeText(view.getContext(), "No internet connection", Toast.LENGTH_LONG).show();
+                //User.getInstance().load("username", "tab_token", "tap_token");
                 navigateAway();
         }
     }
