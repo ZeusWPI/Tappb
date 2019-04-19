@@ -29,6 +29,7 @@ public class OrderViewModel extends ViewModel {
             scanningState.setValue(ScanningState.NOT_SCANNING);
         }
         setScanningState(scanningState.getValue());
+        invalidateOrderList();
     }
 
     public LiveData<List<OrderProduct>> getOrders() {

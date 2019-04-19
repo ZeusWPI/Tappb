@@ -34,7 +34,6 @@ public class OrderPageFragment extends Fragment  {
 
         binding.setHandler(this);
 
-
         viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
         adapter = new OrderListAdapter(viewModel.getOrders().getValue(), viewModel);
         binding.productList.setAdapter(adapter);
