@@ -45,9 +45,7 @@ public class LoginWebviewClient extends WebViewClient {
                     JSONObject reader = new JSONObject(value);
                     Log.d(TAG, reader.getString("username"));
                     // TODO save user
-                    // TODO tap token
-                    User.getInstance().load(reader.getString("username"), reader.getString("tab_token"), "");
-                    System.out.println(TabAPI.getTransactions());
+                    User.getInstance().load(reader.getString("username"), reader.getString("tab_token"), reader.getString("tap_token"));
                     navigateAway();
                 } catch (JSONException | UnsupportedEncodingException ex) {
                     Log.d(TAG, "Error parsing JSON from Tabbp");
@@ -63,7 +61,6 @@ public class LoginWebviewClient extends WebViewClient {
         switch (error.getErrorCode()) {
             case WebViewClient.ERROR_HOST_LOOKUP:
                 Toast.makeText(view.getContext(), "No internet connection", Toast.LENGTH_LONG).show();
-                //User.getInstance().load("username", "tab_token", "tap_token");
                 navigateAway();
         }
     }
