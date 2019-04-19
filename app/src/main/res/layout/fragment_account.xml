@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_account">
+
+    <data>
+        <variable
+            name="user"
+            type="gent.zeus.tappb.entity.User" />
+
+        <variable
+            name="formatter"
+            type="android.icu.text.DecimalFormat" />
+
+        <variable
+            name="handler"
+            type="gent.zeus.tappb.ui.AccountFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.AccountFragment">
+
+
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="101dp"
+            android:layout_height="99dp"
+            android:layout_marginTop="56dp"
+            android:contentDescription="@string/favorite_drink"
+            android:src="@drawable/ic_account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{user.isLoaded() ? user.getUsername() : @string/not_logged_in}"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/profile_picture"
+            app:layout_constraintStart_toStartOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/profile_picture"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_picture"
+            app:layout_constraintEnd_toEndOf="@+id/profile_picture"
+            app:layout_constraintHorizontal_bias="0.729"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/profile_picture"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <Button
+            android:id="@+id/setFavouriteItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:onClick="@{() -> handler.setFavoriteItem()}"
+            android:text="@string/change_favorite_item"
+            android:enabled="@{user.isLoaded()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+
+        <TextView
+            android:id="@+id/currently"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/currently"
+            app:layout_constraintStart_toStartOf="@+id/setFavouriteItem"
+            app:layout_constraintTop_toBottomOf="@+id/setFavouriteItem" />
+
+        <TextView
+            android:id="@+id/favoriteItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{user.isLoaded() ? user.getFavoriteItem().getName() : @string/none}"
+            app:layout_constraintBottom_toBottomOf="@+id/currently"
+            app:layout_constraintStart_toEndOf="@+id/currently"
+            app:layout_constraintTop_toTopOf="@+id/currently" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

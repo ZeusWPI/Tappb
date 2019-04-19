@@ -7,18 +7,29 @@
     <string name="scanning_empty">No barcodes found</string>
 
     <string name="action_search">Search</string>
+    <string name="ok">OK</string>
+
+    <string name="profile_picture">Profile picture</string>
+    <string name="favorite_drink">Favorite drink</string>
+
+    <string name="top_up_balance">Top up balance</string>
+    <string name="top_up_alert">To top up your balance, transfer money to (INSERT ZEUSREKENING HIER) and poke your nearest board member. Make sure to include your username! </string>
+
+    <string name="change_favorite_item">Change favorite item</string>
 
     <string name="amount">Amount</string>
 
     <string name="nav_home">Home</string>
     <string name="nav_stock">Stock</string>
     <string name="nav_money">Money</string>
+    <string name="nav_account">Account</string>
     <string name="nav_order">Order</string>
     <string name="member_hint">Zeus member</string>
     <string name="amount_hint">Amount</string>
     <string name="message_hint">Message</string>
     <string name="transfer">Transfer</string>
 
+    <string name="profile_picture_camera_gallery">Use camera or gallery?</string>
     <string name="confirm_transfer">Proceed transfer?</string>
 
     <string name="shopping_cart">Shopping Cart</string>
@@ -27,4 +38,7 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="confirm_logout">Are you sure you want to log out?</string>
+    <string name="currently">Currently:</string>
+    <string name="not_logged_in">Not logged in</string>
+    <string name="none">None</string>
 </resources>
