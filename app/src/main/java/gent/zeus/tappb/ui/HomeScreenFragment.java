@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
@@ -35,7 +36,6 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
         FragmentHomeScreenBinding binding = FragmentHomeScreenBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         binding.setHandler(this);
-        binding.loginButton.setVisibility(User.getInstance().isLoaded() ? View.GONE : View.VISIBLE);
         gestureDetector = new GestureDetector(this.getContext(), new GestureListener());
         binding.getRoot().setOnTouchListener(this);
         return binding.getRoot();
@@ -49,7 +49,13 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
 
     @Override
     public void onLoginClicked() {
-        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_login);
+        if (User.getInstance().isLoaded()) {
+            //TODO: Confirm logout
+            User.logout();
+            Toast.makeText(getContext(), "Logged out", Toast.LENGTH_LONG).show();
+        } else {
+            NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_login);
+        }
     }
 
     @Override

@@ -1,8 +1,7 @@
 package gent.zeus.tappb.entity;
 
 public class User {
-    private static final User instance = new User();
-
+    private static User instance = new User();
     private String username;
     private String tabToken;
     private String tapToken;
@@ -45,5 +44,10 @@ public class User {
 
     public boolean isLoaded() {
         return loaded;
+    }
+
+    public static void logout() {
+        instance.assertLoaded();
+        instance = new User();
     }
 }
