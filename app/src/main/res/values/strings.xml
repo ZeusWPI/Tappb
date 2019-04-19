@@ -33,12 +33,12 @@
     <string name="confirm_transfer">Proceed transfer?</string>
 
     <string name="shopping_cart">Shopping Cart</string>
-    <string name="currently">Currently:</string>
-    <string name="not_logged_in">Not logged in</string>
-    <string name="none">None</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="confirm_logout">Are you sure you want to log out?</string>
+    <string name="currently">Currently:</string>
+    <string name="not_logged_in">Not logged in</string>
+    <string name="none">None</string>
 </resources>
