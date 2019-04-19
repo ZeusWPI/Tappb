@@ -12,8 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.ConfirmTransferDialogFragment;
 import gent.zeus.tappb.MoneyTextWatcher;
+import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
+import gent.zeus.tappb.entity.Transaction;
+import gent.zeus.tappb.entity.User;
 
+import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,14 +90,29 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        Toast.makeText(getContext(), "CONFIRMED", Toast.LENGTH_SHORT).show();
+        Editable nameEditable = binding.nameInput.getText();
+        Editable messageEditable = binding.messageInput.getText();
+        Editable amountEditable = binding.amountInput.getText();
+        if (nameEditable == null) {
+            Toast.makeText(getContext(), "Please fill in a recipient", Toast.LENGTH_LONG).show();
+        } else if(messageEditable == null) {
+            Toast.makeText(getContext(), "Please supply a message", Toast.LENGTH_LONG).show();
+        } else if(amountEditable == null) {
+            Toast.makeText(getContext(), "Please specify an amount", Toast.LENGTH_LONG).show();
+        } else {
+            try {
+                int amount = ((int) (Double.parseDouble(amountEditable.toString()) * 100));
+                TabAPI.createTransaction(User.getInstance().getUsername(), nameEditable.toString(), amount, messageEditable.toString());
+            } catch (NumberFormatException e) {
+                Log.d("TransferFragment", amountEditable.toString(), e);
+                Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_LONG).show();
+            }
+        }
         navigateBack();
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-        Toast.makeText(getContext(), "DECLINED", Toast.LENGTH_SHORT).show();
-    }
+    public void onDialogNegativeClick(DialogFragment dialog) {}
 
     private void navigateBack() {
         NavHostFragment.findNavController(this).navigateUp();

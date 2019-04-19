@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.StockAdapter;
-import gent.zeus.tappb.entity.Order;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 import gent.zeus.tappb.viewmodel.StockViewModel;

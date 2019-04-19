@@ -1,8 +1,10 @@
 package gent.zeus.tappb.ui;
 
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.GestureDetector;
@@ -10,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeScreenBinding;
+import gent.zeus.tappb.entity.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +38,9 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
         FragmentHomeScreenBinding binding = FragmentHomeScreenBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         binding.setHandler(this);
+        User.getLiveInstance().observe(this, user -> {
+            binding.loginButton.setText(user.isLoaded() ? getResources().getText(R.string.logout) : getResources().getText(R.string.login));
+        });
         gestureDetector = new GestureDetector(this.getContext(), new GestureListener());
         binding.getRoot().setOnTouchListener(this);
         return binding.getRoot();
@@ -43,6 +50,23 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
     @Override
     public void onCartClicked() {
         NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_order);
+    }
+
+    @Override
+    public void onLoginClicked() {
+        if (User.getInstance().isLoaded()) {
+            DialogFragment dialogFragment = new DialogFragment();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.confirm_logout)
+                    .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
+                        User.logout();
+                        Toast.makeText(getContext(), "Logged out", Toast.LENGTH_LONG).show();
+                    })
+                    .setNegativeButton(getResources().getText(R.string.cancel), (dialog, which) -> {});
+            builder.create().show();
+        } else {
+            NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_login);
+        }
     }
 
     @Override

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/start_nav_graph"
     app:startDestination="@id/nav_home">
-
     <fragment
         android:id="@+id/nav_stock"
         android:name="gent.zeus.tappb.ui.StockFragment"
@@ -15,6 +14,29 @@
         android:name="gent.zeus.tappb.ui.MoneyFragment"
         android:label="MoneyFragment"
         tools:layout="@layout/fragment_money"/>
+    <fragment
+        android:id="@+id/nav_account"
+        android:name="gent.zeus.tappb.ui.AccountFragment"
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account">
+        <action
+            android:id="@+id/action_nav_account_to_nav_favorite_item"
+            app:destination="@id/nav_favorite_item" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_favorite_item"
+        android:name="gent.zeus.tappb.ui.FavoriteItemFragment"
+        android:label="FavoriteItemFragment"
+        tools:layout="@layout/fragment_stock"/>
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="gent.zeus.tappb.ui.LoginFragment"
+        android:label="LoginFragmetn"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_nav_login_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
     <fragment
         android:id="@+id/nav_order"
         android:name="gent.zeus.tappb.ui.OrderPageFragment"
@@ -35,6 +57,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_order"
             app:destination="@id/nav_order" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_login"
+            app:destination="@id/nav_login" />
     </fragment>
     <fragment
         android:id="@+id/nav_camera"

@@ -2,23 +2,25 @@ package gent.zeus.tappb.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 
 import gent.zeus.tappb.R;
-import gent.zeus.tappb.main.MainMenu;
+import gent.zeus.tappb.ui.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private WebView webView;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.fragment_login);
 
         CookieManager.getInstance().removeAllCookie();
 
@@ -26,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         webView.setWebViewClient(new LoginWebviewClient() {
             @Override
             public void navigateAway() {
-                Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

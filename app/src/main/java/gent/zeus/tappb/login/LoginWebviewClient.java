@@ -1,10 +1,14 @@
 package gent.zeus.tappb.login;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.util.Log;
+import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,13 +18,17 @@ import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gent.zeus.tappb.User;
+import androidx.navigation.fragment.NavHostFragment;
+import gent.zeus.tappb.R;
+import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.api.TabAPI;
+import gent.zeus.tappb.ui.LoginFragment;
 
 public class LoginWebviewClient extends WebViewClient {
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String TAG = LoginFragment.class.getSimpleName();
 
     @Override
-    public void onPageFinished(WebView view, String url){
+    public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
         Log.d(TAG, url);
         if ("https://tabbp.zeus.gent/tokens".equals(url)) {
@@ -38,7 +46,8 @@ public class LoginWebviewClient extends WebViewClient {
                     Log.d(TAG, reader.getString("username"));
                     // TODO save user
                     // TODO tap token
-                    User u = new User(reader.getString("username"), reader.getString("tab_token"), "");
+                    User.getInstance().load(reader.getString("username"), reader.getString("tab_token"), "");
+                    System.out.println(TabAPI.getTransactions());
                     navigateAway();
                 } catch (JSONException | UnsupportedEncodingException ex) {
                     Log.d(TAG, "Error parsing JSON from Tabbp");
@@ -46,6 +55,16 @@ public class LoginWebviewClient extends WebViewClient {
             }
         } else {
             Log.d(TAG, "wrong url");
+        }
+    }
+
+    @Override
+    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        switch (error.getErrorCode()) {
+            case WebViewClient.ERROR_HOST_LOOKUP:
+                Toast.makeText(view.getContext(), "No internet connection", Toast.LENGTH_LONG).show();
+                //User.getInstance().load("username", "tab_token", "tap_token");
+                navigateAway();
         }
     }
 
