@@ -110,6 +110,7 @@ public class TabAPI extends API {
         }
 
         String response = postBody("/transactions", data.toString());
+        Log.d("TabAPI","Got response" + response);
         // TODO check if transaction succeeded
         return true;
     }
