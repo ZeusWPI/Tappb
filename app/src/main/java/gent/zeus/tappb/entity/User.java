@@ -1,16 +1,18 @@
 package gent.zeus.tappb.entity;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import android.graphics.Bitmap;
 
 public class User {
-    private static final User instance = new User();
+    private static MutableLiveData<User> liveInstance = new MutableLiveData<>();
     private String username;
     private String tabToken;
     private String tapToken;
     private boolean loaded = false;
     private Bitmap profilePicture;
 
-    private double balance;
     private Product favoriteItem;
 
     public void load(String username, String tabToken, String tapToken) {
@@ -21,21 +23,7 @@ public class User {
     }
 
     //private constructor to avoid client applications to use constructor
-    private User(){}
-
-    public double getBalance() {
-        // TODO: get from API
-        balance = 12.34;
-        return balance;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public boolean hasDebt() {
-        return balance <= 0;
-    }
+    private User() {}
 
     public void setProfilePicture(Bitmap icon) {
         // TODO send this to the Zeus servers
@@ -57,13 +45,25 @@ public class User {
     }
 
     public static User getInstance(){
-        return instance;
+        return liveInstance.getValue();
     }
 
-    private void assertLoaded() {
-        if (!this.loaded) {
+    public static LiveData<User> getLiveInstance() {
+        if (liveInstance.getValue() == null) {
+            liveInstance.setValue(new User());
+        }
+        return liveInstance;
+    }
+
+    private static void assertLoaded() {
+        if (liveInstance.getValue() == null || !liveInstance.getValue().loaded) {
             throw new RuntimeException("User is not loaded yet");
         }
+    }
+
+    public String getUsername() {
+        assertLoaded();
+        return username;
     }
 
     public String getTabToken() {
@@ -78,5 +78,10 @@ public class User {
 
     public boolean isLoaded() {
         return loaded;
+    }
+
+    public static void logout() {
+        User.assertLoaded();
+        liveInstance.setValue(new User());
     }
 }

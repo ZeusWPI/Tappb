@@ -29,6 +29,15 @@
         android:label="FavoriteItemFragment"
         tools:layout="@layout/fragment_stock"/>
     <fragment
+        android:id="@+id/nav_login"
+        android:name="gent.zeus.tappb.ui.LoginFragment"
+        android:label="LoginFragmetn"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_nav_login_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
         android:id="@+id/nav_order"
         android:name="gent.zeus.tappb.ui.OrderPageFragment"
         android:label="BarcodeFragment"
@@ -48,6 +57,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_order"
             app:destination="@id/nav_order" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_login"
+            app:destination="@id/nav_login" />
     </fragment>
     <fragment
         android:id="@+id/nav_camera"
