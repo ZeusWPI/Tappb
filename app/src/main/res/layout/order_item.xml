@@ -12,10 +12,10 @@
 
         <variable
             name="productCount"
-            type="java.lang.Integer" />
+            type="java.lang.String" />
         <variable
             name="productPrice"
-            type="java.lang.Double" />
+            type="java.lang.String" />
         <variable
             name="handler"
             type="gent.zeus.tappb.ui.OrderItemListener">
@@ -65,7 +65,7 @@
             android:layout_marginEnd="36dp"
             android:layout_marginBottom="8dp"
             android:layout_toEndOf="@+id/image"
-            android:text="@{formatter.format(productPrice)}"
+            android:text="@{productPrice}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_plus"
             app:layout_constraintTop_toTopOf="parent"
@@ -79,7 +79,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
             android:text="+"
-            android:onClick="@{() -> handler.onIncreaseClicked(orderProduct)}"
+            android:onClick="@{() -> handler.onIncreaseClicked()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_minus"
             app:layout_constraintTop_toTopOf="parent" />
@@ -94,7 +94,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="-"
-            android:onClick="@{() -> handler.onDecreaseClicked(orderProduct)}"
+            android:onClick="@{() -> handler.onDecreaseClicked()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -107,7 +107,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@{formatter.format(productCount)}"
+            android:text="@{productCount}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_plus"
             app:layout_constraintStart_toEndOf="@+id/price"

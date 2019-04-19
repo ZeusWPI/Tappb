@@ -3,9 +3,9 @@ package gent.zeus.tappb.ui;
 import gent.zeus.tappb.entity.OrderProduct;
 
 public interface OrderItemListener {
-    void onClick(OrderProduct orderProduct);
+    void onClick();
 
-    void onIncreaseClicked(OrderProduct orderProduct);
+    void onIncreaseClicked();
 
-    void onDecreaseClicked(OrderProduct orderProduct);
+    void onDecreaseClicked();
 }

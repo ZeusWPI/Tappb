@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
 import gent.zeus.tappb.R;
@@ -20,7 +21,7 @@ import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
-public class OrderPageFragment extends Fragment implements OrderItemListener {
+public class OrderPageFragment extends Fragment  {
     private OrderViewModel viewModel;
     private OrderListAdapter adapter;
     private FragmentOrderpageBinding binding;
@@ -39,28 +40,15 @@ public class OrderPageFragment extends Fragment implements OrderItemListener {
 
 
         viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
-        adapter = new OrderListAdapter(viewModel.getOrders().getValue(), this);
+        adapter = new OrderListAdapter(viewModel.getOrders().getValue(), viewModel);
         binding.productList.setAdapter(adapter);
+//        ((DefaultItemAnimator)binding.productList.getItemAnimator()).setSupportsChangeAnimations(false);
+        binding.productList.setItemAnimator(null);
         binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        viewModel.getOrders().observe(this, list -> adapter.notifyDataSetChanged());
+        viewModel.getOrders().observe(this, adapter::setOrderList);
         viewModel.getScanningState().observe(this, this::setButtonText);
 
         return binding.getRoot();
-    }
-
-    @Override
-    public void onClick(OrderProduct orderProduct) {
-        Toast.makeText(getContext(), orderProduct.getCount() + " " + orderProduct.getProduct().getName(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onIncreaseClicked(OrderProduct orderProduct) {
-        viewModel.updateCount(orderProduct.getProduct(), orderProduct.getCount() + 1);
-    }
-
-    @Override
-    public void onDecreaseClicked(OrderProduct orderProduct) {
-        viewModel.updateCount(orderProduct.getProduct(), orderProduct.getCount() - 1);
     }
 
     public void takePicture(View ignored) {
