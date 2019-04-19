@@ -36,7 +36,9 @@ public class User {
 
     public Product getFavoriteItem() {
         //TODO get from API
-        favoriteItem = new Product(7730, "Drenk", 1.33);
+        if (favoriteItem == null) {
+            favoriteItem = new Product(7730, "Drenk", 1.33);
+        }
         return favoriteItem;
     }
 

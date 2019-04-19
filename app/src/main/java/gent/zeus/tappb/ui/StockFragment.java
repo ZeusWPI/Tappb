@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.StockAdapter;
+import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.viewmodel.StockViewModel;
 import gent.zeus.tappb.databinding.FragmentStockBinding;
 
@@ -91,7 +92,7 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
    }
 
     @Override
-    public void onClick() {
+    public void onClick(Product p) {
         Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
     }
 }
