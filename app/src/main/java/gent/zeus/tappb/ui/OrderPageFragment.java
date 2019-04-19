@@ -23,53 +23,28 @@ import gent.zeus.tappb.viewmodel.OrderViewModel;
 public class OrderPageFragment extends Fragment implements OrderItemListener {
     private OrderViewModel viewModel;
     private OrderListAdapter adapter;
+    private FragmentOrderpageBinding binding;
 
     public OrderPageFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentOrderpageBinding binding = FragmentOrderpageBinding.inflate(inflater, container, false);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
-
-        adapter = new OrderListAdapter(this);
-        binding.productList.setAdapter(adapter);
-        binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        viewModel.getOrders().observe(this, list -> {
-            Log.d("adapter", "update");
-            adapter.submitList(list);
-        });
-
-        viewModel.getScanningState().observe(this, scanningState -> {
-            Button button = this.getActivity().findViewById(R.id.button);
-            if (button == null) {
-                return;
-            }
-            switch (scanningState) {
-                case SCANNING:
-                    button.setText(R.string.scanning);
-                    button.setEnabled(false);
-                    break;
-                case ERROR:
-                    button.setText(R.string.scanning_error);
-                    button.setEnabled(true);
-                    break;
-                case NOT_SCANNING:
-                    button.setText(R.string.scan_barcode);
-                    button.setEnabled(true);
-                    break;
-                case EMPTY:
-                    button.setText(R.string.scanning_empty);
-                    button.setEnabled(true);
-                    break;
-            }
-        });
+        binding = FragmentOrderpageBinding.inflate(inflater, container, false);
 
         binding.setHandler(this);
+
+
+        viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
+        adapter = new OrderListAdapter(viewModel.getOrders().getValue(), this);
+        binding.productList.setAdapter(adapter);
+        binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        viewModel.getOrders().observe(this, list -> adapter.notifyDataSetChanged());
+        viewModel.getScanningState().observe(this, this::setButtonText);
+
         return binding.getRoot();
     }
 
@@ -86,11 +61,31 @@ public class OrderPageFragment extends Fragment implements OrderItemListener {
     @Override
     public void onDecreaseClicked(OrderProduct orderProduct) {
         viewModel.updateCount(orderProduct.getProduct(), orderProduct.getCount() - 1);
-
     }
-
 
     public void takePicture(View ignored) {
         NavHostFragment.findNavController(this).navigate(R.id.action_nav_order_to_nav_camera);
+    }
+
+    private void setButtonText(OrderViewModel.ScanningState scanningState) {
+        Button button = binding.button;
+        switch (scanningState) {
+            case SCANNING:
+                button.setText(R.string.scanning);
+                button.setEnabled(false);
+                break;
+            case ERROR:
+                button.setText(R.string.scanning_error);
+                button.setEnabled(true);
+                break;
+            case NOT_SCANNING:
+                button.setText(R.string.scan_barcode);
+                button.setEnabled(true);
+                break;
+            case EMPTY:
+                button.setText(R.string.scanning_empty);
+                button.setEnabled(true);
+                break;
+        }
     }
 }

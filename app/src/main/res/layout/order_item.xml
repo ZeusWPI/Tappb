@@ -4,6 +4,9 @@
 
     <data>
         <variable
+            name="orderProduct"
+            type="gent.zeus.tappb.entity.OrderProduct" />
+        <variable
             name="productName"
             type="java.lang.String" />
 
@@ -76,6 +79,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
             android:text="+"
+            android:onClick="@{() -> handler.onIncreaseClicked(orderProduct)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_minus"
             app:layout_constraintTop_toTopOf="parent" />
@@ -90,6 +94,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="-"
+            android:onClick="@{() -> handler.onDecreaseClicked(orderProduct)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

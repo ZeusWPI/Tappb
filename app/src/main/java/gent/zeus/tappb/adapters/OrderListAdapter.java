@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,31 +17,16 @@ import gent.zeus.tappb.databinding.OrderItemBinding;
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.ui.OrderItemListener;
 
-public class OrderListAdapter extends ListAdapter<OrderProduct, OrderListAdapter.ViewHolder> {
+public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
 
 
     private OrderItemListener listener;
     private DecimalFormat formatter = new DecimalFormat("#0.00");
-    public static final DiffUtil.ItemCallback<OrderProduct> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<OrderProduct>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull OrderProduct oldItem, @NonNull OrderProduct newItem) {
-                    boolean rslt = ((oldItem.getProduct().equals(newItem.getProduct()))
-                            && (oldItem.getCount() == newItem.getCount()));
-                    Log.d("areItemsTheSame", Boolean.toString(rslt));
-                    return rslt;
-                }
+    private List<OrderProduct> orderList;
 
-                @Override
-                public boolean areContentsTheSame(@NonNull OrderProduct oldItem, @NonNull OrderProduct newItem) {
-                    return oldItem.getProduct().equals(newItem.getProduct())
-                            && oldItem.getCount() == newItem.getCount();
-                }
-            };
-
-    public OrderListAdapter(OrderItemListener listener) {
-        super(DIFF_CALLBACK);
+    public OrderListAdapter(List<OrderProduct> orderList, OrderItemListener listener) {
         this.listener = listener;
+        this.orderList = orderList;
     }
 
     @NonNull
@@ -53,7 +40,12 @@ public class OrderListAdapter extends ListAdapter<OrderProduct, OrderListAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        holder.bind(orderList.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return orderList.size();
     }
 
 
@@ -69,6 +61,7 @@ public class OrderListAdapter extends ListAdapter<OrderProduct, OrderListAdapter
         }
 
         public void bind(OrderProduct item) {
+            itemBinding.setOrderProduct(item);
             itemBinding.setProductName(item.getProduct().getName());
             itemBinding.setProductCount(item.getCount());
             itemBinding.setProductPrice(item.getPrice());
