@@ -22,7 +22,6 @@ import gent.zeus.tappb.entity.User;
 public class MoneyOverviewFragment extends Fragment implements MoneyListener {
 
     private DecimalFormat formatter = new DecimalFormat("#0.00");
-    private TabAPI tabAPI = new TabAPI();
 
     public MoneyOverviewFragment() {
         // Required empty public constructor
@@ -34,7 +33,7 @@ public class MoneyOverviewFragment extends Fragment implements MoneyListener {
         FragmentMoneyOverviewBinding binding = FragmentMoneyOverviewBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         if (User.getInstance().isLoaded()) {
-            binding.balance.setText("€" + formatter.format(((double) tabAPI.getBalanceInCents()) / 100));
+            binding.balance.setText("€" + formatter.format(((double) TabAPI.getBalanceInCents()) / 100));
         } else {
             binding.balance.setText(getResources().getText(R.string.not_logged_in));
         }

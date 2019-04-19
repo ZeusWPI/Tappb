@@ -90,7 +90,6 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        TabAPI tabAPI = new TabAPI();
         Editable nameEditable = binding.nameInput.getText();
         Editable messageEditable = binding.messageInput.getText();
         Editable amountEditable = binding.amountInput.getText();
@@ -103,7 +102,7 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
         } else {
             try {
                 int amount = ((int) (Double.parseDouble(amountEditable.toString()) * 100));
-                tabAPI.createTransaction(User.getInstance().getUsername(), nameEditable.toString(), amount, messageEditable.toString());
+                TabAPI.createTransaction(User.getInstance().getUsername(), nameEditable.toString(), amount, messageEditable.toString());
             } catch (NumberFormatException e) {
                 Log.d("TransferFragment", amountEditable.toString(), e);
                 Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_LONG).show();
