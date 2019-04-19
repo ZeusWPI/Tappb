@@ -1,7 +1,10 @@
 package gent.zeus.tappb.entity;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 public class User {
-    private static User instance = new User();
+    private static MutableLiveData<User> liveInstance = new MutableLiveData<>();
     private String username;
     private String tabToken;
     private String tapToken;
@@ -15,14 +18,21 @@ public class User {
     }
 
     //private constructor to avoid client applications to use constructor
-    private User(){}
+    private User() {}
 
     public static User getInstance(){
-        return instance;
+        return liveInstance.getValue();
     }
 
-    private void assertLoaded() {
-        if (!this.loaded) {
+    public static LiveData<User> getLiveInstance() {
+        if (liveInstance.getValue() == null) {
+            liveInstance.setValue(new User());
+        }
+        return liveInstance;
+    }
+
+    private static void assertLoaded() {
+        if (liveInstance.getValue() == null || !liveInstance.getValue().loaded) {
             throw new RuntimeException("User is not loaded yet");
         }
     }
@@ -47,7 +57,7 @@ public class User {
     }
 
     public static void logout() {
-        instance.assertLoaded();
-        instance = new User();
+        User.assertLoaded();
+        liveInstance.setValue(new User());
     }
 }
