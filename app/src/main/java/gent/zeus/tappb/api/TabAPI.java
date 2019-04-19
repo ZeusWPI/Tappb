@@ -26,7 +26,7 @@ public class TabAPI extends API {
 
     private final static String endpoint = "https://tab.zeus.gent";
 
-    private Request.Builder buildRequest(String relativeURL) {
+    private static Request.Builder buildRequest(String relativeURL) {
         // TODO remove this code, let api callers call this in another thread
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -36,7 +36,7 @@ public class TabAPI extends API {
                 .header("Authorization", "Token " + User.getInstance().getTabToken());
     }
 
-    private String getBody(String relativeURL) {
+    private static String getBody(String relativeURL) {
         OkHttpClient client = new OkHttpClient();
         Request request = buildRequest(relativeURL).build();
         try {
@@ -47,7 +47,7 @@ public class TabAPI extends API {
         }
     }
 
-    private String postBody(String relativeURL, String jsondata) {
+    private static String postBody(String relativeURL, String jsondata) {
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, jsondata);
         Request request = buildRequest(relativeURL)
@@ -61,7 +61,7 @@ public class TabAPI extends API {
         }
     }
 
-    public List<Transaction> getTransactions() {
+    public static List<Transaction> getTransactions() {
         try {
             List<Transaction> result = new ArrayList<>();
             JSONArray response = new JSONArray(getBody("/users/" + User.getInstance().getUsername() + "/transactions"));
@@ -85,8 +85,11 @@ public class TabAPI extends API {
         }
     }
 
-    public int getBalanceInCents() {
+    public static int getBalanceInCents() {
         try {
+            if (!User.getInstance().isLoaded()) {
+                return 0;
+            }
             JSONObject response = new JSONObject(getBody("/users/" + User.getInstance().getUsername()));
             return response.getInt("balance");
         }
@@ -96,7 +99,7 @@ public class TabAPI extends API {
         }
     }
 
-    public boolean createTransaction(String debtor, String creditor, int cents, String message) {
+    public static boolean createTransaction(String debtor, String creditor, int cents, String message) {
         JSONObject data = new JSONObject();
         JSONObject transaction = new JSONObject();
         try {

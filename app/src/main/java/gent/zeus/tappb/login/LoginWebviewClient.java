@@ -47,7 +47,7 @@ public class LoginWebviewClient extends WebViewClient {
                     // TODO save user
                     // TODO tap token
                     User.getInstance().load(reader.getString("username"), reader.getString("tab_token"), "");
-                    System.out.println(new TabAPI().getTransactions());
+                    System.out.println(TabAPI.getTransactions());
                     navigateAway();
                 } catch (JSONException | UnsupportedEncodingException ex) {
                     Log.d(TAG, "Error parsing JSON from Tabbp");
