@@ -42,4 +42,8 @@ public class User {
         assertLoaded();
         return tapToken;
     }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
 }

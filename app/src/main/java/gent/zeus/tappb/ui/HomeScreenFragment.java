@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeScreenBinding;
+import gent.zeus.tappb.entity.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +35,7 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
         FragmentHomeScreenBinding binding = FragmentHomeScreenBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         binding.setHandler(this);
+        binding.loginButton.setVisibility(User.getInstance().isLoaded() ? View.GONE : View.VISIBLE);
         gestureDetector = new GestureDetector(this.getContext(), new GestureListener());
         binding.getRoot().setOnTouchListener(this);
         return binding.getRoot();
@@ -43,6 +45,11 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
     @Override
     public void onCartClicked() {
         NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_order);
+    }
+
+    @Override
+    public void onLoginClicked() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_login);
     }
 
     @Override
