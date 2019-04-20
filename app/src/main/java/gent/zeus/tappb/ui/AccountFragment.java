@@ -128,12 +128,4 @@ public class AccountFragment extends Fragment {
         navController.navigate(R.id.action_nav_account_to_nav_favorite_item);
         return true;
     }
-
-    public boolean topUpBalance() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.top_up_alert)
-                .setPositiveButton(R.string.ok, (dialog, id) -> {});
-        builder.create().show();
-        return true;
-    }
 }

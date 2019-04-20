@@ -11,6 +11,9 @@ public class ProductList {
     private ProductList() {}
 
     public static ProductList getInstance() {
+        if (instance == null) {
+            instance = new ProductList();
+        }
         return instance;
     }
 
@@ -26,7 +29,7 @@ public class ProductList {
     }
 
     public StockProduct getProductById(int id) {
-        for (StockProduct stockProduct : products) {
+        for (StockProduct stockProduct : getStockProducts()) {
             if (stockProduct.getProduct().getId() == id) {
                 return stockProduct;
             }

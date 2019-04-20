@@ -27,18 +27,6 @@ public class User {
     //private constructor to avoid client applications to use constructor
     private User() {}
 
-    public Product getFavoriteItem() {
-        //TODO get from API
-        if (favoriteItem == null) {
-            favoriteItem = new Product(7730, "Drenk", 1.33);
-        }
-        return favoriteItem;
-    }
-
-    public void setFavoriteItem(Product favoriteItem) {
-        this.favoriteItem = favoriteItem;
-    }
-
     public static User getInstance(){
         return liveInstance.getValue();
     }

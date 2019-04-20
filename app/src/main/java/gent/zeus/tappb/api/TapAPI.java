@@ -12,11 +12,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.security.PrivilegedAction;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import gent.zeus.tappb.entity.Product;
+import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.Transaction;
@@ -102,7 +104,12 @@ public class TapAPI extends API {
 
             URL url = new URL(path);
             Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            return new TapUser(response.getInt("id"), image);
+            String favoriteItemId = response.getString("dagschotel_id");
+            Product favoriteItem = null;
+            if (!favoriteItemId.equals("null")) {
+                favoriteItem = ProductList.getInstance().getProductById(Integer.parseInt(favoriteItemId)).getProduct();
+            }
+            return new TapUser(response.getInt("id"), image, favoriteItem);
         } catch (JSONException exc) {
             Log.e("TapAPI", "JSON parse failed", exc);
             return null;
