@@ -1,10 +1,12 @@
 package gent.zeus.tappb.adapters;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import gent.zeus.tappb.api.TapAPI;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.databinding.StockItemBinding;
 
@@ -103,6 +105,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
 
         public void bind(StockProduct item) {
             itemBinding.setProduct(item);
+            itemBinding.image.setImageBitmap(item.getProduct().getImage());
         }
     }
 }

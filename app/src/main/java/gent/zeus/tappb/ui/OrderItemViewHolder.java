@@ -10,7 +10,7 @@ import gent.zeus.tappb.databinding.OrderItemBinding;
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
-public class OrderItemViewHolder extends RecyclerView.ViewHolder implements OrderItemListener{
+public class OrderItemViewHolder extends RecyclerView.ViewHolder implements OrderItemListener {
 
     private OrderItemBinding itemBinding;
     private int position;

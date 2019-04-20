@@ -1,5 +1,7 @@
 package gent.zeus.tappb.viewmodel;
 
+import android.util.Log;
+
 import gent.zeus.tappb.api.APIException;
 import gent.zeus.tappb.api.TapAPI;
 import gent.zeus.tappb.entity.Product;
@@ -11,8 +13,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.json.JSONException;
-
 import gent.zeus.tappb.entity.StockProduct;
 
 public class StockViewModel extends ViewModel {
@@ -23,7 +23,6 @@ public class StockViewModel extends ViewModel {
     public void init() {
         initializeStock();
     }
-
 
     public MutableLiveData<Boolean> fetchError;
 

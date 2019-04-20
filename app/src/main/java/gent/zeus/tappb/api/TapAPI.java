@@ -12,8 +12,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.security.PrivilegedAction;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +20,9 @@ import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
-import gent.zeus.tappb.entity.Transaction;
 import gent.zeus.tappb.entity.User;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -84,6 +83,10 @@ public class TapAPI extends API {
                 int stock = obj.getInt("stock");
                 double price = obj.getInt("price_cents") / 100.0;
                 Product p = new Product(productID, name, price);
+
+                String pictureName = obj.getString("avatar_file_name");
+                loadPictureForProduct(p, pictureName);
+
                 StockProduct s = new StockProduct(p, stock);
                 result.add(s);
 
@@ -94,6 +97,34 @@ public class TapAPI extends API {
             Log.d("exep", ex.toString());
             throw new APIException("Failed to parse JSON of request");
         }
+    }
+
+    public static void loadPictureForProduct(Product p, String pictureName) {
+        String paddedID = String.format("%09d" , p.getId());
+        List<String> splitID = splitString(paddedID, 3);
+
+        String relativeURL = String.format("/system/products/avatars/%s/%s/%s/small/%s",
+                splitID.get(0),
+                splitID.get(1),
+                splitID.get(2),
+                pictureName);
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(endpoint + relativeURL).build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                throw new APIException("Failed to get inputstream of request: " + relativeURL);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                InputStream inputStream = response.body().byteStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                p.setImage(bitmap);
+            }
+        });
     }
 
     public static TapUser getTapUser(User u) {

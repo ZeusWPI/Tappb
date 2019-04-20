@@ -1,11 +1,15 @@
 package gent.zeus.tappb.entity;
 
+import android.graphics.Bitmap;
+
 public class Product {
 
     private int id;
 
     private String name;
     private double price;
+
+    private Bitmap image;
 
     public Product(int id, String name, double price) {
         this.id = id;
@@ -37,5 +41,13 @@ public class Product {
     @Override
     public final int hashCode() {
         return (name + id).hashCode();
+    }
+
+    public void setImage(Bitmap bitmap) {
+        this.image = bitmap;
+    }
+
+    public Bitmap getImage() {
+        return image;
     }
 }
