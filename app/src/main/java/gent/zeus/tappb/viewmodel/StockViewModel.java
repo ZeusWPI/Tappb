@@ -21,7 +21,7 @@ public class StockViewModel extends ViewModel {
     private LiveData<List<StockProduct>> stock;
 
     public void init() {
-        if (stock == null) initializeStock();
+        initializeStock();
     }
 
     public MutableLiveData<Boolean> fetchError;
@@ -34,7 +34,6 @@ public class StockViewModel extends ViewModel {
     }
 
     public void initializeStock() {
-        Log.d("init", "help");
         stock = new MutableLiveData<>();
         fetchError = new MutableLiveData<>();
         List<StockProduct> productList;

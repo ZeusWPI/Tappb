@@ -11,11 +11,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import gent.zeus.tappb.entity.Product;
+import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
+import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -91,8 +93,7 @@ public class TapAPI extends API {
     }
 
     public static void loadPictureForProduct(Product p, String pictureName) {
-        String unpaddedID = Integer.toString(p.getId());
-        String paddedID = "000000000".substring(unpaddedID.length()) + unpaddedID;
+        String paddedID = String.format("%09d" , p.getId());
         List<String> splitID = splitString(paddedID, 3);
 
         String relativeURL = String.format("/system/products/avatars/%s/%s/%s/small/%s",
@@ -117,6 +118,35 @@ public class TapAPI extends API {
                 p.setImage(bitmap);
             }
         });
+    }
+
+    public static TapUser getTapUser(User u) {
+        try {
+            JSONObject response = new JSONObject(getBody("/users/" + u.getUsername() + ".json"));
+            String padded = String.format("%09d" , response.getInt("id"));
+            List<String> splitID = splitString(padded, 3);
+
+            String path = String.format(endpoint + "/system/users/avatars/%s/%s/%s/small/%s",
+                    splitID.get(0),
+                    splitID.get(1),
+                    splitID.get(2),
+                    response.getString("avatar_file_name"));
+
+            URL url = new URL(path);
+            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            String favoriteItemId = response.getString("dagschotel_id");
+            Product favoriteItem = null;
+            if (!favoriteItemId.equals("null")) {
+                favoriteItem = ProductList.getInstance().getProductById(Integer.parseInt(favoriteItemId)).getProduct();
+            }
+            return new TapUser(response.getInt("id"), image, favoriteItem);
+        } catch (JSONException exc) {
+            Log.e("TapAPI", "JSON parse failed", exc);
+            return null;
+        } catch (IOException ex) {
+            Log.e("TapAPI", "IO Exception", ex);
+            return null;
+        }
     }
 
     private static List<String> splitString(String string, int size) {

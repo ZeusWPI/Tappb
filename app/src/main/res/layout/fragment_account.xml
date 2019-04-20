@@ -29,7 +29,7 @@
             android:layout_width="101dp"
             android:layout_height="99dp"
             android:layout_marginTop="56dp"
-            android:contentDescription="@string/favorite_drink"
+            android:contentDescription="@string/profile_picture"
             android:src="@drawable/ic_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@{user.isLoaded() ? user.getFavoriteItem().getName() : @string/none}"
+            android:text="@{user.isLoaded() ? user.getTapUser().getFavoriteItem().getName() : @string/none}"
             app:layout_constraintBottom_toBottomOf="@+id/currently"
             app:layout_constraintStart_toEndOf="@+id/currently"
             app:layout_constraintTop_toTopOf="@+id/currently" />
