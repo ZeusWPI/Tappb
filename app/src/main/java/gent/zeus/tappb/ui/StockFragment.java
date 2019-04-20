@@ -19,12 +19,15 @@ import android.widget.Toast;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.StockAdapter;
+import gent.zeus.tappb.entity.StockProduct;
+import gent.zeus.tappb.viewmodel.OrderViewModel;
 import gent.zeus.tappb.viewmodel.StockViewModel;
 import gent.zeus.tappb.databinding.FragmentStockBinding;
 
 public class StockFragment extends Fragment implements StockAdapter.StockListener, SearchView.OnQueryTextListener {
 
-    private StockViewModel viewModel;
+    private OrderViewModel orderViewModel;
+    private StockViewModel stockViewModel;
     private StockAdapter adapter;
 
     private SearchView searchView;
@@ -43,13 +46,20 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
         }
 
         FragmentStockBinding binding = FragmentStockBinding.inflate(inflater, container, false);
-        viewModel = ViewModelProviders.of(getActivity()).get(StockViewModel.class);
-        viewModel.init();
+        stockViewModel = ViewModelProviders.of(getActivity()).get(StockViewModel.class);
+        stockViewModel.init();
+
+        orderViewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
 
         adapter = new StockAdapter(this);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        viewModel.getStock().observe(this, adapter::setProducts);
+        stockViewModel.getStock().observe(this, adapter::setProducts);
+        stockViewModel.getFetchError().observe(this, (error) -> {
+            if (error) {
+                Toast.makeText(getContext(), "API fetch failed, showing sample data", Toast.LENGTH_LONG).show();
+            }
+        });
         binding.setLifecycleOwner(this);
         setHasOptionsMenu(true);
 
@@ -83,15 +93,16 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
         return false;
     }
 
-   @Override
-   public void onSaveInstanceState(@NonNull Bundle outState) {
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         searchString = searchView.getQuery().toString();
         outState.putString(SEARCH_VIEW_KEY, searchString);
-   }
+    }
 
     @Override
-    public void onClick() {
-        Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+    public void onClick(StockProduct stockProduct) {
+        Toast.makeText(getContext(), stockProduct.getName(), Toast.LENGTH_SHORT).show();
+        orderViewModel.addProduct(stockProduct.getProduct());
     }
 }

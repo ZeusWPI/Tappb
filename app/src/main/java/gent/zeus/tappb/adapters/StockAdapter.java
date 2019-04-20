@@ -19,7 +19,7 @@ import gent.zeus.tappb.entity.StockProduct;
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> implements Filterable {
 
     public interface StockListener {
-        void onClick();
+        void onClick(StockProduct stockProduct);
     }
 
     private List<StockProduct> products;

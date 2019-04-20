@@ -1,6 +1,7 @@
 package gent.zeus.tappb.entity;
 
 public class OrderProduct {
+
     private final Product product;
     private int count;
 
@@ -17,8 +18,11 @@ public class OrderProduct {
         return count;
     }
 
-    public void changeCount(int diff) {
+    public void addCount(int diff) {
         this.count += diff;
+    }
+    public void setCount(int newCount) {
+        this.count = newCount;
     }
 
     public double getPrice() {

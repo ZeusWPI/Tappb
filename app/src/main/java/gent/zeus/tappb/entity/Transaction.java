@@ -1,18 +1,21 @@
 package gent.zeus.tappb.entity;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class Transaction {
 
     private int id;
 
-    private LocalDate date;
+    private OffsetDateTime date;
     private String debtor;
     private String creditor;
     private String message;
     private double amount;
 
-    public Transaction(int id, LocalDate date, String debtor, String creditor, String message, double amount) {
+    public Transaction(int id, OffsetDateTime date, String debtor, String creditor, String message, double amount) {
         this.id = id;
         this.date = date;
         this.debtor = debtor;
@@ -25,7 +28,7 @@ public class Transaction {
         return id;
     }
 
-    public LocalDate getDate() {
+    public OffsetDateTime getDate() {
         return date;
     }
 

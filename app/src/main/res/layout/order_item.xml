@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
             name="orderProduct"
-            type="gent.zeus.tappb.entity.OrderProduct" >
-        </variable>
+            type="gent.zeus.tappb.entity.OrderProduct" />
+        <variable
+            name="productName"
+            type="java.lang.String" />
 
         <variable
+            name="productCount"
+            type="java.lang.String" />
+        <variable
+            name="productPrice"
+            type="java.lang.String" />
+        <variable
             name="handler"
-            type="gent.zeus.tappb.adapters.OrderAdapter.OrderListener">
+            type="gent.zeus.tappb.ui.OrderItemListener">
         </variable>
 
         <variable
@@ -18,54 +27,92 @@
         </variable>
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{() -> handler.onClick(orderProduct)}">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_attach_money"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_attach_money"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/name"
-            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_toEndOf="@+id/image"
-            android:text="@{orderProduct.getProduct().getName()}" />
+            android:text="@{productName}"
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/price"
+            app:layout_constraintEnd_toStartOf="@+id/price"
+            app:layout_constraintStart_toEndOf="@+id/image" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="8dp"
             android:layout_toEndOf="@+id/image"
-            android:layout_marginStart="20dp"
-            android:text="@{formatter.format(orderProduct.getPrice())}" />
+            android:text="@{productPrice}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_plus"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.508" />
 
-        <EditText
-            android:id="@+id/amount"
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/image"
-            android:layout_alignParentTop="true"
+        <Button
+            android:id="@+id/button_plus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="24dp"
+            android:text="+"
+            android:onClick="@{() -> handler.onIncreaseClicked()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_minus"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_minus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/button_plus"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="18dp"
-            android:hint="@string/amount"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:singleLine="true"
-            android:text="@{Integer.toString(orderProduct.getCount())}"
-            android:afterTextChanged="@{(newVal) -> handler.afterTextChanged(newVal, orderProduct)}"
-            android:textSize="24sp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="-"
+            android:onClick="@{() -> handler.onDecreaseClicked()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{productCount}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_plus"
+            app:layout_constraintStart_toEndOf="@+id/price"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

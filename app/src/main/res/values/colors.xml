@@ -3,4 +3,8 @@
     <color name="colorPrimary">#FD8F00</color>
     <color name="colorPrimaryDark">#E48000</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="credit_debt">#FF0000</color>
+
+    <color name="text_color">#000000</color>
 </resources>

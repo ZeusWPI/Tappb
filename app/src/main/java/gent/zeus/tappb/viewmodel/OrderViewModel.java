@@ -1,18 +1,22 @@
 package gent.zeus.tappb.viewmodel;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import gent.zeus.tappb.entity.Order;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
 
 public class OrderViewModel extends ViewModel {
-    private Order order = new Order();
+    private Map<Product, OrderProduct> orderMap = new HashMap<>();
     private MutableLiveData<List<OrderProduct>> orderProductLive = new MutableLiveData<>();
     private MutableLiveData<ScanningState> scanningState = new MutableLiveData<>();
+
     public enum ScanningState {
         NOT_SCANNING,
         SCANNING,
@@ -24,33 +28,79 @@ public class OrderViewModel extends ViewModel {
         if (scanningState.getValue() == null) {
             scanningState.setValue(ScanningState.NOT_SCANNING);
         }
-        calculateOrderProductLive();
         setScanningState(scanningState.getValue());
+        invalidateOrderList();
     }
 
     public LiveData<List<OrderProduct>> getOrders() {
         return orderProductLive;
     }
-    
+
     public LiveData<ScanningState> getScanningState() {
         return scanningState;
     }
 
-    public void addOrder(Order o) {
-        this.order.combine(o);
-        calculateOrderProductLive();
-    }
-
-    private void calculateOrderProductLive() {
-        orderProductLive.setValue(this.order.getOrderProducts());
-    }
 
     public void setScanningState(ScanningState state) {
         scanningState.setValue(state);
     }
 
-    public void updateCount(Product p, int amount) {
-        order.updateCount(p, amount);
-        calculateOrderProductLive();
+
+    public void addProduct(Product product, boolean batch) {
+        this.orderMap.compute(product, (k, v) -> {
+            if (v == null) {
+                return new OrderProduct(product, 1);
+            }
+            v.addCount(1);
+            return v;
+        });
+        if (!batch) {
+            invalidateOrderList();
+        }
+    }
+
+    public void addProduct(Product product) {
+        addProduct(product, false);
+    }
+
+    public void addOrderProduct(OrderProduct orderProduct, boolean batch) {
+        this.orderMap.compute(orderProduct.getProduct(), (k, v) -> {
+            if (v == null) {
+                return orderProduct;
+            }
+            v.addCount(orderProduct.getCount());
+            return v;
+        });
+        if (!batch) {
+            invalidateOrderList();
+        }
+    }
+
+    public void addOrderProduct(OrderProduct orderProduct) {
+        addOrderProduct(orderProduct, false);
+    }
+
+    public void deleteOrderProduct(OrderProduct orderProduct) {
+        this.orderMap.remove(orderProduct.getProduct());
+        invalidateOrderList();
+    }
+
+    public void increaseCount(OrderProduct orderProduct) {
+        if (this.orderMap.containsKey(orderProduct.getProduct())) {
+            this.orderMap.get(orderProduct.getProduct()).addCount(1);
+        }
+    }
+
+    public void decreaseCount(OrderProduct orderProduct) {
+        if (this.orderMap.containsKey(orderProduct.getProduct())) {
+            this.orderMap.get(orderProduct.getProduct()).addCount(-1);
+            if (this.orderMap.get(orderProduct.getProduct()).getCount() <= 0) {
+                deleteOrderProduct(orderProduct);
+            }
+        }
+    }
+
+    public void invalidateOrderList() {
+        this.orderProductLive.setValue(new ArrayList<>(this.orderMap.values()));
     }
 }
