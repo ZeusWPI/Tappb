@@ -10,7 +10,7 @@
 
         <variable
             name="handler"
-            type="gent.zeus.tappb.ui.OrderPageFragment" />
+            type="gent.zeus.tappb.ui.OrderPageListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/scan"
-                android:onClick="@{handler::takePicture}"
+                android:onClick="@{() -> handler.takePicture()}"
                 app:srcCompat="@drawable/ic_camera" />
 
             <ImageButton
@@ -46,6 +46,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/order"
+                android:onClick="@{() -> handler.executeOrder()}"
                 app:srcCompat="@drawable/ic_euro_symbol" />
 
         </LinearLayout>

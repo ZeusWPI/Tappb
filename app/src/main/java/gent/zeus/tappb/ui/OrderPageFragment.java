@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,7 +18,7 @@ import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
-public class OrderPageFragment extends Fragment  {
+public class OrderPageFragment extends Fragment implements OrderPageListener {
     private OrderViewModel viewModel;
     private OrderListAdapter adapter;
     private FragmentOrderpageBinding binding;
@@ -47,8 +47,15 @@ public class OrderPageFragment extends Fragment  {
         return binding.getRoot();
     }
 
-    public void takePicture(View ignored) {
+    @Override
+    public void takePicture() {
         NavHostFragment.findNavController(this).navigate(R.id.action_nav_order_to_nav_camera);
+    }
+
+    @Override
+    public void executeOrder() {
+        Toast.makeText(getContext(), "execute order 66", Toast.LENGTH_LONG).show();
+
     }
 
     private void setButtonText(OrderViewModel.ScanningState scanningState) {
