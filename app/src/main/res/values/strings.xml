@@ -41,4 +41,6 @@
     <string name="currently">Currently:</string>
     <string name="not_logged_in">Not logged in</string>
     <string name="none">None</string>
+    <string name="order">Order</string>
+    <string name="scan">Scan</string>
 </resources>

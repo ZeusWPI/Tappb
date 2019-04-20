@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -51,22 +52,22 @@ public class OrderPageFragment extends Fragment  {
     }
 
     private void setButtonText(OrderViewModel.ScanningState scanningState) {
-        Button button = binding.button;
+        ImageButton button = binding.cameraButton;
         switch (scanningState) {
             case SCANNING:
-                button.setText(R.string.scanning);
+//                button.setText(R.string.scanning);
                 button.setEnabled(false);
                 break;
             case ERROR:
-                button.setText(R.string.scanning_error);
+//                button.setText(R.string.scanning_error);
                 button.setEnabled(true);
                 break;
             case NOT_SCANNING:
-                button.setText(R.string.scan_barcode);
+//                button.setText(R.string.scan_barcode);
                 button.setEnabled(true);
                 break;
             case EMPTY:
-                button.setText(R.string.scanning_empty);
+//                button.setText(R.string.scanning_empty);
                 button.setEnabled(true);
                 break;
         }
