@@ -2,23 +2,20 @@ package gent.zeus.tappb;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import gent.zeus.tappb.ui.OkCancelDialogListener;
+
 public class ConfirmTransferDialogFragment extends DialogFragment {
 
-    public interface TransferDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog);
-        void onDialogNegativeClick(DialogFragment dialog);
-    }
 
-    private TransferDialogListener listener;
+    private OkCancelDialogListener listener;
 
-    public ConfirmTransferDialogFragment(TransferDialogListener listener) {
+    public ConfirmTransferDialogFragment(OkCancelDialogListener listener) {
         this.listener = listener;
     }
 

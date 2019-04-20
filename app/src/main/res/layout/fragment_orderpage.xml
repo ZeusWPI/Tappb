@@ -47,7 +47,7 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:contentDescription="@string/order"
                 android:onClick="@{() -> handler.executeOrder()}"
-                app:srcCompat="@drawable/ic_euro_symbol" />
+                app:srcCompat="@drawable/ic_check_black_24dp" />
 
         </LinearLayout>
 

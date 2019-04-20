@@ -1,20 +1,17 @@
 package gent.zeus.tappb.ui;
 
-import android.app.Activity;
 import android.content.Context;
-import android.hardware.input.InputManager;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
 import gent.zeus.tappb.ConfirmTransferDialogFragment;
 import gent.zeus.tappb.MoneyTextWatcher;
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
-import gent.zeus.tappb.entity.Transaction;
 import gent.zeus.tappb.entity.User;
 
 import android.text.Editable;
@@ -30,8 +27,8 @@ import android.widget.Toast;
  * A simple {@link Fragment} subclass.
  */
 public class TransferFragment extends Fragment implements OnBackPressedCallback,
-                                                          View.OnClickListener,
-                                                          ConfirmTransferDialogFragment.TransferDialogListener {
+        View.OnClickListener,
+        OkCancelDialogListener {
 
     private FragmentTransferBinding binding;
 
@@ -95,9 +92,9 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
         Editable amountEditable = binding.amountInput.getText();
         if (nameEditable == null) {
             Toast.makeText(getContext(), "Please fill in a recipient", Toast.LENGTH_LONG).show();
-        } else if(messageEditable == null) {
+        } else if (messageEditable == null) {
             Toast.makeText(getContext(), "Please supply a message", Toast.LENGTH_LONG).show();
-        } else if(amountEditable == null) {
+        } else if (amountEditable == null) {
             Toast.makeText(getContext(), "Please specify an amount", Toast.LENGTH_LONG).show();
         } else {
             try {
@@ -112,7 +109,8 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {}
+    public void onDialogNegativeClick(DialogFragment dialog) {
+    }
 
     private void navigateBack() {
         NavHostFragment.findNavController(this).navigateUp();

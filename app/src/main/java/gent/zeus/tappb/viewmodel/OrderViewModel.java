@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gent.zeus.tappb.entity.Order;
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
 
@@ -102,5 +103,8 @@ public class OrderViewModel extends ViewModel {
 
     public void invalidateOrderList() {
         this.orderProductLive.setValue(new ArrayList<>(this.orderMap.values()));
+    }
+    public void makeOrder() {
+
     }
 }

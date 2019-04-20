@@ -8,17 +8,19 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
+import gent.zeus.tappb.ConfirmOrderFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
-public class OrderPageFragment extends Fragment implements OrderPageListener {
+public class OrderPageFragment extends Fragment implements OrderPageListener, OkCancelDialogListener {
     private OrderViewModel viewModel;
     private OrderListAdapter adapter;
     private FragmentOrderpageBinding binding;
@@ -54,7 +56,8 @@ public class OrderPageFragment extends Fragment implements OrderPageListener {
 
     @Override
     public void executeOrder() {
-        Toast.makeText(getContext(), "execute order 66", Toast.LENGTH_LONG).show();
+        DialogFragment dialog = new ConfirmOrderFragment(this);
+        dialog.show(getFragmentManager(), "ConfirmOrderDialogFragment");
 
     }
 
@@ -78,5 +81,14 @@ public class OrderPageFragment extends Fragment implements OrderPageListener {
                 button.setEnabled(true);
                 break;
         }
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        viewModel.makeOrder();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
     }
 }
