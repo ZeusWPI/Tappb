@@ -17,8 +17,6 @@ public class User {
     private String tapToken;
     private boolean loaded = false;
 
-    private Product favoriteItem;
-
     public void load(String username, String tabToken, String tapToken) {
         this.username = username;
         this.tabToken = tabToken;
@@ -28,7 +26,7 @@ public class User {
 
     //private constructor to avoid client applications to use constructor
     private User() {}
-    
+
     public Product getFavoriteItem() {
         //TODO get from API
         if (favoriteItem == null) {
