@@ -20,6 +20,7 @@ public class StockViewModel extends ViewModel {
 
     private LiveData<List<StockProduct>> stock;
 
+    private boolean isFetched = false;
     public void init() {
         initializeStock();
     }
@@ -33,15 +34,24 @@ public class StockViewModel extends ViewModel {
         return fetchError;
     }
 
+
     public void initializeStock() {
-        stock = new MutableLiveData<>();
-        fetchError = new MutableLiveData<>();
-        List<StockProduct> productList;
+        if(stock == null) {
+            stock = new MutableLiveData<>();
+        }
+        if (fetchError == null) {
+            fetchError = new MutableLiveData<>();
+        }
+        List<StockProduct> productList = null;
 
         try {
-            productList = TapAPI.getStockProducts();
-            fetchError.setValue(false);
+            if (!this.isFetched) {
+                productList = TapAPI.getStockProducts();
+                fetchError.setValue(false);
+                this.isFetched = true;
+            }
         } catch (APIException ex) {
+            this.isFetched = false;
             fetchError.setValue(true);
             productList = new ArrayList<>();
             productList.add(new StockProduct(new Product(0, "Cola", 1.20), 5));
@@ -56,6 +66,8 @@ public class StockViewModel extends ViewModel {
             productList.add(new StockProduct(new Product(9, "Kip", 1.20), 5));
         }
 
-        ((MutableLiveData<List<StockProduct>>) stock).setValue(productList);
+        if (productList != null) {
+            ((MutableLiveData<List<StockProduct>>) stock).setValue(productList);
+        }
     }
 }
