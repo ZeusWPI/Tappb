@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import gent.zeus.tappb.entity.Barcode;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
@@ -34,10 +36,15 @@ public class TapAPI extends API {
         // TODO remove this code, let api callers call this in another thread
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        return new Request.Builder()
-                .url(endpoint + relativeURL)
-                .header("Accept", "application/json")
-                .header("Authorization", "Token " + User.getInstance().getTapToken());
+        try  {
+
+            return new Request.Builder()
+                    .url(endpoint + relativeURL)
+                    .header("Accept", "application/json")
+                    .header("Authorization", "Token " + User.getInstance().getTapToken());
+        } catch (RuntimeException e) {
+            throw new APIException("Not logged in");
+        }
     }
 
     private static String getBody(String relativeURL) {
@@ -155,5 +162,24 @@ public class TapAPI extends API {
             res.add(string.substring(i, Math.min(string.length(), i + size)));
         }
         return res;
+    }
+
+    public static List<Barcode> getBarcodes() {
+        try {
+            List<Barcode> result = new ArrayList<>();
+            JSONArray response = new JSONArray(getBody("/barcodes.json"));
+            for (int i = 0 ; i < response.length(); i++) {
+                JSONObject obj = response.getJSONObject(i);
+                Product p = ProductList.getInstance().getProductById(obj.getInt("product_id")).getProduct();
+                Barcode s = new Barcode(obj.getString("code"), p);
+                result.add(s);
+
+            }
+            return result;
+        }
+        catch (JSONException ex) {
+            Log.d("exep", ex.toString());
+            throw new APIException("Failed to parse JSON of request");
+        }
     }
 }

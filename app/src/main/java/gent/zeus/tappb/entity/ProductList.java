@@ -36,4 +36,13 @@ public class ProductList {
         }
         return null;
     }
+
+    public Product getProductByBarcode(String barcode) {
+        for (Barcode b : BarcodeList.getInstance().getBarcodes()) {
+            if (b.getBarcode().equals(barcode)) {
+                return b.getProduct();
+            }
+        }
+        return null;
+    }
 }
