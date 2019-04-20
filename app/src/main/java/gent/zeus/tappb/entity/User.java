@@ -7,13 +7,15 @@ import androidx.lifecycle.MutableLiveData;
 
 import android.graphics.Bitmap;
 
+import gent.zeus.tappb.api.TapAPI;
+
 public class User {
     private static MutableLiveData<User> liveInstance = new MutableLiveData<>();
+    private TapUser tapUser;
     private String username;
     private String tabToken;
     private String tapToken;
     private boolean loaded = false;
-    private Bitmap profilePicture;
 
     private Product favoriteItem;
 
@@ -26,16 +28,7 @@ public class User {
 
     //private constructor to avoid client applications to use constructor
     private User() {}
-
-    public void setProfilePicture(Bitmap icon) {
-        // TODO send this to the Zeus servers
-        profilePicture = icon;
-    }
-
-    public Bitmap getProfilePicture() {
-        return profilePicture;
-    }
-
+    
     public Product getFavoriteItem() {
         //TODO get from API
         if (favoriteItem == null) {
@@ -78,6 +71,13 @@ public class User {
     public String getTapToken() {
         assertLoaded();
         return tapToken;
+    }
+
+    public TapUser getTapUser() {
+        if (tapUser == null) {
+            this.tapUser = TapAPI.getTapUser(this);
+        }
+        return tapUser;
     }
 
     public boolean isLoaded() {
