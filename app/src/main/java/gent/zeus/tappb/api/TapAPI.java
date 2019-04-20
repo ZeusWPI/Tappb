@@ -37,10 +37,15 @@ public class TapAPI extends API {
         // TODO remove this code, let api callers call this in another thread
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        return new Request.Builder()
-                .url(endpoint + relativeURL)
-                .header("Accept", "application/json")
-                .header("Authorization", "Token " + User.getInstance().getTapToken());
+        try  {
+
+            return new Request.Builder()
+                    .url(endpoint + relativeURL)
+                    .header("Accept", "application/json")
+                    .header("Authorization", "Token " + User.getInstance().getTapToken());
+        } catch (RuntimeException e) {
+            throw new APIException("Not logged in");
+        }
     }
 
     private static String getBody(String relativeURL) {

@@ -102,6 +102,8 @@ public class TransferFragment extends MoneySubmitFragment implements
             } catch (NumberFormatException e) {
                 Log.d("TransferFragment", amountEditable.toString(), e);
                 Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_LONG).show();
+            } catch (RuntimeException e) {
+                Toast.makeText(getContext(), "Not logged in!", Toast.LENGTH_LONG).show();
             }
         }
         navigateBack();
