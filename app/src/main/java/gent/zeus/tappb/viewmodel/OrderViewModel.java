@@ -16,6 +16,7 @@ public class OrderViewModel extends ViewModel {
     private Map<Product, OrderProduct> orderMap = new HashMap<>();
     private MutableLiveData<List<OrderProduct>> orderProductLive = new MutableLiveData<>();
     private MutableLiveData<ScanningState> scanningState = new MutableLiveData<>();
+    private MutableLiveData<OrderState> orderState = new MutableLiveData<>();
 
     public enum ScanningState {
         NOT_SCANNING,
@@ -24,9 +25,19 @@ public class OrderViewModel extends ViewModel {
         EMPTY
     }
 
+    public enum OrderState {
+        ORDER_EMPTY,
+        ORDER_COMPLETED,
+        ORDER_CANCELLED,
+        ORDER_ERROR
+    }
+
     public void init() {
         if (scanningState.getValue() == null) {
             scanningState.setValue(ScanningState.NOT_SCANNING);
+        }
+        if (orderState.getValue() == null) {
+            orderState.setValue(OrderState.ORDER_EMPTY);
         }
         setScanningState(scanningState.getValue());
         invalidateOrderList();
@@ -38,6 +49,10 @@ public class OrderViewModel extends ViewModel {
 
     public LiveData<ScanningState> getScanningState() {
         return scanningState;
+    }
+
+    public LiveData<OrderState> getOrderState() {
+        return orderState;
     }
 
 
@@ -102,5 +117,20 @@ public class OrderViewModel extends ViewModel {
 
     public void invalidateOrderList() {
         this.orderProductLive.setValue(new ArrayList<>(this.orderMap.values()));
+    }
+
+    public void makeOrder() {
+        clearOrder();
+        orderState.setValue(OrderState.ORDER_COMPLETED);
+    }
+
+    public void cancelOrder() {
+        clearOrder();
+        orderState.setValue(OrderState.ORDER_CANCELLED);
+    }
+
+    public void clearOrder() {
+        this.orderMap.clear();
+        invalidateOrderList();
     }
 }
