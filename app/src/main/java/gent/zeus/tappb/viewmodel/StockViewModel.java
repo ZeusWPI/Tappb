@@ -1,5 +1,7 @@
 package gent.zeus.tappb.viewmodel;
 
+import android.util.Log;
+
 import gent.zeus.tappb.api.APIException;
 import gent.zeus.tappb.api.TapAPI;
 import gent.zeus.tappb.entity.Product;
@@ -19,9 +21,8 @@ public class StockViewModel extends ViewModel {
     private LiveData<List<StockProduct>> stock;
 
     public void init() {
-        initializeStock();
+        if (stock == null) initializeStock();
     }
-
 
     public MutableLiveData<Boolean> fetchError;
 
@@ -33,6 +34,7 @@ public class StockViewModel extends ViewModel {
     }
 
     public void initializeStock() {
+        Log.d("init", "help");
         stock = new MutableLiveData<>();
         fetchError = new MutableLiveData<>();
         List<StockProduct> productList;
