@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -44,6 +45,7 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
         binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         viewModel.getOrders().observe(this, adapter::setOrderList);
         viewModel.getScanningState().observe(this, this::setButtonText);
+        viewModel.getOrderState().observe(this, this::handleOrderState);
 
         return binding.getRoot();
     }
@@ -58,6 +60,22 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
         DialogFragment dialog = new OkCancelDialogFragment(this, "Confirm order?");
         dialog.show(getFragmentManager(), "ComfirmOrderDialogFragment");
 
+    }
+
+    @Override
+    public void clearOrder() {
+        DialogFragment dialog = new OkCancelDialogFragment(new OkCancelDialogListener() {
+            @Override
+            public void onDialogPositiveClick(DialogFragment dialog) {
+                viewModel.clearOrder();
+            }
+
+            @Override
+            public void onDialogNegativeClick(DialogFragment dialog) {
+
+            }
+        }, "Are you sure you want to delete all items?");
+        dialog.show(getFragmentManager(), "ConfirmDeleteOrderDialogFragment");
     }
 
     private void setButtonText(OrderViewModel.ScanningState scanningState) {
@@ -78,6 +96,20 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
             case EMPTY:
 //                button.setText(R.string.scanning_empty);
                 button.setEnabled(true);
+                break;
+        }
+    }
+    private void handleOrderState(OrderViewModel.OrderState state) {
+        switch (state) {
+            case ORDER_EMPTY:
+                break;
+            case ORDER_ERROR:
+                break;
+            case ORDER_CANCELLED:
+                Toast.makeText(getContext(), "Order cancelled!", Toast.LENGTH_LONG).show();
+                break;
+            case ORDER_COMPLETED:
+                Toast.makeText(getContext(), "Order Completed! - This is a mock method, the order is not sent to the api", Toast.LENGTH_LONG).show();
                 break;
         }
     }
