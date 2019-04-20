@@ -23,7 +23,6 @@ public class AccountViewModel extends ViewModel {
 
     public void setProfilePicture(Bitmap icon) {
         User currUser = user.getValue();
-        currUser.setProfilePicture(icon);
         user.setValue(currUser);
     }
 }
