@@ -49,7 +49,7 @@ public class AccountFragment extends Fragment {
         viewModel.getUser().observe(this, (user -> {
             if (user.isLoaded()) {
                 binding.setUser(user);
-                @Nullable Bitmap profilePicture = user.getProfilePicture();
+                @Nullable Bitmap profilePicture = user.getTapUser().getProfilePicture();
                 if (profilePicture != null) {
                     binding.profilePicture.setImageBitmap(profilePicture);
                 }

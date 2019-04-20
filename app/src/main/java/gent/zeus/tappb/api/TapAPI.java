@@ -1,5 +1,7 @@
 package gent.zeus.tappb.api;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -8,12 +10,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.StockProduct;
+import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.Transaction;
 import gent.zeus.tappb.entity.User;
 import okhttp3.OkHttpClient;
@@ -81,5 +86,37 @@ public class TapAPI extends API {
             Log.d("exep", ex.toString());
             throw new APIException("Failed to parse JSON of request");
         }
+    }
+
+    public static TapUser getTapUser(User u) {
+        try {
+            JSONObject response = new JSONObject(getBody("/users/" + u.getUsername() + ".json"));
+            String padded = String.format("%09d" , response.getInt("id"));
+            List<String> splitID = splitString(padded, 3);
+
+            String path = String.format(endpoint + "/system/users/avatars/%s/%s/%s/small/%s",
+                    splitID.get(0),
+                    splitID.get(1),
+                    splitID.get(2),
+                    response.getString("avatar_file_name"));
+
+            URL url = new URL(path);
+            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            return new TapUser(response.getInt("id"), image);
+        } catch (JSONException exc) {
+            Log.e("TapAPI", "JSON parse failed", exc);
+            return null;
+        } catch (IOException ex) {
+            Log.e("TapAPI", "IO Exception", ex);
+            return null;
+        }
+    }
+
+    private static List<String> splitString(String string, int size) {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < string.length(); i += size) {
+            res.add(string.substring(i, Math.min(string.length(), i + size)));
+        }
+        return res;
     }
 }

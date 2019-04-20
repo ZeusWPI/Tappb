@@ -1,29 +1,28 @@
 package gent.zeus.tappb.ui;
 
-
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.fragment.app.DialogFragment;
+import gent.zeus.tappb.MoneySubmitFragment;
+import gent.zeus.tappb.MoneyTextWatcher;
 import gent.zeus.tappb.databinding.FragmentTopUpBinding;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-public class TopUpFragment extends Fragment implements OnBackPressedCallback {
+public class TopUpFragment extends MoneySubmitFragment {
 
-    public TopUpFragment() {
-        // Required empty public constructor
-    }
-
+    private FragmentTopUpBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentTopUpBinding binding = FragmentTopUpBinding.inflate(inflater, container, false);
+            binding = FragmentTopUpBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
+        binding.topup.setOnClickListener(this);
+        binding.amountInput.addTextChangedListener(new MoneyTextWatcher(binding.amountInput));
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), this);
 
@@ -31,8 +30,36 @@ public class TopUpFragment extends Fragment implements OnBackPressedCallback {
     }
 
     @Override
-    public boolean handleOnBackPressed() {
-        NavHostFragment.findNavController(this).navigateUp();
-        return true;
+    public void onClick(View v) {
+        super.onClick(v);
+
+        boolean isValid = true;
+        String amount = binding.amountInput.getText().toString();
+        if (amount.isEmpty()) {
+            binding.amountInput.setError("Invalid amount");
+            isValid = false;
+        } else {
+            double parsed = Double.parseDouble(amount);
+            if (parsed <= 0) {
+                binding.amountInput.setError("Invalid amount");
+                isValid = false;
+            }
+        }
+
+        String dialogMessage = "Top up " + amount + "?";
+        if (isValid) {
+            showDialog("Top up money", dialogMessage);
+        }
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        Toast.makeText(getContext(), "CONFIRMED", Toast.LENGTH_SHORT).show();
+        navigateBack();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        Toast.makeText(getContext(), "DECLINED", Toast.LENGTH_SHORT).show();
     }
 }
