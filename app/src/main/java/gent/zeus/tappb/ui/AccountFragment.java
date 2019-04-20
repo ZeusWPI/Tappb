@@ -49,7 +49,7 @@ public class AccountFragment extends Fragment {
         viewModel.getUser().observe(this, (user -> {
             if (user.isLoaded()) {
                 binding.setUser(user);
-                @Nullable Bitmap profilePicture = user.getProfilePicture();
+                @Nullable Bitmap profilePicture = user.getTapUser().getProfilePicture();
                 if (profilePicture != null) {
                     binding.profilePicture.setImageBitmap(profilePicture);
                 }
@@ -126,14 +126,6 @@ public class AccountFragment extends Fragment {
     public boolean setFavoriteItem() {
         NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         navController.navigate(R.id.action_nav_account_to_nav_favorite_item);
-        return true;
-    }
-
-    public boolean topUpBalance() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.top_up_alert)
-                .setPositiveButton(R.string.ok, (dialog, id) -> {});
-        builder.create().show();
         return true;
     }
 }

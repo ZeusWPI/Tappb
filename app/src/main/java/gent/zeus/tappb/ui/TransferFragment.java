@@ -1,14 +1,18 @@
 package gent.zeus.tappb.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import gent.zeus.tappb.MoneySubmitFragment;
 import gent.zeus.tappb.MoneySubmitFragment;
 import gent.zeus.tappb.MoneyTextWatcher;
+import gent.zeus.tappb.OkCancelDialogFragment;
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
-import gent.zeus.tappb.entity.Transaction;
 import gent.zeus.tappb.entity.User;
 
 import android.text.Editable;
@@ -22,7 +26,9 @@ import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TransferFragment extends MoneySubmitFragment {
+public class TransferFragment extends MoneySubmitFragment implements
+        View.OnClickListener,
+        OkCancelDialogListener {
 
     private FragmentTransferBinding binding;
 
@@ -73,7 +79,8 @@ public class TransferFragment extends MoneySubmitFragment {
 
         String dialogMessage = "Send " + amount + " to " + name + "?";
         if (isValid) {
-            showDialog("Transfer money", dialogMessage);
+            DialogFragment dialog = new OkCancelDialogFragment(this, dialogMessage);
+            dialog.show(getFragmentManager(), "ConfirmTransferDialogFragment");
         }
     }
 
@@ -84,9 +91,9 @@ public class TransferFragment extends MoneySubmitFragment {
         Editable amountEditable = binding.amountInput.getText();
         if (nameEditable == null) {
             Toast.makeText(getContext(), "Please fill in a recipient", Toast.LENGTH_LONG).show();
-        } else if(messageEditable == null) {
+        } else if (messageEditable == null) {
             Toast.makeText(getContext(), "Please supply a message", Toast.LENGTH_LONG).show();
-        } else if(amountEditable == null) {
+        } else if (amountEditable == null) {
             Toast.makeText(getContext(), "Please specify an amount", Toast.LENGTH_LONG).show();
         } else {
             try {
@@ -95,6 +102,8 @@ public class TransferFragment extends MoneySubmitFragment {
             } catch (NumberFormatException e) {
                 Log.d("TransferFragment", amountEditable.toString(), e);
                 Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_LONG).show();
+            } catch (RuntimeException e) {
+                Toast.makeText(getContext(), "Not logged in!", Toast.LENGTH_LONG).show();
             }
         }
         navigateBack();

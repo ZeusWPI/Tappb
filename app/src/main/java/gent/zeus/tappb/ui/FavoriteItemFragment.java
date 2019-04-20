@@ -74,7 +74,6 @@ public class FavoriteItemFragment extends Fragment implements StockAdapter.Stock
 
     @Override
     public void onClick(StockProduct p) {
-        User.getInstance().setFavoriteItem(p.getProduct());
         Toast.makeText(getContext(), p.getName(), Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigateUp();
     }
