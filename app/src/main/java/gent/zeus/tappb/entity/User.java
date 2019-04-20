@@ -39,7 +39,7 @@ public class User {
     public Product getFavoriteItem() {
         //TODO get from API
         if (favoriteItem == null) {
-            favoriteItem = new Product(7730, "Drenk", 1.33);
+            favoriteItem = new Product(7730, "Drenk", 1.33, null);
         }
         return favoriteItem;
     }

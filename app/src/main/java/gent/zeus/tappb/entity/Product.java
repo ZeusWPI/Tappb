@@ -1,5 +1,7 @@
 package gent.zeus.tappb.entity;
 
+import android.graphics.Bitmap;
+
 public class Product {
 
     private int id;
@@ -7,15 +9,19 @@ public class Product {
     private String name;
     private double price;
 
-    public Product(int id, String name, double price) {
+    private String pictureName;
+    private Bitmap image;
+
+    public Product(int id, String name, double price, String pictureName) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.pictureName = pictureName;
     }
 
     public static Product fromBarcode(String barcode) {
         //TODO: preform API request to get actual data
-        return new Product(0, barcode, 13.37);
+        return new Product(0, barcode, 13.37, null);
     }
 
     public int getId() {
@@ -42,5 +48,17 @@ public class Product {
     @Override
     public final int hashCode() {
         return (name + id).hashCode();
+    }
+
+    public String getPictureName() {
+        return pictureName;
+    }
+
+    public void setImage(Bitmap bitmap) {
+        this.image = bitmap;
+    }
+
+    public Bitmap getImage() {
+        return image;
     }
 }
