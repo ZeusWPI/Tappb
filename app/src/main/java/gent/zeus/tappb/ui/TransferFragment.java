@@ -8,8 +8,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import gent.zeus.tappb.ConfirmTransferDialogFragment;
 import gent.zeus.tappb.MoneyTextWatcher;
+import gent.zeus.tappb.OkCancelDialogFragment;
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
 import gent.zeus.tappb.entity.User;
@@ -80,7 +80,7 @@ public class TransferFragment extends Fragment implements OnBackPressedCallback,
         }
 
         if (isValid) {
-            DialogFragment dialog = new ConfirmTransferDialogFragment(this);
+            DialogFragment dialog = new OkCancelDialogFragment(this, "Confirm Transfer?");
             dialog.show(getFragmentManager(), "ConfirmTransferDialogFragment");
         }
     }

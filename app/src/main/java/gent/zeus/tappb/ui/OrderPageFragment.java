@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -14,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
-import gent.zeus.tappb.ConfirmOrderFragment;
+import gent.zeus.tappb.OkCancelDialogFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
@@ -56,8 +55,8 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
 
     @Override
     public void executeOrder() {
-        DialogFragment dialog = new ConfirmOrderFragment(this);
-        dialog.show(getFragmentManager(), "ConfirmOrderDialogFragment");
+        DialogFragment dialog = new OkCancelDialogFragment(this, "Confirm order?");
+        dialog.show(getFragmentManager(), "ComfirmOrderDialogFragment");
 
     }
 
