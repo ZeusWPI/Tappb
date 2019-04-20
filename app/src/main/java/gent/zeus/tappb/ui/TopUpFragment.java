@@ -21,8 +21,8 @@ public class TopUpFragment extends MoneySubmitFragment {
                              Bundle savedInstanceState) {
             binding = FragmentTopUpBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-        binding.topup.setOnClickListener(this);
-        binding.amountInput.addTextChangedListener(new MoneyTextWatcher(binding.amountInput));
+//        binding.topup.setOnClickListener(this);
+//        binding.amountInput.addTextChangedListener(new MoneyTextWatcher(binding.amountInput));
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), this);
 
@@ -31,25 +31,25 @@ public class TopUpFragment extends MoneySubmitFragment {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
-
-        boolean isValid = true;
-        String amount = binding.amountInput.getText().toString();
-        if (amount.isEmpty()) {
-            binding.amountInput.setError("Invalid amount");
-            isValid = false;
-        } else {
-            double parsed = Double.parseDouble(amount);
-            if (parsed <= 0) {
-                binding.amountInput.setError("Invalid amount");
-                isValid = false;
-            }
-        }
-
-        String dialogMessage = "Top up " + amount + "?";
-        if (isValid) {
-            showDialog("Top up money", dialogMessage);
-        }
+//        super.onClick(v);
+//
+//        boolean isValid = true;
+//        String amount = binding.amountInput.getText().toString();
+//        if (amount.isEmpty()) {
+//            binding.amountInput.setError("Invalid amount");
+//            isValid = false;
+//        } else {
+//            double parsed = Double.parseDouble(amount);
+//            if (parsed <= 0) {
+//                binding.amountInput.setError("Invalid amount");
+//                isValid = false;
+//            }
+//        }
+//
+//        String dialogMessage = "Top up " + amount + "?";
+//        if (isValid) {
+//            showDialog("Top up money", dialogMessage);
+//        }
     }
 
     @Override
