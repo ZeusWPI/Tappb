@@ -76,6 +76,7 @@ public class TabAPI extends API {
                 int amount = obj.getInt("amount");
                 OffsetDateTime d = OffsetDateTime.parse(timestring);
                 Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount * 100.0);
+                result.add(t);
             }
             return result;
         }
