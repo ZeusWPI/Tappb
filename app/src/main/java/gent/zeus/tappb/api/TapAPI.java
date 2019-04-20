@@ -134,8 +134,8 @@ public class TapAPI extends API {
             JSONArray response = new JSONArray(getBody("/barcodes.json"));
             for (int i = 0 ; i < response.length(); i++) {
                 JSONObject obj = response.getJSONObject(i);
-                Product p = ProductList.getInstance().getProductById(obj.getInt("product_id"))
-                Barcode s = new Barcode(p, obj.getString("code"));
+                Product p = ProductList.getInstance().getProductById(obj.getInt("product_id")).getProduct();
+                Barcode s = new Barcode(obj.getString("code"), p);
                 result.add(s);
 
             }
