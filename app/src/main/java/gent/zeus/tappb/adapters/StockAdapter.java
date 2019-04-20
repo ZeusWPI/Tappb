@@ -105,6 +105,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
 
         public void bind(StockProduct item) {
             itemBinding.setProduct(item);
+            itemBinding.image.setImageBitmap(item.getProduct().getImage());
         }
     }
 }

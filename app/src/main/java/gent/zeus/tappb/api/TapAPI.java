@@ -73,8 +73,11 @@ public class TapAPI extends API {
                 String name = obj.getString("name");
                 int stock = obj.getInt("stock");
                 double price = obj.getInt("price_cents") / 100.0;
+                Product p = new Product(productID, name, price);
+
                 String pictureName = obj.getString("avatar_file_name");
-                Product p = new Product(productID, name, price, pictureName);
+                loadPictureForProduct(p, pictureName);
+
                 StockProduct s = new StockProduct(p, stock);
                 result.add(s);
 
@@ -87,16 +90,16 @@ public class TapAPI extends API {
         }
     }
 
-    public static void loadPictureForProduct(Product p) {
-            String unpaddedID = Integer.toString(p.getId());
-            String paddedID = "000000000".substring(unpaddedID.length()) + unpaddedID;
-            List<String> splitID = splitString(paddedID, 3);
+    public static void loadPictureForProduct(Product p, String pictureName) {
+        String unpaddedID = Integer.toString(p.getId());
+        String paddedID = "000000000".substring(unpaddedID.length()) + unpaddedID;
+        List<String> splitID = splitString(paddedID, 3);
 
-            String relativeURL = String.format("/system/products/avatars/%s/%s/%s/small/%s",
-                    splitID.get(0),
-                    splitID.get(1),
-                    splitID.get(2),
-                    p.getPictureName());
+        String relativeURL = String.format("/system/products/avatars/%s/%s/%s/small/%s",
+                splitID.get(0),
+                splitID.get(1),
+                splitID.get(2),
+                pictureName);
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(endpoint + relativeURL).build();
