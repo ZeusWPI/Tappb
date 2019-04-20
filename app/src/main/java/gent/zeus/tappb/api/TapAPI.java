@@ -17,6 +17,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import gent.zeus.tappb.entity.Barcode;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
@@ -125,5 +126,24 @@ public class TapAPI extends API {
             res.add(string.substring(i, Math.min(string.length(), i + size)));
         }
         return res;
+    }
+
+    public static List<Barcode> getBarcodes() {
+        try {
+            List<Barcode> result = new ArrayList<>();
+            JSONArray response = new JSONArray(getBody("/barcodes.json"));
+            for (int i = 0 ; i < response.length(); i++) {
+                JSONObject obj = response.getJSONObject(i);
+                Product p = ProductList.getInstance().getProductById(obj.getInt("product_id"))
+                Barcode s = new Barcode(p, obj.getString("code"));
+                result.add(s);
+
+            }
+            return result;
+        }
+        catch (JSONException ex) {
+            Log.d("exep", ex.toString());
+            throw new APIException("Failed to parse JSON of request");
+        }
     }
 }
