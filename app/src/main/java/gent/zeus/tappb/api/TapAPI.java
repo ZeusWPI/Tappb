@@ -82,11 +82,9 @@ public class TapAPI extends API {
                 String name = obj.getString("name");
                 int stock = obj.getInt("stock");
                 double price = obj.getInt("price_cents") / 100.0;
-                Product p = new Product(productID, name, price);
-
                 String pictureName = obj.getString("avatar_file_name");
-                loadPictureForProduct(p, pictureName);
-
+                String pictureURL = getImageURL(productID, pictureName);
+                Product p = new Product(productID, name, price, pictureURL);
                 StockProduct s = new StockProduct(p, stock);
                 result.add(s);
 
@@ -99,32 +97,15 @@ public class TapAPI extends API {
         }
     }
 
-    public static void loadPictureForProduct(Product p, String pictureName) {
-        String paddedID = String.format("%09d" , p.getId());
+    public static String getImageURL(int pictureID, String pictureName) {
+        String paddedID = String.format("%09d" , pictureID);
         List<String> splitID = splitString(paddedID, 3);
 
-        String relativeURL = String.format("/system/products/avatars/%s/%s/%s/small/%s",
+        return String.format(endpoint + "/system/products/avatars/%s/%s/%s/small/%s",
                 splitID.get(0),
                 splitID.get(1),
                 splitID.get(2),
                 pictureName);
-
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(endpoint + relativeURL).build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                throw new APIException("Failed to get inputstream of request: " + relativeURL);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                InputStream inputStream = response.body().byteStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                p.setImage(bitmap);
-            }
-        });
     }
 
     public static TapUser getTapUser(User u) {
