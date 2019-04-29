@@ -1,11 +1,7 @@
 package gent.zeus.tappb.entity;
 
-import android.graphics.Bitmap;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import android.graphics.Bitmap;
 
 import gent.zeus.tappb.api.TapAPI;
 

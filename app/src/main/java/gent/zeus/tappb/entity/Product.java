@@ -1,7 +1,5 @@
 package gent.zeus.tappb.entity;
 
-import android.graphics.Bitmap;
-
 public class Product {
 
     private int id;

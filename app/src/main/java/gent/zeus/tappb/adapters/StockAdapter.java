@@ -1,13 +1,10 @@
 package gent.zeus.tappb.adapters;
 
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import gent.zeus.tappb.api.TapAPI;
-import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.databinding.StockItemBinding;
 
 import java.text.DecimalFormat;
