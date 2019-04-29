@@ -1,13 +1,10 @@
 package gent.zeus.tappb.adapters;
 
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import gent.zeus.tappb.api.TapAPI;
-import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.databinding.StockItemBinding;
 
 import java.text.DecimalFormat;
@@ -53,8 +50,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
     }
 
     public void setProducts(List<StockProduct> products) {
-        this.products = products;
-        productsFull = new ArrayList<>(products);
+        this.products = new ArrayList<>(products);
+        this.productsFull = new ArrayList<>(products);
         notifyDataSetChanged();
     }
 
