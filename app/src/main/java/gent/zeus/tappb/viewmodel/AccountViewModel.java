@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import gent.zeus.tappb.entity.Transaction;
 import gent.zeus.tappb.entity.User;
 
 public class AccountViewModel extends ViewModel {

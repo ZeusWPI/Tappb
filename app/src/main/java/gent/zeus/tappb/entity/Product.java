@@ -1,7 +1,5 @@
 package gent.zeus.tappb.entity;
 
-import android.graphics.Bitmap;
-
 public class Product {
 
     private int id;
@@ -9,12 +7,21 @@ public class Product {
     private String name;
     private double price;
 
-    private Bitmap image;
+    private String imageURL;
+
+    public Product(int id, String name, double price, String imageURL) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.imageURL = imageURL;
+    }
 
     public Product(int id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
+        // MATE
+        this.imageURL = "https://tap.zeus.gent/system/products/avatars/000/000/007/small/bottle-start.png";
     }
 
     public int getId() {
@@ -43,11 +50,7 @@ public class Product {
         return (name + id).hashCode();
     }
 
-    public void setImage(Bitmap bitmap) {
-        this.image = bitmap;
-    }
-
-    public Bitmap getImage() {
-        return image;
+    public String getImageURL() {
+        return imageURL;
     }
 }

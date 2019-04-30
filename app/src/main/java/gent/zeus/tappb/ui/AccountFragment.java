@@ -21,6 +21,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.squareup.picasso.Picasso;
+
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentAccountBinding;
 import gent.zeus.tappb.viewmodel.AccountViewModel;
@@ -49,10 +52,7 @@ public class AccountFragment extends Fragment {
         viewModel.getUser().observe(this, (user -> {
             if (user.isLoaded()) {
                 binding.setUser(user);
-                @Nullable Bitmap profilePicture = user.getTapUser().getProfilePicture();
-                if (profilePicture != null) {
-                    binding.profilePicture.setImageBitmap(profilePicture);
-                }
+                Picasso.get().load(user.getTapUser().getProfilePictureURL()).into(binding.profilePicture);
             }
         }));
 

@@ -1,7 +1,5 @@
 package gent.zeus.tappb.api;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -10,8 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +17,6 @@ import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -82,11 +76,9 @@ public class TapAPI extends API {
                 String name = obj.getString("name");
                 int stock = obj.getInt("stock");
                 double price = obj.getInt("price_cents") / 100.0;
-                Product p = new Product(productID, name, price);
-
                 String pictureName = obj.getString("avatar_file_name");
-                loadPictureForProduct(p, pictureName);
-
+                String pictureURL = getImageURL(productID, pictureName);
+                Product p = new Product(productID, name, price, pictureURL);
                 StockProduct s = new StockProduct(p, stock);
                 result.add(s);
 
@@ -99,32 +91,15 @@ public class TapAPI extends API {
         }
     }
 
-    public static void loadPictureForProduct(Product p, String pictureName) {
-        String paddedID = String.format("%09d" , p.getId());
+    private static String getImageURL(int pictureID, String pictureName) {
+        String paddedID = String.format("%09d" , pictureID);
         List<String> splitID = splitString(paddedID, 3);
 
-        String relativeURL = String.format("/system/products/avatars/%s/%s/%s/small/%s",
+        return String.format(endpoint + "/system/products/avatars/%s/%s/%s/small/%s",
                 splitID.get(0),
                 splitID.get(1),
                 splitID.get(2),
                 pictureName);
-
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(endpoint + relativeURL).build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                throw new APIException("Failed to get inputstream of request: " + relativeURL);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                InputStream inputStream = response.body().byteStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                p.setImage(bitmap);
-            }
-        });
     }
 
     public static TapUser getTapUser(User u) {
@@ -139,19 +114,14 @@ public class TapAPI extends API {
                     splitID.get(2),
                     response.getString("avatar_file_name"));
 
-            URL url = new URL(path);
-            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             String favoriteItemId = response.getString("dagschotel_id");
             Product favoriteItem = null;
             if (!favoriteItemId.equals("null")) {
                 favoriteItem = ProductList.getInstance().getProductById(Integer.parseInt(favoriteItemId)).getProduct();
             }
-            return new TapUser(response.getInt("id"), image, favoriteItem);
+            return new TapUser(response.getInt("id"), path, favoriteItem);
         } catch (JSONException exc) {
             Log.e("TapAPI", "JSON parse failed", exc);
-            return null;
-        } catch (IOException ex) {
-            Log.e("TapAPI", "IO Exception", ex);
             return null;
         }
     }

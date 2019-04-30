@@ -1,15 +1,13 @@
 package gent.zeus.tappb.entity;
 
-import android.graphics.Bitmap;
-
 public class TapUser {
     private int id;
-    private Bitmap profilePicture;
+    private String profilePictureURL;
     private Product favoriteItem;
 
-    public TapUser(int id, Bitmap profilePicture, Product favoriteItem) {
+    public TapUser(int id, String profilePictureURL, Product favoriteItem) {
         this.id = id;
-        this.profilePicture = profilePicture;
+        this.profilePictureURL = profilePictureURL;
         this.favoriteItem = favoriteItem;
     }
 
@@ -17,8 +15,8 @@ public class TapUser {
         return id;
     }
 
-    public Bitmap getProfilePicture() {
-        return profilePicture;
+    public String getProfilePictureURL() {
+        return profilePictureURL;
     }
 
     public Product getFavoriteItem() {

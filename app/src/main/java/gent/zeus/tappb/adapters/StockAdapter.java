@@ -1,13 +1,10 @@
 package gent.zeus.tappb.adapters;
 
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import gent.zeus.tappb.api.TapAPI;
-import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.databinding.StockItemBinding;
 
 import java.text.DecimalFormat;
@@ -16,6 +13,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
+
 import gent.zeus.tappb.entity.StockProduct;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> implements Filterable {
@@ -105,7 +105,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
 
         public void bind(StockProduct item) {
             itemBinding.setProduct(item);
-            itemBinding.image.setImageBitmap(item.getProduct().getImage());
+            Picasso.get().load(item.getProduct().getImageURL()).into(itemBinding.image);
         }
     }
 }
