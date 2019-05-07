@@ -2,6 +2,8 @@ package gent.zeus.tappb.ui;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -60,6 +62,9 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
             builder.setMessage(R.string.confirm_logout)
                     .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
                         User.logout();
+                        SharedPreferences.Editor editor = getContext().getSharedPreferences("tokens", Context.MODE_PRIVATE).edit();
+                        editor.clear();
+                        editor.apply();
                         Toast.makeText(getContext(), "Logged out", Toast.LENGTH_LONG).show();
                     })
                     .setNegativeButton(getResources().getText(R.string.cancel), (dialog, which) -> {});
