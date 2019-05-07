@@ -17,6 +17,8 @@ import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -67,28 +69,39 @@ public class TapAPI extends API {
     }
 
     public static List<StockProduct> getStockProducts() {
-        try {
-            List<StockProduct> result = new ArrayList<>();
-            JSONArray response = new JSONArray(getBody("/products.json"));
-            for (int i = 0 ; i < response.length(); i++) {
-                JSONObject obj = response.getJSONObject(i);
-                int productID = obj.getInt("id");
-                String name = obj.getString("name");
-                int stock = obj.getInt("stock");
-                double price = obj.getInt("price_cents") / 100.0;
-                String pictureName = obj.getString("avatar_file_name");
-                String pictureURL = getImageURL(productID, pictureName);
-                Product p = new Product(productID, name, price, pictureURL);
-                StockProduct s = new StockProduct(p, stock);
-                result.add(s);
+        OkHttpClient client = new OkHttpClient();
+        Request request = buildRequest("/products.json").build();
 
+        List<StockProduct> result = new ArrayList<>();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                throw new APIException("Failed to StockProducts");
             }
-            return result;
-        }
-        catch (JSONException ex) {
-            Log.d("exep", ex.toString());
-            throw new APIException("Failed to parse JSON of request");
-        }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONArray jsonArray = new JSONArray(getBody("/products.json"));
+                    for (int i = 0 ; i < jsonArray.length(); i++) {
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        int productID = obj.getInt("id");
+                        String name = obj.getString("name");
+                        int stock = obj.getInt("stock");
+                        double price = obj.getInt("price_cents") / 100.0;
+                        String pictureName = obj.getString("avatar_file_name");
+                        String pictureURL = getImageURL(productID, pictureName);
+                        Product p = new Product(productID, name, price, pictureURL);
+                        StockProduct s = new StockProduct(p, stock);
+                        result.add(s);
+                    }
+                } catch (JSONException e) {
+                    throw new APIException("Failed to parse JSON of request");
+                }
+            }
+        });
+
+        return result;
     }
 
     private static String getImageURL(int pictureID, String pictureName) {
