@@ -21,8 +21,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".main.MainMenu" />
         <activity android:name=".ui.MainActivity"
                   android:windowSoftInputMode="adjustPan">
             <intent-filter>
