@@ -53,8 +53,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
     }
 
     public void setProducts(List<StockProduct> products) {
-        this.products = products;
-        productsFull = new ArrayList<>(products);
+        this.products = new ArrayList<>(products);
+        this.productsFull = new ArrayList<>(products);
         notifyDataSetChanged();
     }
 

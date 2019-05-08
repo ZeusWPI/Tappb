@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,6 +61,7 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
                 Toast.makeText(getContext(), "API fetch failed, showing sample data", Toast.LENGTH_LONG).show();
             }
         });
+
         binding.setLifecycleOwner(this);
         setHasOptionsMenu(true);
 
