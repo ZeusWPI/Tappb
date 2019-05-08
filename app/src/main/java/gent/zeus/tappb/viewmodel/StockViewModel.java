@@ -34,24 +34,21 @@ public class StockViewModel extends ViewModel {
 
 
     public void initializeStock() {
-        if(stock == null) {
-            stock = new MutableLiveData<>();
-        }
         if (fetchError == null) {
             fetchError = new MutableLiveData<>();
         }
-        List<StockProduct> productList = null;
+
 
         try {
             if (!this.isFetched) {
-                productList = TapAPI.getStockProducts();
+                stock = TapAPI.getStockProducts();
                 fetchError.setValue(false);
                 this.isFetched = true;
             }
         } catch (APIException ex) {
             this.isFetched = false;
             fetchError.setValue(true);
-            productList = new ArrayList<>();
+            List<StockProduct> productList = new ArrayList<>();
             productList.add(new StockProduct(new Product(0, "Cola", 1.20), 5));
             productList.add(new StockProduct(new Product(1, "Ice-Tea", 1.20), 5));
             productList.add(new StockProduct(new Product(2, "Bier", 1.20), 5));
@@ -62,9 +59,7 @@ public class StockViewModel extends ViewModel {
             productList.add(new StockProduct(new Product(7, "Foo", 1.20), 5));
             productList.add(new StockProduct(new Product(8, "Bar", 1.20), 5));
             productList.add(new StockProduct(new Product(9, "Kip", 1.20), 5));
-        }
-
-        if (productList != null) {
+            stock = new MutableLiveData<>();
             ((MutableLiveData<List<StockProduct>>) stock).setValue(productList);
         }
     }

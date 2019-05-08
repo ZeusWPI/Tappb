@@ -25,7 +25,7 @@ public class ProductList {
     }
 
     public void updateProducts() {
-        products = TapAPI.getStockProducts();
+        products = TapAPI.getStockProducts().getValue();
     }
 
     public StockProduct getProductById(int id) {

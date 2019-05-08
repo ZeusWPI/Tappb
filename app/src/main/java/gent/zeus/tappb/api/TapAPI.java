@@ -3,6 +3,9 @@ package gent.zeus.tappb.api;
 import android.os.StrictMode;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +24,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class TapAPI extends API {
@@ -29,7 +31,6 @@ public class TapAPI extends API {
     private final static String endpoint = "https://tap.zeus.gent";
 
     private static Request.Builder buildRequest(String relativeURL) {
-        // TODO remove this code, let api callers call this in another thread
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         try  {
@@ -54,35 +55,24 @@ public class TapAPI extends API {
         }
     }
 
-    private static String postBody(String relativeURL, String jsondata) {
-        OkHttpClient client = new OkHttpClient();
-        RequestBody body = RequestBody.create(JSON, jsondata);
-        Request request = buildRequest(relativeURL)
-                .post(body)
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-            return response.body().string();
-        } catch (IOException ex) {
-            throw new APIException("Failed to get body of request: " + relativeURL);
-        }
-    }
-
-    public static List<StockProduct> getStockProducts() {
+    public static LiveData<List<StockProduct>> getStockProducts() {
         OkHttpClient client = new OkHttpClient();
         Request request = buildRequest("/products.json").build();
 
-        List<StockProduct> result = new ArrayList<>();
+        final MutableLiveData<List<StockProduct>> stockProducts = new MutableLiveData<>();
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                throw new APIException("Failed to StockProducts");
+                throw new APIException("Failed to fetch StockProducts");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                List<StockProduct> result = new ArrayList<>();
+
                 try {
-                    JSONArray jsonArray = new JSONArray(getBody("/products.json"));
+                    JSONArray jsonArray = new JSONArray(response.body().string());
                     for (int i = 0 ; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         int productID = obj.getInt("id");
@@ -95,24 +85,14 @@ public class TapAPI extends API {
                         StockProduct s = new StockProduct(p, stock);
                         result.add(s);
                     }
+                    stockProducts.postValue(result);
                 } catch (JSONException e) {
                     throw new APIException("Failed to parse JSON of request");
                 }
             }
         });
 
-        return result;
-    }
-
-    private static String getImageURL(int pictureID, String pictureName) {
-        String paddedID = String.format("%09d" , pictureID);
-        List<String> splitID = splitString(paddedID, 3);
-
-        return String.format(endpoint + "/system/products/avatars/%s/%s/%s/small/%s",
-                splitID.get(0),
-                splitID.get(1),
-                splitID.get(2),
-                pictureName);
+        return stockProducts;
     }
 
     public static TapUser getTapUser(User u) {
@@ -137,14 +117,38 @@ public class TapAPI extends API {
             Log.e("TapAPI", "JSON parse failed", exc);
             return null;
         }
-    }
 
-    private static List<String> splitString(String string, int size) {
-        List<String> res = new ArrayList<>();
-        for (int i = 0; i < string.length(); i += size) {
-            res.add(string.substring(i, Math.min(string.length(), i + size)));
-        }
-        return res;
+//        OkHttpClient client = new OkHttpClient();
+//        Request request = buildRequest("/users/" + u.getUsername() + ".json").build();
+//
+//        final MutableLiveData<TapUser> user = new MutableLiveData<>();
+//
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                throw new APIException("Failed to fetch User");
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                try {
+//                    JSONObject jsonObject = new JSONObject(response.body().string());
+//                    int id = jsonObject.getInt("id");
+//                    String imageURL = getImageURL(id, jsonObject.getString("avatar_file_name"));
+//                    String favoriteItemId = jsonObject.getString("dagschotel_id");
+//
+//                    Product favoriteItem = null;
+//                    if (!favoriteItemId.equals("null")) {
+//                        favoriteItem = ProductList.getInstance().getProductById(Integer.parseInt(favoriteItemId)).getProduct();
+//                    }
+//                    user.setValue(new TapUser(id, imageURL, favoriteItem));
+//                } catch (JSONException e) {
+//                    throw new APIException("Failed to parse JSON of request");
+//                }
+//            }
+//        });
+//
+//        return user;
     }
 
     public static List<Barcode> getBarcodes() {
@@ -164,5 +168,24 @@ public class TapAPI extends API {
             Log.d("exep", ex.toString());
             throw new APIException("Failed to parse JSON of request");
         }
+    }
+
+    private static String getImageURL(int id, String imageName) {
+        String paddedID = String.format("%09d" , id);
+        List<String> splitID = splitString(paddedID, 3);
+
+        return String.format(endpoint + "/system/products/avatars/%s/%s/%s/small/%s",
+                splitID.get(0),
+                splitID.get(1),
+                splitID.get(2),
+                imageName);
+    }
+
+    private static List<String> splitString(String string, int size) {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < string.length(); i += size) {
+            res.add(string.substring(i, Math.min(string.length(), i + size)));
+        }
+        return res;
     }
 }
