@@ -3,6 +3,9 @@ package gent.zeus.tappb.api;
 import android.os.StrictMode;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,8 +15,11 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.entity.Transaction;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -27,7 +33,6 @@ public class TabAPI extends API {
     private final static String endpoint = "https://tab.zeus.gent";
 
     private static Request.Builder buildRequest(String relativeURL) {
-        // TODO remove this code, let api callers call this in another thread
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         return new Request.Builder()
@@ -61,29 +66,45 @@ public class TabAPI extends API {
         }
     }
 
-    public static List<Transaction> getTransactions() {
-        try {
-            List<Transaction> result = new ArrayList<>();
-            JSONArray response = new JSONArray(getBody("/users/" + User.getInstance().getUsername() + "/transactions"));
-            for (int i = 0 ; i < response.length(); i++) {
-                JSONObject obj = response.getJSONObject(i);
-                int transactionID = obj.getInt("id");
-                String debtor = obj.getString("debtor");
-                String creditor = obj.getString("creditor");
-                String message = obj.getString("message");
-                String issuer = obj.getString("issuer");
-                String timestring = obj.getString("time");
-                int amount = obj.getInt("amount");
-                OffsetDateTime d = OffsetDateTime.parse(timestring);
-                Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount * 100.0);
-                result.add(t);
+    public static LiveData<List<Transaction>> getTransactions() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = buildRequest("/users/" + User.getInstance().getUsername() + "/transactions").build();
+
+        final MutableLiveData<List<Transaction>> transactions = new MutableLiveData<>();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                throw new APIException("Failed to fetch transactions");
             }
-            return result;
-        }
-        catch (JSONException ex) {
-            Log.d("exep", ex.toString());
-            throw new APIException("Failed to parse JSON of request");
-        }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                List<Transaction> result = new ArrayList<>();
+
+                try {
+                    JSONArray jsonArray = new JSONArray(response.body().string());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        int transactionID = obj.getInt("id");
+                        String debtor = obj.getString("debtor");
+                        String creditor = obj.getString("creditor");
+                        String message = obj.getString("message");
+                        String issuer = obj.getString("issuer");
+                        String timestring = obj.getString("time");
+                        int amount = obj.getInt("amount");
+                        OffsetDateTime d = OffsetDateTime.parse(timestring);
+                        Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount * 100.0);
+                        result.add(t);
+                    }
+                    transactions.postValue(result);
+                } catch (JSONException ex) {
+                    throw new APIException("Failed to parse JSON of request");
+                }
+            }
+        });
+
+        return transactions;
     }
 
     public static int getBalanceInCents() {
