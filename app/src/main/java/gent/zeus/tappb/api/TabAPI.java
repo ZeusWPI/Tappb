@@ -1,7 +1,6 @@
 package gent.zeus.tappb.api;
 
 import android.os.StrictMode;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,7 +14,6 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.entity.Transaction;
 import okhttp3.Call;
@@ -26,9 +24,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class TabAPI extends API {
-    public TabAPI() {
-        Log.d("TAB", "hi");
-    }
+
+    private static final OkHttpClient client = new OkHttpClient();
 
     private final static String endpoint = "https://tab.zeus.gent";
 
@@ -41,33 +38,7 @@ public class TabAPI extends API {
                 .header("Authorization", "Token " + User.getInstance().getTabToken());
     }
 
-    private static String getBody(String relativeURL) {
-        OkHttpClient client = new OkHttpClient();
-        Request request = buildRequest(relativeURL).build();
-        try {
-            Response response = client.newCall(request).execute();
-            return response.body().string();
-        } catch (IOException ex) {
-            throw new APIException("Failed to get body of request: " + relativeURL);
-        }
-    }
-
-    private static String postBody(String relativeURL, String jsondata) {
-        OkHttpClient client = new OkHttpClient();
-        RequestBody body = RequestBody.create(JSON, jsondata);
-        Request request = buildRequest(relativeURL)
-                .post(body)
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-            return response.body().string();
-        } catch (IOException ex) {
-            throw new APIException("Failed to get body of request: " + relativeURL);
-        }
-    }
-
     public static LiveData<List<Transaction>> getTransactions() {
-        OkHttpClient client = new OkHttpClient();
         Request request = buildRequest("/users/" + User.getInstance().getUsername() + "/transactions").build();
 
         final MutableLiveData<List<Transaction>> transactions = new MutableLiveData<>();
@@ -90,7 +61,7 @@ public class TabAPI extends API {
                         String debtor = obj.getString("debtor");
                         String creditor = obj.getString("creditor");
                         String message = obj.getString("message");
-                        String issuer = obj.getString("issuer");
+//                        String issuer = obj.getString("issuer");
                         String timestring = obj.getString("time");
                         int amount = obj.getInt("amount");
                         OffsetDateTime d = OffsetDateTime.parse(timestring);
@@ -107,23 +78,43 @@ public class TabAPI extends API {
         return transactions;
     }
 
-    public static int getBalanceInCents() {
-        try {
-            if (!User.getInstance().isLoaded()) {
-                return 0;
+    public static LiveData<Integer> getBalanceInCents() {
+        Request request = buildRequest("/users/" + User.getInstance().getUsername()).build();
+
+        final MutableLiveData<Integer> balance = new MutableLiveData<>();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                throw new APIException("Failed to fetch balance");
             }
-            JSONObject response = new JSONObject(getBody("/users/" + User.getInstance().getUsername()));
-            return response.getInt("balance");
-        }
-        catch (JSONException ex) {
-            Log.d("exep", ex.toString());
-            throw new APIException("Failed to parse JSON of request");
-        }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    if (! User.getInstance().isLoaded()) {
+                        balance.postValue(0);
+                    } else {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        balance.postValue(jsonObject.getInt("balance"));
+                    }
+                }
+                catch (JSONException ex) {
+                    throw new APIException("Failed to parse JSON of request");
+                }
+
+            }
+        });
+
+        return balance;
     }
 
-    public static boolean createTransaction(String debtor, String creditor, int cents, String message) {
+    public static LiveData<Boolean> createTransaction(String debtor, String creditor, int cents, String message) {
+        final MutableLiveData<Boolean> isSucceeded = new MutableLiveData<>();
+
         JSONObject data = new JSONObject();
         JSONObject transaction = new JSONObject();
+
         try {
             transaction.put("debtor", debtor);
             transaction.put("creditor", creditor);
@@ -134,9 +125,24 @@ public class TabAPI extends API {
             throw new APIException("Failed to create JSON");
         }
 
-        String response = postBody("/transactions", data.toString());
-        Log.d("TabAPI","Got response" + response);
-        // TODO check if transaction succeeded
-        return true;
+        RequestBody body = RequestBody.create(JSON, data.toString());
+        Request request = buildRequest("/transactions")
+                .post(body)
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                isSucceeded.postValue(response.isSuccessful());
+            }
+        });
+
+        return isSucceeded;
     }
 }
