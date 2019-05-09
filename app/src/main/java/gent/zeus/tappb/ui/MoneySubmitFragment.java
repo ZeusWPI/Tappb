@@ -1,4 +1,4 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
 
+import gent.zeus.tappb.handlers.BasicDialogListener;
+
 public abstract class MoneySubmitFragment extends Fragment implements OnBackPressedCallback,
                                                                       View.OnClickListener,
-                                                                      BasicDialogListener {
+        BasicDialogListener {
     @Override
     public boolean handleOnBackPressed() {
         navigateBack();

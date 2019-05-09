@@ -1,4 +1,4 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import gent.zeus.tappb.handlers.BasicDialogListener;
 
 public class ConfirmationDialogFragment extends DialogFragment {
 

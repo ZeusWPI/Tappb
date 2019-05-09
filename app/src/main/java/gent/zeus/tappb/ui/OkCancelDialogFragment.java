@@ -1,4 +1,4 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.ui;
 
 
 import android.app.AlertDialog;
@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import gent.zeus.tappb.ui.OkCancelDialogListener;
+import gent.zeus.tappb.handlers.OkCancelDialogListener;
 
 
 /**
