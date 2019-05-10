@@ -5,6 +5,7 @@
     android:id="@+id/fragment_account">
 
     <data>
+
         <variable
             name="user"
             type="gent.zeus.tappb.entity.User" />
@@ -28,37 +29,39 @@
             android:id="@+id/profile_picture"
             android:layout_width="101dp"
             android:layout_height="99dp"
-            android:layout_marginTop="56dp"
             android:contentDescription="@string/profile_picture"
             android:src="@drawable/ic_account"
+            app:layout_constraintBottom_toTopOf="@id/username"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.48000002" />
 
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@{user.isLoaded() ? user.getUsername() : @string/not_logged_in}"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="@+id/profile_picture"
-            app:layout_constraintStart_toStartOf="@+id/profile_picture"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintBottom_toTopOf="@id/setFavouriteItem"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture"
+            tools:text="@tools:sample/first_names" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:background="#FFFFFF"
             android:contentDescription="@string/profile_picture"
             app:layout_constraintBottom_toBottomOf="@+id/profile_picture"
             app:layout_constraintEnd_toEndOf="@+id/profile_picture"
-            app:layout_constraintHorizontal_bias="0.729"
+            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toEndOf="@+id/profile_picture"
-            app:layout_constraintTop_toBottomOf="@+id/profile_picture"
             app:srcCompat="@drawable/ic_edit" />
 
         <Button
@@ -66,24 +69,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
+            android:enabled="@{user.isLoaded()}"
             android:onClick="@{() -> handler.setFavoriteItem()}"
             android:text="@string/change_favorite_item"
-            android:enabled="@{user.isLoaded()}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            app:layout_constraintTop_toBottomOf="@id/username" />
 
         <TextView
             android:id="@+id/currently"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/currently"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/setFavouriteItem"
-            app:layout_constraintTop_toBottomOf="@+id/setFavouriteItem" />
+            app:layout_constraintTop_toBottomOf="@+id/setFavouriteItem"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/favoriteItem"
@@ -93,6 +98,12 @@
             android:text="@{user.isLoaded() ? user.getTapUser().getFavoriteItem().getName() : @string/none}"
             app:layout_constraintBottom_toBottomOf="@+id/currently"
             app:layout_constraintStart_toEndOf="@+id/currently"
-            app:layout_constraintTop_toTopOf="@+id/currently" />
+            app:layout_constraintTop_toTopOf="@+id/currently"
+            tools:text="@tools:sample/cities" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
