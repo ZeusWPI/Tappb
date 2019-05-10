@@ -12,14 +12,10 @@
         android:title="@string/nav_stock" />
 
     <item
-        android:id="@+id/nav_money"
+        android:id="@+id/nav_money_overview"
         android:icon="@drawable/ic_euro_symbol"
-        android:title="@string/nav_money" />
+        android:title="@string/nav_money_overview" />
 
-    <item
-        android:id="@+id/nav_account"
-        android:icon="@drawable/ic_account"
-        android:title="@string/nav_account" />
     <item
         android:id="@+id/nav_order"
         android:icon="@drawable/ic_shopping_cart"

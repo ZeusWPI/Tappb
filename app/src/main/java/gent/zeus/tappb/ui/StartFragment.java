@@ -24,7 +24,6 @@ import androidx.navigation.ui.NavigationUI;
  */
 public class StartFragment extends Fragment {
 
-
     public StartFragment() {
         // Required empty public constructor
     }
@@ -40,6 +39,7 @@ public class StartFragment extends Fragment {
         
         NavController navController = Navigation.findNavController(view.findViewById(R.id.nav_host_fragment));
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+
         OrderViewModel orderViewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
         orderViewModel.init();
 

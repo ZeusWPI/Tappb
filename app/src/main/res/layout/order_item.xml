@@ -19,7 +19,7 @@
             type="java.lang.String" />
         <variable
             name="handler"
-            type="gent.zeus.tappb.ui.OrderItemListener">
+            type="gent.zeus.tappb.handlers.OrderItemListener">
         </variable>
 
         <variable

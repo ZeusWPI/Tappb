@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.OrderItemBinding;
 import gent.zeus.tappb.entity.OrderProduct;
-import gent.zeus.tappb.ui.OrderItemListener;
+import gent.zeus.tappb.handlers.OrderItemListener;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 public class OrderItemViewHolder extends RecyclerView.ViewHolder implements OrderItemListener {
