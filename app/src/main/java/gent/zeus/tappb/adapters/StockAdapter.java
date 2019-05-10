@@ -31,6 +31,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
 
     public StockAdapter(StockListener listener) {
         this.listener = listener;
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -56,6 +57,11 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
         this.products = new ArrayList<>(products);
         this.productsFull = new ArrayList<>(products);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return products.get(position).getProduct().getId();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package gent.zeus.tappb.ui;
+package gent.zeus.tappb.ui.viewholders;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
