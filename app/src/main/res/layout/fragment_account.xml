@@ -6,12 +6,11 @@
 
     <data>
         <variable
-            name="user"
-            type="gent.zeus.tappb.entity.User" />
-
-        <variable
             name="formatter"
             type="android.icu.text.DecimalFormat" />
+        <variable
+            name="viewModel"
+            type="gent.zeus.tappb.viewmodel.AccountViewModel" />
 
         <variable
             name="handler"
@@ -40,7 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@{user.isLoaded() ? user.getUsername() : @string/not_logged_in}"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/profile_picture"
             app:layout_constraintStart_toStartOf="@+id/profile_picture"
@@ -70,7 +68,7 @@
             android:layout_marginEnd="8dp"
             android:onClick="@{() -> handler.setFavoriteItem()}"
             android:text="@string/change_favorite_item"
-            android:enabled="@{user.isLoaded()}"
+            android:enabled="@{viewModel.isLoggedIn()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/username" />
@@ -90,7 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@{user.isLoaded() ? user.getTapUser().getFavoriteItem().getName() : @string/none}"
             app:layout_constraintBottom_toBottomOf="@+id/currently"
             app:layout_constraintStart_toEndOf="@+id/currently"
             app:layout_constraintTop_toTopOf="@+id/currently" />

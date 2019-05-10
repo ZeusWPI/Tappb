@@ -16,6 +16,7 @@ import java.util.List;
 
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.entity.Transaction;
+import gent.zeus.tappb.repositories.UserRepository;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -35,11 +36,11 @@ public class TabAPI extends API {
         return new Request.Builder()
                 .url(endpoint + relativeURL)
                 .header("Accept", "application/json")
-                .header("Authorization", "Token " + User.getInstance().getTabToken());
+                .header("Authorization", "Token " + UserRepository.getInstance().getTabToken());
     }
 
     public static LiveData<List<Transaction>> getTransactions() {
-        Request request = buildRequest("/users/" + User.getInstance().getUsername() + "/transactions").build();
+        Request request = buildRequest("/users/" + UserRepository.getInstance().getUsername() + "/transactions").build();
 
         final MutableLiveData<List<Transaction>> transactions = new MutableLiveData<>();
 
@@ -79,7 +80,7 @@ public class TabAPI extends API {
     }
 
     public static LiveData<Integer> getBalanceInCents() {
-        Request request = buildRequest("/users/" + User.getInstance().getUsername()).build();
+        Request request = buildRequest("/users/" + UserRepository.getInstance().getUsername()).build();
 
         final MutableLiveData<Integer> balance = new MutableLiveData<>();
 
@@ -92,7 +93,7 @@ public class TabAPI extends API {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    if (! User.getInstance().isLoaded()) {
+                    if (UserRepository.getInstance().getUser().getValue() != null) {
                         balance.postValue(0);
                     } else {
                         JSONObject jsonObject = new JSONObject(response.body().string());

@@ -40,7 +40,6 @@ public class OrderViewModel extends ViewModel {
             orderState.setValue(OrderState.ORDER_EMPTY);
         }
         setScanningState(scanningState.getValue());
-        invalidateOrderList();
     }
 
     public LiveData<List<OrderProduct>> getOrders() {
@@ -79,7 +78,7 @@ public class OrderViewModel extends ViewModel {
     }
 
     public void addOrderProduct(OrderProduct orderProduct, boolean batch) {
-        this.orderMap.compute(orderProduct.getProduct(), (k, v) -> {
+        this.orderMap.compute(orderProduct, (k, v) -> {
             if (v == null) {
                 return orderProduct;
             }
@@ -96,20 +95,20 @@ public class OrderViewModel extends ViewModel {
     }
 
     public void deleteOrderProduct(OrderProduct orderProduct) {
-        this.orderMap.remove(orderProduct.getProduct());
+        this.orderMap.remove(orderProduct);
         invalidateOrderList();
     }
 
     public void increaseCount(OrderProduct orderProduct) {
-        if (this.orderMap.containsKey(orderProduct.getProduct())) {
-            this.orderMap.get(orderProduct.getProduct()).addCount(1);
+        if (this.orderMap.containsKey(orderProduct)) {
+            this.orderMap.get(orderProduct).addCount(1);
         }
     }
 
     public void decreaseCount(OrderProduct orderProduct) {
-        if (this.orderMap.containsKey(orderProduct.getProduct())) {
-            this.orderMap.get(orderProduct.getProduct()).addCount(-1);
-            if (this.orderMap.get(orderProduct.getProduct()).getCount() <= 0) {
+        if (this.orderMap.containsKey(orderProduct)) {
+            this.orderMap.get(orderProduct).addCount(-1);
+            if (this.orderMap.get(orderProduct).getCount() <= 0) {
                 deleteOrderProduct(orderProduct);
             }
         }

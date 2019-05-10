@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="order"
-            type="gent.zeus.tappb.entity.Order" />
 
         <variable
             name="handler"

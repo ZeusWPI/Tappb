@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import gent.zeus.tappb.databinding.FragmentLoginBinding;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.login.LoginWebviewClient;
+import gent.zeus.tappb.repositories.UserRepository;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -38,7 +39,7 @@ public class LoginFragment extends Fragment {
             String username = tokenPreferences.getString(USERNAME_KEY, null);
             String tabToken = tokenPreferences.getString(TAB_TOKEN_KEY, null);
             String tapToken = tokenPreferences.getString(TAP_TOKEN_KEY, null);
-            User.getInstance().load(username, tabToken, tapToken);
+            UserRepository.getInstance().load(username, tabToken, tapToken);
             Log.i("LOGIN", "succeeeded automatically REEEEEEEEEEEEEEEEEEEEEE");
             getFragmentManager().popBackStack();
             return binding.getRoot();
@@ -50,9 +51,9 @@ public class LoginFragment extends Fragment {
             public void navigateAway() {
                 // save preferences
                 SharedPreferences.Editor tokenEditor = tokenPreferences.edit();
-                tokenEditor.putString(USERNAME_KEY, User.getInstance().getUsername());
-                tokenEditor.putString(TAB_TOKEN_KEY, User.getInstance().getTabToken());
-                tokenEditor.putString(TAP_TOKEN_KEY, User.getInstance().getTapToken());
+                tokenEditor.putString(USERNAME_KEY, UserRepository.getInstance().getUser().getValue().getUsername());
+                tokenEditor.putString(TAB_TOKEN_KEY, UserRepository.getInstance().getUser().getValue().getTabToken());
+                tokenEditor.putString(TAP_TOKEN_KEY, UserRepository.getInstance().getUser().getValue().getTapToken());
                 tokenEditor.apply();
                 getFragmentManager().popBackStack();
             }

@@ -108,7 +108,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
 
         public void bind(StockProduct item) {
             itemBinding.setProduct(item);
-            Picasso.get().load(item.getProduct().getImageURL()).into(itemBinding.image);
+            Picasso.get().load(item.getImageURL()).into(itemBinding.image);
         }
     }
 }

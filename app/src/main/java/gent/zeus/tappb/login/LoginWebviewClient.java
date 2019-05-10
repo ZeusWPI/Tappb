@@ -18,11 +18,14 @@ import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.api.TabAPI;
+import gent.zeus.tappb.repositories.UserRepository;
 import gent.zeus.tappb.ui.LoginFragment;
+import gent.zeus.tappb.viewmodel.AccountViewModel;
 
 public class LoginWebviewClient extends WebViewClient {
     private static final String TAG = LoginFragment.class.getSimpleName();
@@ -45,7 +48,7 @@ public class LoginWebviewClient extends WebViewClient {
                     JSONObject reader = new JSONObject(value);
                     Log.d(TAG, reader.getString("username"));
                     // TODO save user
-                    User.getInstance().load(reader.getString("username"), reader.getString("tab_token"), reader.getString("tap_token"));
+                    UserRepository.getInstance().load(reader.getString("username"), reader.getString("tab_token"), reader.getString("tap_token"));
                     navigateAway();
                 } catch (JSONException | UnsupportedEncodingException ex) {
                     Log.d(TAG, "Error parsing JSON from Tabbp");

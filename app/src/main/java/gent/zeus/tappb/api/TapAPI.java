@@ -15,11 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gent.zeus.tappb.entity.Barcode;
-import gent.zeus.tappb.entity.Product;
-import gent.zeus.tappb.entity.ProductList;
+import gent.zeus.tappb.entity.Stock;
 import gent.zeus.tappb.entity.StockProduct;
+import gent.zeus.tappb.entity.StockState;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.repositories.StockRepository;
+import gent.zeus.tappb.repositories.UserRepository;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -35,21 +37,21 @@ public class TapAPI extends API {
     private static Request.Builder buildRequest(String relativeURL) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        try  {
+        try {
 
             return new Request.Builder()
                     .url(endpoint + relativeURL)
                     .header("Accept", "application/json")
-                    .header("Authorization", "Token " + User.getInstance().getTapToken());
+                    .header("Authorization", "Token " + UserRepository.getInstance().getUser().getValue().getTapToken());
         } catch (RuntimeException e) {
             throw new APIException("Not logged in");
         }
     }
 
-    public static LiveData<List<StockProduct>> getStockProducts() {
+    public static LiveData<StockState> getStockProducts() {
         Request request = buildRequest("/products.json").build();
 
-        final MutableLiveData<List<StockProduct>> stockProducts = new MutableLiveData<>();
+        final MutableLiveData<StockState> stockProducts = new MutableLiveData<>();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -59,11 +61,11 @@ public class TapAPI extends API {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                List<StockProduct> result = new ArrayList<>();
+                StockState result = new Stock();
 
                 try {
                     JSONArray jsonArray = new JSONArray(response.body().string());
-                    for (int i = 0 ; i < jsonArray.length(); i++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         int productID = obj.getInt("id");
                         String name = obj.getString("name");
@@ -71,9 +73,8 @@ public class TapAPI extends API {
                         double price = obj.getInt("price_cents") / 100.0;
                         String pictureName = obj.getString("avatar_file_name");
                         String pictureURL = getImageURL(productID, pictureName);
-                        Product p = new Product(productID, name, price, pictureURL);
-                        StockProduct s = new StockProduct(p, stock);
-                        result.add(s);
+                        StockProduct p = new StockProduct(productID, name, price, pictureURL, stock);
+                        result.addProduct(p);
                     }
                     stockProducts.postValue(result);
                 } catch (JSONException e) {
@@ -83,6 +84,18 @@ public class TapAPI extends API {
         });
 
         return stockProducts;
+    }
+
+    public static class TapUserResponse {
+        public int id;
+        public String imageUrl;
+        public String favoriteItemId;
+
+        public TapUserResponse(int id, String imageUrl, String favoriteItemId) {
+            this.id = id;
+            this.imageUrl = imageUrl;
+            this.favoriteItemId = favoriteItemId;
+        }
     }
 
     public static LiveData<TapUser> getTapUser(User u) {
@@ -104,11 +117,9 @@ public class TapAPI extends API {
                     String imageURL = getImageURL(id, jsonObject.getString("avatar_file_name"));
                     String favoriteItemId = jsonObject.getString("dagschotel_id");
 
-                    Product favoriteItem = null;
                     if (!favoriteItemId.equals("null")) {
-                        favoriteItem = ProductList.getInstance().getProductById(Integer.parseInt(favoriteItemId)).getProduct();
+                        user.setValue(new TapUser(id, imageURL, StockRepository.getInstance().getProductById(Integer.parseInt(favoriteItemId))));
                     }
-                    user.setValue(new TapUser(id, imageURL, favoriteItem));
                 } catch (JSONException e) {
                     throw new APIException("Failed to parse JSON of request");
                 }
@@ -136,9 +147,10 @@ public class TapAPI extends API {
                     JSONArray jsonArray = new JSONArray(response.body().string());
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
-                        Product p = ProductList.getInstance().getProductById(obj.getInt("product_id")).getProduct();
-                        Barcode s = new Barcode(obj.getString("code"), p);
-                        result.add(s);
+                        // TODO
+//                        Product p = StockRepository.getInstance().getStock().getValue().getProductById()
+//                        Barcode s = new Barcode(obj.getString("code"), p);
+//                        result.add(s);
                     }
                     barcodes.postValue(result);
                 } catch (JSONException e) {
@@ -151,7 +163,7 @@ public class TapAPI extends API {
     }
 
     private static String getImageURL(int id, String imageName) {
-        String paddedID = String.format("%09d" , id);
+        String paddedID = String.format("%09d", id);
         List<String> splitID = splitString(paddedID, 3);
 
         return String.format(endpoint + "/system/products/avatars/%s/%s/%s/small/%s",

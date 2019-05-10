@@ -31,7 +31,7 @@ public class OrderItemViewHolder extends RecyclerView.ViewHolder implements Orde
         this.position = position;
         this.orderProduct = orderProduct;
         itemBinding.setOrderProduct(orderProduct);
-        itemBinding.setProductName(orderProduct.getProduct().getName());
+        itemBinding.setProductName(orderProduct.getName());
         itemBinding.setProductCount(Integer.toString(orderProduct.getCount()));
         itemBinding.setProductPrice(formatter.format(orderProduct.getPrice()));
     }

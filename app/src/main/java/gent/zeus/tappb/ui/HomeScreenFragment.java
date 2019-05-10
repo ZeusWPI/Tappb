@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeScreenBinding;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.repositories.UserRepository;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +41,8 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
         FragmentHomeScreenBinding binding = FragmentHomeScreenBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         binding.setHandler(this);
-        User.getLiveInstance().observe(this, user -> {
-            binding.loginButton.setText(user.isLoaded() ? getResources().getText(R.string.logout) : getResources().getText(R.string.login));
+        UserRepository.getInstance().getUser().observe(this, user -> {
+            binding.loginButton.setText(user != null ? getResources().getText(R.string.logout) : getResources().getText(R.string.login));
         });
         gestureDetector = new GestureDetector(this.getContext(), new GestureListener());
         binding.getRoot().setOnTouchListener(this);
@@ -56,12 +57,13 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
 
     @Override
     public void onLoginClicked() {
-        if (User.getInstance().isLoaded()) {
+        // TODO: do logout in VM
+        if (UserRepository.getInstance().getUser().getValue() != null) {
             DialogFragment dialogFragment = new DialogFragment();
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.confirm_logout)
                     .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
-                        User.logout();
+                        UserRepository.logout();
                         SharedPreferences.Editor editor = getContext().getSharedPreferences("tokens", Context.MODE_PRIVATE).edit();
                         editor.clear();
                         editor.apply();

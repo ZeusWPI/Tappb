@@ -19,6 +19,7 @@ import gent.zeus.tappb.R;
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentMoneyOverviewBinding;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.repositories.UserRepository;
 
 
 public class MoneyOverviewFragment extends Fragment implements MoneyListener {
@@ -37,7 +38,7 @@ public class MoneyOverviewFragment extends Fragment implements MoneyListener {
         binding.setLifecycleOwner(this);
 
         balance.observe(this, (newBalance) -> {
-            if (User.getInstance().isLoaded()) {
+            if (UserRepository.getInstance().getUser().getValue() != null) {
                 binding.balance.setText("€" + formatter.format(((double) newBalance) / 100));
             } else {
                 binding.balance.setText(getString(R.string.not_logged_in));
