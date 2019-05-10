@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_stock"/>
 
     <fragment
-        android:id="@+id/nav_money"
-        android:name="gent.zeus.tappb.ui.MoneyFragment"
-        android:label="MoneyFragment"
-        tools:layout="@layout/fragment_money"/>
-
-    <fragment
         android:id="@+id/nav_login"
         android:name="gent.zeus.tappb.ui.LoginFragment"
         android:label="LoginFragmetn"
@@ -64,19 +58,30 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_account"
-        android:name="gent.zeus.tappb.ui.AccountFragment"
-        android:label="AccountFragment"
-        tools:layout="@layout/fragment_account">
+        android:id="@+id/nav_money_overview"
+        android:name="gent.zeus.tappb.ui.MoneyOverviewFragment"
+        android:label="MoneyFragment"
+        tools:layout="@layout/fragment_money_overview" >
         <action
-            android:id="@+id/action_nav_account_to_nav_favorite_item"
-            app:destination="@id/nav_favorite_item" />
+            android:id="@+id/toTopUp"
+            app:destination="@id/nav_top_up" />
+        <action
+            android:id="@+id/toTransfer"
+            app:destination="@id/nav_transfer" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_favorite_item"
-        android:name="gent.zeus.tappb.ui.FavoriteItemFragment"
-        android:label="FavoriteItemFragment"
-        tools:layout="@layout/fragment_stock"/>
+        android:id="@+id/nav_top_up"
+        android:name="gent.zeus.tappb.ui.TopUpFragment"
+        android:label="TopUpFragment"
+        tools:layout="@layout/fragment_top_up" />
+
+    <fragment
+        android:id="@+id/nav_transfer"
+        android:name="gent.zeus.tappb.ui.TransferFragment"
+        android:label="TransferFragment"
+        tools:layout="@layout/fragment_transfer" />
+
+
 
 </navigation>
