@@ -10,7 +10,7 @@ import gent.zeus.tappb.entity.User;
 public class AccountViewModel extends ViewModel {
     //TODO: implement API
 
-    MutableLiveData<User> user = new MutableLiveData<>();
+    private MutableLiveData<User> user = new MutableLiveData<>();
 
     public void init() {
         user.setValue(User.getInstance());

@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 
 import java.text.DecimalFormat;
 
+import androidx.lifecycle.LiveData;
 import androidx.navigation.fragment.NavHostFragment;
+
 import gent.zeus.tappb.MoneyListener;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.api.TabAPI;
@@ -22,6 +24,7 @@ import gent.zeus.tappb.entity.User;
 public class MoneyOverviewFragment extends Fragment implements MoneyListener {
 
     private DecimalFormat formatter = new DecimalFormat("#0.00");
+    private LiveData<Integer> balance = TabAPI.getBalanceInCents();
 
     public MoneyOverviewFragment() {
         // Required empty public constructor
@@ -32,11 +35,15 @@ public class MoneyOverviewFragment extends Fragment implements MoneyListener {
                              Bundle savedInstanceState) {
         FragmentMoneyOverviewBinding binding = FragmentMoneyOverviewBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-        if (User.getInstance().isLoaded()) {
-            binding.balance.setText("€" + formatter.format(((double) TabAPI.getBalanceInCents()) / 100));
-        } else {
-            binding.balance.setText(getResources().getText(R.string.not_logged_in));
-        }
+
+        balance.observe(this, (newBalance) -> {
+            if (User.getInstance().isLoaded()) {
+                binding.balance.setText("€" + formatter.format(((double) newBalance) / 100));
+            } else {
+                binding.balance.setText(getString(R.string.not_logged_in));
+
+            }
+        });
         binding.setHandler(this);
         return binding.getRoot();
     }

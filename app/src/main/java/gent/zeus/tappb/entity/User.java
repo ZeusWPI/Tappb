@@ -7,7 +7,7 @@ import gent.zeus.tappb.api.TapAPI;
 
 public class User {
     private static MutableLiveData<User> liveInstance = new MutableLiveData<>();
-    private TapUser tapUser;
+    private LiveData<TapUser> tapUser;
     private String username;
     private String tabToken;
     private String tapToken;
@@ -24,7 +24,7 @@ public class User {
     private User() {}
 
     public static User getInstance(){
-        return liveInstance.getValue();
+        return getLiveInstance().getValue();
     }
 
     public static LiveData<User> getLiveInstance() {
@@ -55,7 +55,7 @@ public class User {
         return tapToken;
     }
 
-    public TapUser getTapUser() {
+    public LiveData<TapUser> getTapUser() {
         if (tapUser == null) {
             this.tapUser = TapAPI.getTapUser(this);
         }

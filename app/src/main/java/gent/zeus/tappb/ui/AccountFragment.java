@@ -52,7 +52,7 @@ public class AccountFragment extends Fragment {
         viewModel.getUser().observe(this, (user -> {
             if (user.isLoaded()) {
                 binding.setUser(user);
-                Picasso.get().load(user.getTapUser().getProfilePictureURL()).into(binding.profilePicture);
+                Picasso.get().load(user.getTapUser().getValue().getProfilePictureURL()).into(binding.profilePicture);
             }
         }));
 

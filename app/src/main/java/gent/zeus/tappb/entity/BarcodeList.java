@@ -24,7 +24,7 @@ public class BarcodeList {
     public void reloadBarcodes() {
         try {
 
-            barcodes = TapAPI.getBarcodes();
+            barcodes = TapAPI.getBarcodes().getValue();
         } catch (APIException ex) {
             barcodes = new ArrayList<>();
             Log.e("BarcodeRequest", "failed to load barcodes");

@@ -2,6 +2,7 @@ package gent.zeus.tappb.api;
 
 import android.os.StrictMode;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -91,12 +92,12 @@ public class TapAPI extends API {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@Nullable Call call, IOException e) {
                 throw new APIException("Failed to fetch user");
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@Nullable Call call, Response response) throws IOException {
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     int id = jsonObject.getInt("id");
@@ -124,12 +125,12 @@ public class TapAPI extends API {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@Nullable Call call, IOException e) {
 
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@Nullable Call call, Response response) throws IOException {
                 try {
                     List<Barcode> result = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(response.body().string());
