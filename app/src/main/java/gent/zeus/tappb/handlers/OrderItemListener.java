@@ -1,4 +1,4 @@
-package gent.zeus.tappb.ui;
+package gent.zeus.tappb.handlers;
 
 public interface OrderItemListener {
     void onClick();

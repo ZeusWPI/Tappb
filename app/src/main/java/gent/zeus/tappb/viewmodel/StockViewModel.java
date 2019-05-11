@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModel;
 import gent.zeus.tappb.entity.StockProduct;
 
 public class StockViewModel extends ViewModel {
-    //TODO: implement TAP api
 
     private LiveData<List<StockProduct>> stock;
 

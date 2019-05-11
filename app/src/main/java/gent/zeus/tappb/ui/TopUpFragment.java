@@ -3,8 +3,7 @@ package gent.zeus.tappb.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import gent.zeus.tappb.MoneySubmitFragment;
-import gent.zeus.tappb.MoneyTextWatcher;
+
 import gent.zeus.tappb.databinding.FragmentTopUpBinding;
 
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ public class TopUpFragment extends MoneySubmitFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-            binding = FragmentTopUpBinding.inflate(inflater, container, false);
+        binding = FragmentTopUpBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
 //        binding.topup.setOnClickListener(this);
 //        binding.amountInput.addTextChangedListener(new MoneyTextWatcher(binding.amountInput));

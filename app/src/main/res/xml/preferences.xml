@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/notifications">
+        <SwitchPreferenceCompat
+            android:key="ENABLE_NOTIFICATIONS"
+            android:title="@string/enable_notifications" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

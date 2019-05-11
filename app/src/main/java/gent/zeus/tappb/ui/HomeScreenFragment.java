@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,6 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeScreenBinding;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.handlers.HomeListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,7 +59,6 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
     @Override
     public void onLoginClicked() {
         if (User.getInstance().isLoaded()) {
-            DialogFragment dialogFragment = new DialogFragment();
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.confirm_logout)
                     .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {

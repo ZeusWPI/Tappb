@@ -4,7 +4,7 @@
     <data>
         <variable
             name="handler"
-            type="gent.zeus.tappb.MoneyListener" />
+            type="gent.zeus.tappb.handlers.MoneyListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
