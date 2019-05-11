@@ -1,5 +1,7 @@
 package gent.zeus.tappb.entity;
 
+import gent.zeus.tappb.api.TapAPI;
+
 public class TapUser {
     private int id;
     private String profilePictureURL;
@@ -21,5 +23,10 @@ public class TapUser {
 
     public Product getFavoriteItem() {
         return favoriteItem;
+    }
+
+    public void setFavoriteItem(Product p) {
+        TapAPI.setFavoriteItem(p);
+        this.favoriteItem = p;
     }
 }

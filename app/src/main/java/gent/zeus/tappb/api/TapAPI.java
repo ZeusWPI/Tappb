@@ -17,10 +17,12 @@ import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
+import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.Buffer;
 
 public class TapAPI extends API {
 
@@ -48,6 +50,7 @@ public class TapAPI extends API {
             Response response = client.newCall(request).execute();
             return response.body().string();
         } catch (IOException ex) {
+            Log.e("TapAPI", "Error", ex);
             throw new APIException("Failed to get body of request: " + relativeURL);
         }
     }
@@ -57,6 +60,21 @@ public class TapAPI extends API {
         RequestBody body = RequestBody.create(JSON, jsondata);
         Request request = buildRequest(relativeURL)
                 .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException ex) {
+            throw new APIException("Failed to get body of request: " + relativeURL);
+        }
+    }
+
+    private static String putBody(String relativeURL, String jsondata) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, jsondata);
+        Request request = buildRequest(relativeURL)
+                .put(body)
+                .header("Content-Type", "application/json")
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -151,5 +169,9 @@ public class TapAPI extends API {
             Log.d("exep", ex.toString());
             throw new APIException("Failed to parse JSON of request");
         }
+    }
+
+    public static void setFavoriteItem(Product p) {
+        putBody("/users/" + User.getInstance().getUsername() + ".json", String.format("{\"dagschotel_id\":\"%d\"}", p.getId()));
     }
 }
