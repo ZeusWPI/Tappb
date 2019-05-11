@@ -102,7 +102,6 @@ public class TapAPI extends API {
     public void fetchTapUser(User u) {
         Request request = buildRequest("/users/" + u.getUsername() + ".json").build();
 
-
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@Nullable Call call, IOException e) {
@@ -118,7 +117,9 @@ public class TapAPI extends API {
                     String favoriteItemId = jsonObject.getString("dagschotel_id");
 
                     if (!favoriteItemId.equals("null")) {
-                        user.setValue(new TapUser(id, imageURL, StockRepository.getInstance().getProductById(Integer.parseInt(favoriteItemId))));
+                        user.postValue(new TapUser(id, imageURL, Integer.parseInt(favoriteItemId)));
+                    } else {
+                        user.postValue(new TapUser(id, imageURL, null));
                     }
                 } catch (JSONException e) {
                     throw new APIException("Failed to parse JSON of request");

@@ -1,14 +1,17 @@
 package gent.zeus.tappb.entity;
 
+import androidx.annotation.Nullable;
+
 public class TapUser {
     private int id;
     private String profilePictureURL;
-    private Product favoriteItem;
+    @Nullable
+    private Integer favoriteItemId;
 
-    public TapUser(int id, String profilePictureURL, Product favoriteItem) {
+    public TapUser(int id, String profilePictureURL, Integer favoriteItem) {
         this.id = id;
         this.profilePictureURL = profilePictureURL;
-        this.favoriteItem = favoriteItem;
+        this.favoriteItemId = favoriteItem;
     }
 
     public int getId() {
@@ -19,7 +22,8 @@ public class TapUser {
         return profilePictureURL;
     }
 
-    public Product getFavoriteItem() {
-        return favoriteItem;
+    @Nullable
+    public Integer getFavoriteItemId() {
+        return favoriteItemId;
     }
 }
