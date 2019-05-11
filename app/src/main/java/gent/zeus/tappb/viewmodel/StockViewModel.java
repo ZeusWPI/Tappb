@@ -39,7 +39,7 @@ public class StockViewModel extends ViewModel {
 //
 //        try {
 //            if (!this.isFetched) {
-//                stock = TapAPI.getStockProducts();
+//                stock = TapAPI.fetchStockProduct();
 //                fetchError.setValue(false);
 //                this.isFetched = true;
 //            }

@@ -18,7 +18,6 @@ public class AccountViewModel extends ViewModel {
 
     private LiveData<User> user;
     private LiveData<TapUser> tapUser;
-    private LiveData<TapAPI.TapUserResponse> tapResponse;
     private LiveData<String> profileURL;
     private LiveData<String> userName;
     private LiveData<String> favoriteItemName;

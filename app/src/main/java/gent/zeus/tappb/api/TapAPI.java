@@ -33,8 +33,11 @@ public class TapAPI extends API {
     private static final OkHttpClient client = new OkHttpClient();
 
     private final static String endpoint = "https://tap.zeus.gent";
+    private MutableLiveData<StockState> stockProducts = new MutableLiveData<>();
+    private MutableLiveData<List<Barcode>> barcodes = new MutableLiveData<>();
+    private MutableLiveData<TapUser> user = new MutableLiveData<>();
 
-    private static Request.Builder buildRequest(String relativeURL) {
+    private Request.Builder buildRequest(String relativeURL) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         try {
@@ -48,10 +51,21 @@ public class TapAPI extends API {
         }
     }
 
-    public static LiveData<StockState> getStockProducts() {
+    public MutableLiveData<StockState> getStockProducts() {
+        return stockProducts;
+    }
+
+    public MutableLiveData<List<Barcode>> getBarcodes() {
+        return barcodes;
+    }
+
+    public MutableLiveData<TapUser> getTapUser() {
+        return user;
+    }
+
+    public void fetchStockProduct() {
         Request request = buildRequest("/products.json").build();
 
-        final MutableLiveData<StockState> stockProducts = new MutableLiveData<>();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -82,26 +96,12 @@ public class TapAPI extends API {
                 }
             }
         });
-
-        return stockProducts;
     }
 
-    public static class TapUserResponse {
-        public int id;
-        public String imageUrl;
-        public String favoriteItemId;
 
-        public TapUserResponse(int id, String imageUrl, String favoriteItemId) {
-            this.id = id;
-            this.imageUrl = imageUrl;
-            this.favoriteItemId = favoriteItemId;
-        }
-    }
-
-    public static LiveData<TapUser> getTapUser(User u) {
+    public void fetchTapUser(User u) {
         Request request = buildRequest("/users/" + u.getUsername() + ".json").build();
 
-        final MutableLiveData<TapUser> user = new MutableLiveData<>();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -126,13 +126,10 @@ public class TapAPI extends API {
             }
         });
 
-        return user;
     }
 
-    public static LiveData<List<Barcode>> getBarcodes() {
+    public void fetchBarcodes() {
         Request request = buildRequest("/barcodes.json").build();
-
-        final MutableLiveData<List<Barcode>> barcodes = new MutableLiveData<>();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -158,11 +155,9 @@ public class TapAPI extends API {
                 }
             }
         });
-
-        return barcodes;
     }
 
-    private static String getImageURL(int id, String imageName) {
+    private String getImageURL(int id, String imageName) {
         String paddedID = String.format("%09d", id);
         List<String> splitID = splitString(paddedID, 3);
 
@@ -173,7 +168,7 @@ public class TapAPI extends API {
                 imageName);
     }
 
-    private static List<String> splitString(String string, int size) {
+    private List<String> splitString(String string, int size) {
         List<String> res = new ArrayList<>();
         for (int i = 0; i < string.length(); i += size) {
             res.add(string.substring(i, Math.min(string.length(), i + size)));

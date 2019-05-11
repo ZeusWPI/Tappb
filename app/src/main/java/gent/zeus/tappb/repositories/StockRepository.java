@@ -1,6 +1,7 @@
 package gent.zeus.tappb.repositories;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
@@ -13,19 +14,20 @@ import gent.zeus.tappb.entity.StockState;
 
 public class StockRepository {
     private static final StockRepository ourInstance = new StockRepository();
-    private LiveData<StockState> stock;
+    private MutableLiveData<StockState> stock;
+    private TapAPI api = new TapAPI();
 
     public static StockRepository getInstance() {
         return ourInstance;
     }
 
     private StockRepository() {
+        LiveData<StockState> apiStock = api.getStockProducts();
+        apiStock.observeForever((stockState -> stock.setValue(stockState)));
     }
 
     public LiveData<StockState> getStock() {
-        if (stock == null) {
-            stock = TapAPI.getStockProducts();
-        }
+        api.fetchStockProduct();
         return stock;
     }
 
