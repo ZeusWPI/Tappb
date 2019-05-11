@@ -4,17 +4,36 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 
 import gent.zeus.tappb.R;
+import gent.zeus.tappb.entity.TapUser;
+import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.handlers.SettingsKoelkastListener;
 
 public class PreferenceFragment extends PreferenceFragmentCompat {
 
-    SharedPreferences.OnSharedPreferenceChangeListener listener = new SettingsKoelkastListener();
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
+
+        User.getInstance().updateTapUser();
+        TapUser tapUser = User.getInstance().getTapUser();
+
+        SwitchPreferenceCompat isPrivatePref = (SwitchPreferenceCompat) findPreference("ACCOUNT_PRIVATE");
+        SwitchPreferenceCompat isFavoriteItemHiddenPref = (SwitchPreferenceCompat) findPreference("FAVORITE_ITEM_HIDDEN");
+
+        getPreferenceScreen().getSharedPreferences().edit()
+                                                    .putBoolean("ACCOUNT_PRIVATE",tapUser.isPrivate())
+                                                    .putBoolean("FAVORITE_ITEM_HIDDEN", tapUser.isFavoriteItemHidden())
+                                                    .apply();
+
+        isPrivatePref.setChecked(tapUser.isPrivate());
+        isFavoriteItemHiddenPref.setChecked(tapUser.isFavoriteItemHidden());
+
+        listener  = new SettingsKoelkastListener(isPrivatePref, isFavoriteItemHiddenPref);
     }
 
     @Override
