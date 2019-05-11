@@ -55,11 +55,6 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         stockViewModel.getStock().observe(this, adapter::setProducts);
-        stockViewModel.getFetchError().observe(this, (error) -> {
-            if (error) {
-                Toast.makeText(getContext(), "API fetch failed, showing sample data", Toast.LENGTH_LONG).show();
-            }
-        });
         binding.setLifecycleOwner(this);
         setHasOptionsMenu(true);
 

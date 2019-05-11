@@ -63,7 +63,7 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.confirm_logout)
                     .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
-                        UserRepository.logout();
+                        UserRepository.getInstance().logout();
                         SharedPreferences.Editor editor = getContext().getSharedPreferences("tokens", Context.MODE_PRIVATE).edit();
                         editor.clear();
                         editor.apply();
