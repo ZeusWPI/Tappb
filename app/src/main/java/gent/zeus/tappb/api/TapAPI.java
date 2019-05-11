@@ -17,12 +17,10 @@ import gent.zeus.tappb.entity.ProductList;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
-import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.Buffer;
 
 public class TapAPI extends API {
 
@@ -137,7 +135,7 @@ public class TapAPI extends API {
             if (!favoriteItemId.equals("null")) {
                 favoriteItem = ProductList.getInstance().getProductById(Integer.parseInt(favoriteItemId)).getProduct();
             }
-            return new TapUser(response.getInt("id"), path, favoriteItem);
+            return new TapUser(response.getInt("id"), path, favoriteItem, response.getBoolean("private"), response.getBoolean("quickpay_hidden"));
         } catch (JSONException exc) {
             Log.e("TapAPI", "JSON parse failed", exc);
             return null;
@@ -173,5 +171,13 @@ public class TapAPI extends API {
 
     public static void setFavoriteItem(Product p) {
         putBody("/users/" + User.getInstance().getUsername() + ".json", String.format("{\"dagschotel_id\":\"%d\"}", p.getId()));
+    }
+
+    public static void setPrivate(boolean aPrivate) {
+        putBody("/users/" + User.getInstance().getUsername() + ".json", String.format("{\"private\":\"%b\"}", aPrivate));
+    }
+
+    public static void setFavoriteItemHidden(boolean favoriteItemHidden) {
+        putBody("/users/" + User.getInstance().getUsername() + ".json", String.format("{\"quickpay_hidden\":\"%b\"}", favoriteItemHidden));
     }
 }
