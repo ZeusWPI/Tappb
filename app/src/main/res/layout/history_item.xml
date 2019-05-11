@@ -61,7 +61,9 @@
             app:layout_constraintBottom_toTopOf="@+id/person_description"
             app:layout_constraintEnd_toStartOf="@+id/cost"
             app:layout_constraintStart_toEndOf="@+id/date"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/person_description"

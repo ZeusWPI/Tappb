@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import gent.zeus.tappb.entity.User;
@@ -78,6 +80,7 @@ public class TabAPI extends API {
                 Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount / 100.0);
                 result.add(t);
             }
+            Collections.reverse(result);
             return result;
         }
         catch (JSONException ex) {
