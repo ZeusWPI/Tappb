@@ -10,13 +10,21 @@ import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import gent.zeus.tappb.databinding.FragmentLoginBinding;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.login.LoginWebviewClient;
 
 import static android.content.Context.MODE_PRIVATE;
+import static gent.zeus.tappb.api.TabAPI.uploadDeviceRegistrationToken;
 
 public class LoginFragment extends Fragment {
 
@@ -39,7 +47,6 @@ public class LoginFragment extends Fragment {
             String tabToken = tokenPreferences.getString(TAB_TOKEN_KEY, null);
             String tapToken = tokenPreferences.getString(TAP_TOKEN_KEY, null);
             User.getInstance().load(username, tabToken, tapToken);
-            Log.i("LOGIN", "succeeeded automatically REEEEEEEEEEEEEEEEEEEEEE");
             getFragmentManager().popBackStack();
             return binding.getRoot();
         }
@@ -54,6 +61,15 @@ public class LoginFragment extends Fragment {
                 tokenEditor.putString(TAB_TOKEN_KEY, User.getInstance().getTabToken());
                 tokenEditor.putString(TAP_TOKEN_KEY, User.getInstance().getTapToken());
                 tokenEditor.apply();
+                // upload device registration token
+                Task<InstanceIdResult> task = FirebaseInstanceId.getInstance().getInstanceId();
+                task.addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                    @Override
+                    public void onSuccess(InstanceIdResult authResult) {
+                        String deviceRegistrationToken = authResult.getToken();
+                        uploadDeviceRegistrationToken(deviceRegistrationToken);
+                    }
+                });
                 getFragmentManager().popBackStack();
             }
         });

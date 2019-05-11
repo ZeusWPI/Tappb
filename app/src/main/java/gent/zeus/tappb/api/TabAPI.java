@@ -121,4 +121,14 @@ public class TabAPI extends API {
         // TODO check if transaction succeeded
         return true;
     }
+
+    public static void uploadDeviceRegistrationToken(String token) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("token", token);
+        } catch (JSONException ex) {
+            throw new APIException("Failed to create JSON");
+        }
+        postBody("/users/" +  User.getInstance().getUsername() +  "/add_registration_token.json", data.toString());
+    }
 }
