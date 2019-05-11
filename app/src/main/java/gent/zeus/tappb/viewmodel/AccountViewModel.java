@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import gent.zeus.tappb.api.TapAPI;
+import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.repositories.StockRepository;
@@ -32,7 +33,7 @@ public class AccountViewModel extends ViewModel {
         tapUser = UserRepository.getInstance().getTapUser();
         profileURL = Transformations.map(tapUser, TapUser::getProfilePictureURL);
         userName = Transformations.map(user, User::getUsername);
-        favoriteItemName = Transformations.map(tapUser, (usr) -> StockRepository.getInstance().getProductById(usr.getFavoriteItemId()).getName());
+        favoriteItemName = Transformations.map(UserRepository.getInstance().getFavoriteItem(), prod -> prod != null ? prod.getName() : null);
 
     }
 

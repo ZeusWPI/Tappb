@@ -3,7 +3,6 @@ package gent.zeus.tappb.api;
 import android.os.StrictMode;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
@@ -17,10 +16,8 @@ import java.util.List;
 import gent.zeus.tappb.entity.Barcode;
 import gent.zeus.tappb.entity.Stock;
 import gent.zeus.tappb.entity.StockProduct;
-import gent.zeus.tappb.entity.StockState;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
-import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.repositories.UserRepository;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -33,7 +30,7 @@ public class TapAPI extends API {
     private static final OkHttpClient client = new OkHttpClient();
 
     private final static String endpoint = "https://tap.zeus.gent";
-    private MutableLiveData<StockState> stockProducts = new MutableLiveData<>();
+    private MutableLiveData<Stock> stockProducts = new MutableLiveData<>();
     private MutableLiveData<List<Barcode>> barcodes = new MutableLiveData<>();
     private MutableLiveData<TapUser> user = new MutableLiveData<>();
 
@@ -51,7 +48,7 @@ public class TapAPI extends API {
         }
     }
 
-    public MutableLiveData<StockState> getStockProducts() {
+    public MutableLiveData<Stock> getStockProducts() {
         return stockProducts;
     }
 
@@ -75,7 +72,7 @@ public class TapAPI extends API {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                StockState result = new Stock();
+                Stock result = new Stock();
 
                 try {
                     JSONArray jsonArray = new JSONArray(response.body().string());
@@ -146,7 +143,7 @@ public class TapAPI extends API {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         // TODO
-//                        Product p = StockRepository.getInstance().getStock().getValue().getProductById()
+//                        Product p = StockRepository.getInstance().getApiStock().getValue().getProductById()
 //                        Barcode s = new Barcode(obj.getString("code"), p);
 //                        result.add(s);
                     }
