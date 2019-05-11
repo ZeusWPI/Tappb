@@ -1,7 +1,5 @@
 package gent.zeus.tappb.viewmodel;
 
-import android.util.Log;
-
 import gent.zeus.tappb.api.APIException;
 import gent.zeus.tappb.api.TapAPI;
 import gent.zeus.tappb.entity.Product;
