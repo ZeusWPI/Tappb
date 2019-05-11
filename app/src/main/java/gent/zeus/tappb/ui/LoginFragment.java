@@ -67,6 +67,7 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onSuccess(InstanceIdResult authResult) {
                         String deviceRegistrationToken = authResult.getToken();
+                        Log.i("registrationToken", deviceRegistrationToken);
                         uploadDeviceRegistrationToken(deviceRegistrationToken);
                     }
                 });
