@@ -40,7 +40,7 @@ public class FavoriteItemFragment extends Fragment implements StockAdapter.Stock
         viewModel = ViewModelProviders.of(getActivity()).get(StockViewModel.class);
         viewModel.init();
 
-        adapter = new StockAdapter(this);
+        adapter = new StockAdapter(this, false);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         viewModel.getStock().observe(this, adapter::setProducts);
