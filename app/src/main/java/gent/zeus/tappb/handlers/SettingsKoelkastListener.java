@@ -21,15 +21,13 @@ public class SettingsKoelkastListener implements SharedPreferences.OnSharedPrefe
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case "ACCOUNT_PRIVATE":
-                UserRepository.getInstance().setPrivate(sharedPreferences.getBoolean("ACCOUNT_PRIVATE", tapUser.isPrivate()));
+                UserRepository.getInstance().setPrivate(sharedPreferences.getBoolean("ACCOUNT_PRIVATE", false));
                 break;
             case "FAVORITE_ITEM_HIDDEN":
-                UserRepository.getInstance().setFavoriteItemHidden(sharedPreferences.getBoolean("FAVORITE_ITEM_HIDDEN", tapUser.isFavoriteItemHidden()));
+                UserRepository.getInstance().setFavoriteItemHidden(sharedPreferences.getBoolean("FAVORITE_ITEM_HIDDEN", false));
                 break;
             default:
                 break;
         }
-        isPrivatePref.setChecked(tapUser.isPrivate());
-        isFavoriteItemHiddenPref.setChecked(tapUser.isFavoriteItemHidden());
     }
 }

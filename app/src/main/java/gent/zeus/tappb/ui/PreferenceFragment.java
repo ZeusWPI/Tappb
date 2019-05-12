@@ -23,15 +23,20 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
 
         SwitchPreferenceCompat isPrivatePref = (SwitchPreferenceCompat) findPreference("ACCOUNT_PRIVATE");
         SwitchPreferenceCompat isFavoriteItemHiddenPref = (SwitchPreferenceCompat) findPreference("FAVORITE_ITEM_HIDDEN");
+        UserRepository.getInstance().getIsPrivate().observe(this, (flag) -> {
 
-        getPreferenceScreen().getSharedPreferences().edit()
-                                                    .putBoolean("ACCOUNT_PRIVATE",tapUser.isPrivate())
-                                                    .putBoolean("FAVORITE_ITEM_HIDDEN", tapUser.isFavoriteItemHidden())
-                                                    .apply();
+            getPreferenceScreen().getSharedPreferences().edit()
+                    .putBoolean("ACCOUNT_PRIVATE",flag)
+                    .apply();
+            isPrivatePref.setChecked(flag);
+        });
+        UserRepository.getInstance().getIsFavoriteItemHidden().observe(this, (flag) -> {
+            getPreferenceScreen().getSharedPreferences().edit()
+                    .putBoolean("FAVORITE_ITEM_HIDDEN", flag)
+                    .apply();
 
-        isPrivatePref.setChecked(tapUser.isPrivate());
-        isFavoriteItemHiddenPref.setChecked(tapUser.isFavoriteItemHidden());
-
+            isFavoriteItemHiddenPref.setChecked(flag);
+        });
         listener  = new SettingsKoelkastListener(isPrivatePref, isFavoriteItemHiddenPref);
     }
 

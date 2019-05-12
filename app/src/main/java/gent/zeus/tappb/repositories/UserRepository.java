@@ -2,6 +2,7 @@ package gent.zeus.tappb.repositories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.api.TapAPI;
@@ -14,6 +15,13 @@ import gent.zeus.tappb.util.NotAuthenticatedException;
 
 @SuppressWarnings("ConstantConditions")
 public class UserRepository {
+    public LiveData<Boolean> getIsPrivate() {
+        return isPrivate;
+    }
+
+    public LiveData<Boolean> getIsFavoriteItemHidden() {
+        return isFavoriteItemHidden;
+    }
     // TODO: this class has a circular dependency on StockRepository
     // leading to the wacky intialization of the fav item
     // need to research how to best handle this
@@ -32,6 +40,8 @@ public class UserRepository {
     private MutableLiveData<UserStatus> status = new MutableLiveData<>();
     private LiveData<StockProduct> favoriteItem;
     private MutableLiveData<Integer> accountBalanceCents = new MutableLiveData<>();
+    private LiveData<Boolean> isPrivate;
+    private LiveData<Boolean> isFavoriteItemHidden;
 
     public static UserRepository getInstance() {
         return ourInstance;
@@ -45,6 +55,8 @@ public class UserRepository {
         });
         status.setValue(UserStatus.LOGGED_OUT);
         tabAPI.getBalanceInCents().observeForever((bal) -> accountBalanceCents.postValue(bal));
+        isPrivate = Transformations.map(tapUser, TapUser::isPrivate);
+        isFavoriteItemHidden = Transformations.map(tapUser, TapUser::isFavoriteItemHidden);
 
     }
 
@@ -96,19 +108,24 @@ public class UserRepository {
     public boolean isLoggedIn() {
         return status.getValue() == UserStatus.LOGGED_IN;
     }
+
     public void fetchAll() {
         tabAPI.fetchBalanceInCents();
         tapAPI.fetchTapUser(user.getValue());
     }
+
     public void uploadDeviceRegistrationToken(String token) {
         tabAPI.uploadDeviceRegistrationToken(user.getValue(), token);
     }
+
     public void setPrivate(boolean aPrivate) {
         tapAPI.setPrivate(user.getValue(), aPrivate);
     }
+
     public void setFavoriteItem(Product p) {
         tapAPI.setFavoriteItem(user.getValue(), p);
     }
+
     public void setFavoriteItemHidden(boolean favoriteItemHidden) {
         tapAPI.setFavoriteItemHidden(user.getValue(), favoriteItemHidden);
     }
