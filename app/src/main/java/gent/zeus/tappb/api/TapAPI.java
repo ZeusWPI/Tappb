@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gent.zeus.tappb.entity.Barcode;
+import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.Stock;
 import gent.zeus.tappb.entity.StockProduct;
@@ -81,6 +82,21 @@ public class TapAPI extends API {
         RequestBody body = RequestBody.create(JSON, jsondata);
         Request request = buildRequest(relativeURL)
                 .put(body)
+                .header("Content-Type", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException ex) {
+            throw new APIException("Failed to get body of request: " + relativeURL);
+        }
+    }
+
+    private String postBody(String relativeURL, String jsondata) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, jsondata);
+        Request request = buildRequest(relativeURL)
+                .post(body)
                 .header("Content-Type", "application/json")
                 .build();
         try {
@@ -242,5 +258,24 @@ public class TapAPI extends API {
         } catch (Exception ex) {
             throw new APIException("Failed to get body of request: ");
         }
+    }
+
+    public void createOrder(User user, List<OrderProduct> orderProducts) {
+        JSONObject data = new JSONObject();
+        try {
+            JSONArray order_items_attributes = new JSONArray();
+            for (OrderProduct orderProduct : orderProducts) {
+                JSONObject item = new JSONObject();
+                item.put("product_id", orderProduct.getId());
+                item.put("count", orderProduct.getCount());
+                order_items_attributes.put(item);
+            }
+            JSONObject order = new JSONObject();
+            order.put("order_item_attributes", order_items_attributes);
+            data.put("order", order);
+        } catch (Exception ex) {
+            throw new APIException("Failed to construct JSON order request");
+        }
+        postBody("/users/" + user.getUsername() + "/orders.json", data.toString());
     }
 }
