@@ -4,6 +4,7 @@
         android:title="@string/notifications">
         <SwitchPreferenceCompat
             android:key="ENABLE_NOTIFICATIONS"
-            android:title="@string/enable_notifications" />
+            android:title="@string/enable_notifications"
+            android:defaultValue="true"/>
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
