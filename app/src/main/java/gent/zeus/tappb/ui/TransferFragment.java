@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import gent.zeus.tappb.R;
 import gent.zeus.tappb.handlers.MoneyTextWatcher;
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
@@ -73,9 +74,9 @@ public class TransferFragment extends MoneySubmitFragment implements
 
         String message = binding.messageInput.getText().toString();
 
-        String dialogMessage = "Send " + amount + " to " + name + "?";
+        String dialogMessage = getString(R.string.transfer_confirmation, amount, name);
         if (isValid) {
-            DialogFragment dialog = new OkCancelDialogFragment(this, dialogMessage);
+            DialogFragment dialog = OkCancelDialogFragment.newInstance(dialogMessage);
             dialog.show(getFragmentManager(), "ConfirmTransferDialogFragment");
         }
     }
@@ -107,6 +108,6 @@ public class TransferFragment extends MoneySubmitFragment implements
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        Toast.makeText(getContext(), "DECLINED", Toast.LENGTH_SHORT).show();
+
     }
 }

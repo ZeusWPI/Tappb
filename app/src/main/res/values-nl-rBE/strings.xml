@@ -31,4 +31,16 @@
     <string name="none">Geen</string>
     <string name="profile_picture_camera_gallery">Camera of gallerij gebruiken?</string>
     <string name="top_up_alert">"Voor het opladen van je balans, schrijf geld over naar onderstaand rekeningnummer en laat dit weten aan één van de bestuursleden. Vermeld zeker je gebruikersnaam in het overschrijvingsbericht! "</string>
+    <string name="current_balance">Huidig balans:</string>
+    <string name="copy">Kopiëer naar klembord</string>
+    <string name="koelkast_settings_hidden">Verberg me op Koelkast</string>
+    <string name="koelkast_settings_quickpay_hidden">Verberg favoriet product</string>
+    <string name="copied_clipboard">Gekopiëerd naar klembord</string>
+    <string name="delete_all_items">Weet u zeker dat u alle producten wil verwijderen?</string>
+    <string name="logged_out">Uitgelogd</string>
+    <string name="no_internet_conn">Geen internetverbinding</string>
+    <string name="order_cancelled">Bestelling geannuleerd!</string>
+    <string name="order_completed">Bestelling voltooid!</string>
+    <string name="order_confirmation">Bevestig bestelling?</string>
+    <string name="transfer_confirmation">"Schrijf %1$s over naar %2$s "</string>
 </resources>

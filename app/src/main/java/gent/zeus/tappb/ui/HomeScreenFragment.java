@@ -43,7 +43,7 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
         binding.setLifecycleOwner(this);
         binding.setHandler(this);
         User.getLiveInstance().observe(this, user -> {
-            binding.loginButton.setText(user.isLoaded() ? getResources().getText(R.string.logout) : getResources().getText(R.string.login));
+            binding.loginButton.setText(user.isLoaded() ? R.string.logout : R.string.login);
         });
         gestureDetector = new GestureDetector(this.getContext(), new GestureListener());
         binding.getRoot().setOnTouchListener(this);
@@ -61,14 +61,14 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
         if (User.getInstance().isLoaded()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.confirm_logout)
-                    .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
+                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
                         User.logout();
                         SharedPreferences.Editor editor = getContext().getSharedPreferences("tokens", Context.MODE_PRIVATE).edit();
                         editor.clear();
                         editor.apply();
-                        Toast.makeText(getContext(), "Logged out", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.logged_out, Toast.LENGTH_LONG).show();
                     })
-                    .setNegativeButton(getResources().getText(R.string.cancel), (dialog, which) -> {});
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {});
             builder.create().show();
         } else {
             NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_login);

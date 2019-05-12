@@ -35,7 +35,7 @@ public class MoneyOverviewFragment extends Fragment implements MoneyListener {
         if (User.getInstance().isLoaded()) {
             binding.balance.setText("€" + formatter.format(((double) TabAPI.getBalanceInCents()) / 100));
         } else {
-            binding.balance.setText(getResources().getText(R.string.not_logged_in));
+            binding.balance.setText(R.string.not_logged_in);
         }
         binding.setHandler(this);
         return binding.getRoot();

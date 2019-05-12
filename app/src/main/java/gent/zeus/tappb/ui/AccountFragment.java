@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentAccountBinding;
+import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.viewmodel.AccountViewModel;
 
 public class AccountFragment extends Fragment {
@@ -117,7 +118,7 @@ public class AccountFragment extends Fragment {
         int cutoutSize = Math.min(icon.getWidth(), icon.getHeight());
         Bitmap cutout = Bitmap.createBitmap(icon, (icon.getWidth() - cutoutSize) / 2,(icon.getHeight() - cutoutSize) / 2, cutoutSize, cutoutSize);
 
-        int finalSize = Math.min(cutoutSize, getResources().getInteger(R.integer.profile_picture_size));
+        int finalSize = Math.min(cutoutSize, R.integer.profile_picture_size);
         Bitmap finalImage = Bitmap.createScaledBitmap(cutout, finalSize, finalSize, false);
         viewModel.setProfilePicture(finalImage);
         Log.i("REQUEST", finalImage.getWidth() + ", " + finalImage.getHeight());

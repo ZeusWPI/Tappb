@@ -3,6 +3,8 @@
     <string name="scan_barcode">Scan using barcode</string>
     <string name="action_search">Search</string>
     <string name="profile_picture">Profile picture</string>
+    <string name="top_up_alert">To top up your balance, transfer money to the following bank account number and poke your nearest board member. Make sure to include your username! </string>
+    <string name="bank_account" translatable="false">BE32 9799 9370 6502</string>
     <string name="change_favorite_item">Change favorite item</string>
     <string name="nav_home">Home</string>
     <string name="nav_stock">Stock</string>
@@ -31,7 +33,18 @@
     <string name="enable_notifications">Enable?</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
-
-    <string name="top_up_alert">To top up your balance, transfer money to BE32 9799 9370 6502 and poke your nearest board member. Make sure to include your username! </string>
     <string name="profile_picture_camera_gallery">Use camera or gallery?</string>
+    <string name="koelkast_settings" translatable="false">Koelkast</string>
+    <string name="koelkast_settings_hidden">Hide me on Koelkast</string>
+    <string name="koelkast_settings_quickpay_hidden">Hide favorite item</string>
+    <string name="copy">Copy to clipboard</string>
+    <string name="current_balance">Your current balance:</string>
+    <string name="order_cancelled">Order cancelled!</string>
+    <string name="order_completed">Order Completed!</string>
+    <string name="no_internet_conn">No internet connection</string>
+    <string name="copied_clipboard">Copied to clipboard</string>
+    <string name="logged_out">Logged out</string>
+    <string name="delete_all_items">Are you sure you want to delete all items?</string>
+    <string name="order_confirmation">Confirm order?</string>
+    <string name="transfer_confirmation">Send %1$s to %2$s </string>
 </resources>

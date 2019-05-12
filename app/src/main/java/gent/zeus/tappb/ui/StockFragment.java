@@ -52,7 +52,7 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
 
         orderViewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
 
-        adapter = new StockAdapter(this);
+        adapter = new StockAdapter(this, true);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         stockViewModel.getStock().observe(this, adapter::setProducts);

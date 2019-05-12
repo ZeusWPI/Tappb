@@ -60,7 +60,7 @@ public class LoginWebviewClient extends WebViewClient {
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         switch (error.getErrorCode()) {
             case WebViewClient.ERROR_HOST_LOOKUP:
-                Toast.makeText(view.getContext(), "No internet connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), R.string.no_internet_conn, Toast.LENGTH_LONG).show();
                 navigateAway();
         }
     }
