@@ -139,15 +139,27 @@ public class TapAPI extends API {
             @Override
             public void onResponse(@Nullable Call call, Response response) throws IOException {
                 try {
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    int id = jsonObject.getInt("id");
-                    String imageURL = getImageURL(id, jsonObject.getString("avatar_file_name"));
-                    String favoriteItemId = jsonObject.getString("dagschotel_id");
+                    user.postValue(parseTapUser(response.body().string()));
                 } catch (Exception ex) {
                     throw new APIException("Failed to get body of request: ");
                 }
             }
         });
+    }
+
+    private TapUser parseTapUser(String body) throws JSONException {
+        JSONObject jsonObject = new JSONObject(body);
+        int id = jsonObject.getInt("id");
+        String imageURL = getProfileImageUrl(id, jsonObject.getString("avatar_file_name"));
+        String favoriteItemId = jsonObject.getString("dagschotel_id");
+        boolean isPrivate = jsonObject.getBoolean("private");
+        boolean quickPay = jsonObject.getBoolean("quickpay_hidden");
+        Integer favId = null;
+        if (!favoriteItemId.equals("null")) {
+            favId = Integer.parseInt(favoriteItemId);
+        }
+        return new TapUser(id, imageURL, favId, isPrivate, quickPay);
+
     }
 
     public void fetchBarcodes() {
@@ -190,6 +202,17 @@ public class TapAPI extends API {
                 imageName);
     }
 
+    private String getProfileImageUrl(int id, String imageName) {
+        String paddedID = String.format("%09d", id);
+        List<String> splitID = splitString(paddedID, 3);
+
+        return String.format(endpoint + "/system/users/avatars/%s/%s/%s/medium/%s",
+                splitID.get(0),
+                splitID.get(1),
+                splitID.get(2),
+                imageName);
+    }
+
     private List<String> splitString(String string, int size) {
         List<String> res = new ArrayList<>();
         for (int i = 0; i < string.length(); i += size) {
@@ -200,13 +223,24 @@ public class TapAPI extends API {
 
     public void setFavoriteItem(User user, Product p) {
         putBody("/users/" + user.getUsername() + ".json", String.format("{\"dagschotel_id\":\"%d\"}", p.getId()));
+        fetchTapUser(user);
     }
 
     public void setPrivate(User user, boolean aPrivate) {
-        putBody("/users/" + user.getUsername() + ".json", String.format("{\"private\":\"%b\"}", aPrivate));
+        String body = putBody("/users/" + user.getUsername() + ".json", String.format("{\"private\":\"%b\"}", aPrivate));
+        try {
+            this.user.postValue(parseTapUser(body));
+        } catch (Exception ex) {
+            throw new APIException("Failed to get body of request: ");
+        }
     }
 
-    public void setFavoriteItemHidden(User user,boolean favoriteItemHidden) {
-        putBody("/users/" + user.getUsername() + ".json", String.format("{\"quickpay_hidden\":\"%b\"}", favoriteItemHidden));
+    public void setFavoriteItemHidden(User user, boolean favoriteItemHidden) {
+        String body = putBody("/users/" + user.getUsername() + ".json", String.format("{\"quickpay_hidden\":\"%b\"}", favoriteItemHidden));
+        try {
+            this.user.postValue(parseTapUser(body));
+        } catch (Exception ex) {
+            throw new APIException("Failed to get body of request: ");
+        }
     }
 }
