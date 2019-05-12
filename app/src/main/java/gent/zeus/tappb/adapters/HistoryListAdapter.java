@@ -29,7 +29,6 @@ public class HistoryListAdapter extends ListAdapter<Transaction, HistoryListAdap
             };
 
     private DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMM");
-    private DecimalFormat costFormatter = new DecimalFormat("#0.00");
 
     public HistoryListAdapter() {
         super(DIFF_CALLBACK);
@@ -57,7 +56,6 @@ public class HistoryListAdapter extends ListAdapter<Transaction, HistoryListAdap
             super(binding.getRoot());
             itemBinding = binding;
             itemBinding.setMonthFormatter(HistoryListAdapter.this.monthFormatter);
-            itemBinding.setCostFormatter(HistoryListAdapter.this.costFormatter);
         }
 
         public void bind(Transaction item) {

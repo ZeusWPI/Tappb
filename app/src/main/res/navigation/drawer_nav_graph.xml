@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_nav_graph"
+    app:startDestination="@id/nav_start">
+
+    <fragment
+        android:id="@+id/nav_start"
+        android:name="gent.zeus.tappb.ui.StartFragment"
+        android:label="StartFragment"
+        tools:layout="@layout/fragment_start"/>
+
+    <fragment
+        android:id="@+id/nav_account"
+        android:name="gent.zeus.tappb.ui.AccountFragment"
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account">
+        <action
+            android:id="@+id/action_nav_account_to_nav_favorite_item"
+            app:destination="@id/nav_favorite_item" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="gent.zeus.tappb.ui.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"/>
+
+    <fragment
+        android:id="@+id/nav_favorite_item"
+        android:name="gent.zeus.tappb.ui.FavoriteItemFragment"
+        android:label="FavoriteItemFragment" />
+
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="gent.zeus.tappb.ui.HistoryFragment"
+        android:label="HistoryFragment"
+        tools:layout="@layout/fragment_history"/>
+</navigation>

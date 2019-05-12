@@ -1,4 +1,4 @@
-package gent.zeus.tappb;
+package gent.zeus.tappb.handlers;
 
 import androidx.fragment.app.DialogFragment;
 

@@ -1,19 +1,15 @@
 package gent.zeus.tappb.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
-import gent.zeus.tappb.MoneySubmitFragment;
-import gent.zeus.tappb.MoneySubmitFragment;
-import gent.zeus.tappb.MoneyTextWatcher;
-import gent.zeus.tappb.OkCancelDialogFragment;
+import gent.zeus.tappb.handlers.MoneyTextWatcher;
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.handlers.OkCancelDialogListener;
 import gent.zeus.tappb.repositories.UserRepository;
 
 import android.text.Editable;

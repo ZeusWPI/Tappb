@@ -1,6 +1,7 @@
 package gent.zeus.tappb.api;
 
 import android.os.StrictMode;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,6 +13,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import gent.zeus.tappb.entity.User;
@@ -43,7 +46,19 @@ public class TabAPI extends API {
     public LiveData<Integer> getBalanceInCents() {
         return balance;
     }
-
+    private String postBody(String relativeURL, String jsondata) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, jsondata);
+        Request request = buildRequest(relativeURL)
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException ex) {
+            throw new APIException("Failed to get body of request: " + relativeURL);
+        }
+}
     private Request.Builder buildRequest(String relativeURL) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -82,8 +97,10 @@ public class TabAPI extends API {
                         Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount * 100.0);
                         result.add(t);
                     }
+                    Collections.reverse(result);
                     transactions.postValue(result);
                 } catch (JSONException ex) {
+                    Log.d("exep", ex.toString());
                     throw new APIException("Failed to parse JSON of request");
                 }
             }
@@ -151,5 +168,15 @@ public class TabAPI extends API {
                 isSucceeded.postValue(response.isSuccessful());
             }
         });
+    }
+
+    public void uploadDeviceRegistrationToken(User user,String token) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("token", token);
+        } catch (JSONException ex) {
+            throw new APIException("Failed to create JSON");
+        }
+        postBody("/users/" +  user.getUsername() +  "/add_registration_token.json", data.toString());
     }
 }

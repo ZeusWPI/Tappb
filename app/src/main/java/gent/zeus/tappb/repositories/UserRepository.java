@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.api.TapAPI;
+import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
@@ -99,6 +100,19 @@ public class UserRepository {
         tabAPI.fetchBalanceInCents();
         tapAPI.fetchTapUser(user.getValue());
     }
+    public void uploadDeviceRegistrationToken(String token) {
+        tabAPI.uploadDeviceRegistrationToken(user.getValue(), token);
+    }
+    public void setPrivate(boolean aPrivate) {
+        tapAPI.setPrivate(user.getValue(), aPrivate);
+    }
+    public void setFavoriteItem(Product p) {
+        tapAPI.setFavoriteItem(user.getValue(), p);
+    }
+    public void setFavoriteItemHidden(boolean favoriteItemHidden) {
+        tapAPI.setFavoriteItemHidden(user.getValue(), favoriteItemHidden);
+    }
+
 
     private void assertLoggedIn() {
         if (!isLoggedIn()) {

@@ -11,7 +11,7 @@ import java.util.List;
 
 import gent.zeus.tappb.databinding.OrderItemBinding;
 import gent.zeus.tappb.entity.OrderProduct;
-import gent.zeus.tappb.ui.OrderItemViewHolder;
+import gent.zeus.tappb.ui.viewholders.OrderItemViewHolder;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderItemViewHolder> {

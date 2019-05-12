@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.StockItemBinding;
 
 import java.text.DecimalFormat;
@@ -28,9 +29,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
     private List<StockProduct> productsFull;
     private StockListener listener;
     private DecimalFormat formatter = new DecimalFormat("#0.00");
+    private boolean isOrder;
 
-    public StockAdapter(StockListener listener) {
+    public StockAdapter(StockListener listener, boolean isOrder) {
         this.listener = listener;
+        this.isOrder = isOrder;
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -39,7 +43,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
         return new ViewHolder(StockItemBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent,
-                false));
+                false), isOrder);
     }
 
     @Override
@@ -57,8 +61,13 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
 
     public void setProducts(List<StockProduct> products) {
         this.products = new ArrayList<>(products);
-        productsFull = new ArrayList<>(products);
+        this.productsFull = new ArrayList<>(products);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return products.get(position).getId();
     }
 
     @Override
@@ -99,11 +108,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.ViewHolder> 
 
         private StockItemBinding itemBinding;
 
-        public ViewHolder(@NonNull StockItemBinding binding) {
+        public ViewHolder(@NonNull StockItemBinding binding, boolean isOrder) {
             super(binding.getRoot());
             itemBinding = binding;
             itemBinding.setHandler(StockAdapter.this.listener);
             itemBinding.setFormatter(StockAdapter.this.formatter);
+            itemBinding.setIsOrder(isOrder);
         }
 
         public void bind(StockProduct item) {

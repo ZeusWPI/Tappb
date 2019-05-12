@@ -1,13 +1,16 @@
-package gent.zeus.tappb.ui;
+package gent.zeus.tappb.ui.viewholders;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
 import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.OrderItemBinding;
 import gent.zeus.tappb.entity.OrderProduct;
+import gent.zeus.tappb.handlers.OrderItemListener;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 public class OrderItemViewHolder extends RecyclerView.ViewHolder implements OrderItemListener {
@@ -34,6 +37,7 @@ public class OrderItemViewHolder extends RecyclerView.ViewHolder implements Orde
         itemBinding.setProductName(orderProduct.getName());
         itemBinding.setProductCount(Integer.toString(orderProduct.getCount()));
         itemBinding.setProductPrice(formatter.format(orderProduct.getPrice()));
+        Picasso.get().load(orderProduct.getImageURL()).into(itemBinding.image);
     }
 
     @Override

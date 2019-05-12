@@ -4,30 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/start_nav_graph"
     app:startDestination="@id/nav_home">
+
     <fragment
         android:id="@+id/nav_stock"
         android:name="gent.zeus.tappb.ui.StockFragment"
         android:label="StockFragment"
         tools:layout="@layout/fragment_stock"/>
-    <fragment
-        android:id="@+id/nav_money"
-        android:name="gent.zeus.tappb.ui.MoneyFragment"
-        android:label="MoneyFragment"
-        tools:layout="@layout/fragment_money"/>
-    <fragment
-        android:id="@+id/nav_account"
-        android:name="gent.zeus.tappb.ui.AccountFragment"
-        android:label="AccountFragment"
-        tools:layout="@layout/fragment_account">
-        <action
-            android:id="@+id/action_nav_account_to_nav_favorite_item"
-            app:destination="@id/nav_favorite_item" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_favorite_item"
-        android:name="gent.zeus.tappb.ui.FavoriteItemFragment"
-        android:label="FavoriteItemFragment"
-        tools:layout="@layout/fragment_stock"/>
+
     <fragment
         android:id="@+id/nav_login"
         android:name="gent.zeus.tappb.ui.LoginFragment"
@@ -37,6 +20,7 @@
             android:id="@+id/action_nav_login_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_order"
         android:name="gent.zeus.tappb.ui.OrderPageFragment"
@@ -46,6 +30,7 @@
             android:id="@+id/action_nav_order_to_nav_camera"
             app:destination="@id/nav_camera" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_home"
         android:name="gent.zeus.tappb.ui.HomeScreenFragment"
@@ -61,6 +46,7 @@
             android:id="@+id/action_nav_home_to_nav_login"
             app:destination="@id/nav_login" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_camera"
         android:name="gent.zeus.tappb.ui.CameraFragment"
@@ -70,5 +56,32 @@
             android:id="@+id/action_nav_camera_to_nav_order"
             app:destination="@id/nav_order" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_money_overview"
+        android:name="gent.zeus.tappb.ui.MoneyOverviewFragment"
+        android:label="MoneyFragment"
+        tools:layout="@layout/fragment_money_overview" >
+        <action
+            android:id="@+id/toTopUp"
+            app:destination="@id/nav_top_up" />
+        <action
+            android:id="@+id/toTransfer"
+            app:destination="@id/nav_transfer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_top_up"
+        android:name="gent.zeus.tappb.ui.TopUpFragment"
+        android:label="TopUpFragment"
+        tools:layout="@layout/fragment_top_up" />
+
+    <fragment
+        android:id="@+id/nav_transfer"
+        android:name="gent.zeus.tappb.ui.TransferFragment"
+        android:label="TransferFragment"
+        tools:layout="@layout/fragment_transfer" />
+
+
 
 </navigation>

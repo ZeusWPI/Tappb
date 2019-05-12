@@ -12,8 +12,12 @@ import android.webkit.WebView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import gent.zeus.tappb.databinding.FragmentLoginBinding;
-import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.login.LoginWebviewClient;
 import gent.zeus.tappb.repositories.UserRepository;
 
@@ -40,7 +44,6 @@ public class LoginFragment extends Fragment {
             String tabToken = tokenPreferences.getString(TAB_TOKEN_KEY, null);
             String tapToken = tokenPreferences.getString(TAP_TOKEN_KEY, null);
             UserRepository.getInstance().load(username, tabToken, tapToken);
-            Log.i("LOGIN", "succeeeded automatically REEEEEEEEEEEEEEEEEEEEEE");
             getFragmentManager().popBackStack();
             return binding.getRoot();
         }
@@ -55,6 +58,16 @@ public class LoginFragment extends Fragment {
                 tokenEditor.putString(TAB_TOKEN_KEY, UserRepository.getInstance().getUser().getValue().getTabToken());
                 tokenEditor.putString(TAP_TOKEN_KEY, UserRepository.getInstance().getUser().getValue().getTapToken());
                 tokenEditor.apply();
+                // upload device registration token
+                Task<InstanceIdResult> task = FirebaseInstanceId.getInstance().getInstanceId();
+                task.addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                    @Override
+                    public void onSuccess(InstanceIdResult authResult) {
+                        String deviceRegistrationToken = authResult.getToken();
+                        Log.i("registrationToken", deviceRegistrationToken);
+                        UserRepository.getInstance().uploadDeviceRegistrationToken(deviceRegistrationToken);
+                    }
+                });
                 getFragmentManager().popBackStack();
             }
         });

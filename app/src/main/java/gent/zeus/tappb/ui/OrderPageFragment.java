@@ -13,10 +13,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
-import gent.zeus.tappb.OkCancelDialogFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
+import gent.zeus.tappb.handlers.OkCancelDialogListener;
+import gent.zeus.tappb.handlers.OrderPageListener;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 public class OrderPageFragment extends Fragment implements OrderPageListener, OkCancelDialogListener {

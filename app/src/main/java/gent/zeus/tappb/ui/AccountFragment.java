@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentAccountBinding;
+import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.viewmodel.AccountViewModel;
 
 public class AccountFragment extends Fragment {

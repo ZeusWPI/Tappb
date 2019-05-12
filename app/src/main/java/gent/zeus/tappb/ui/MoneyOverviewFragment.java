@@ -15,7 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
-import gent.zeus.tappb.MoneyListener;
+import gent.zeus.tappb.handlers.MoneyListener;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentMoneyOverviewBinding;

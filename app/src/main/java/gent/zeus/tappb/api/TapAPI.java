@@ -1,6 +1,7 @@
 package gent.zeus.tappb.api;
 
 import android.os.StrictMode;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gent.zeus.tappb.entity.Barcode;
+import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.Stock;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
@@ -23,6 +25,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class TapAPI extends API {
@@ -58,6 +61,34 @@ public class TapAPI extends API {
 
     public MutableLiveData<TapUser> getTapUser() {
         return user;
+    }
+
+    private String getBody(String relativeURL) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = buildRequest(relativeURL).build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException ex) {
+            Log.e("TapAPI", "Error", ex);
+            throw new APIException("Failed to get body of request: " + relativeURL);
+        }
+    }
+
+
+    private String putBody(String relativeURL, String jsondata) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, jsondata);
+        Request request = buildRequest(relativeURL)
+                .put(body)
+                .header("Content-Type", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException ex) {
+            throw new APIException("Failed to get body of request: " + relativeURL);
+        }
     }
 
     public void fetchStockProduct() {
@@ -112,18 +143,11 @@ public class TapAPI extends API {
                     int id = jsonObject.getInt("id");
                     String imageURL = getImageURL(id, jsonObject.getString("avatar_file_name"));
                     String favoriteItemId = jsonObject.getString("dagschotel_id");
-
-                    if (!favoriteItemId.equals("null")) {
-                        user.postValue(new TapUser(id, imageURL, Integer.parseInt(favoriteItemId)));
-                    } else {
-                        user.postValue(new TapUser(id, imageURL, null));
-                    }
-                } catch (JSONException e) {
-                    throw new APIException("Failed to parse JSON of request");
+                } catch (Exception ex) {
+                    throw new APIException("Failed to get body of request: ");
                 }
             }
         });
-
     }
 
     public void fetchBarcodes() {
@@ -159,7 +183,7 @@ public class TapAPI extends API {
         String paddedID = String.format("%09d", id);
         List<String> splitID = splitString(paddedID, 3);
 
-        return String.format(endpoint + "/system/products/avatars/%s/%s/%s/small/%s",
+        return String.format(endpoint + "/system/products/avatars/%s/%s/%s/medium/%s",
                 splitID.get(0),
                 splitID.get(1),
                 splitID.get(2),
@@ -172,5 +196,17 @@ public class TapAPI extends API {
             res.add(string.substring(i, Math.min(string.length(), i + size)));
         }
         return res;
+    }
+
+    public void setFavoriteItem(User user, Product p) {
+        putBody("/users/" + user.getUsername() + ".json", String.format("{\"dagschotel_id\":\"%d\"}", p.getId()));
+    }
+
+    public void setPrivate(User user, boolean aPrivate) {
+        putBody("/users/" + user.getUsername() + ".json", String.format("{\"private\":\"%b\"}", aPrivate));
+    }
+
+    public void setFavoriteItemHidden(User user,boolean favoriteItemHidden) {
+        putBody("/users/" + user.getUsername() + ".json", String.format("{\"quickpay_hidden\":\"%b\"}", favoriteItemHidden));
     }
 }

@@ -22,6 +22,7 @@ import gent.zeus.tappb.databinding.FragmentStockBinding;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.repositories.UserRepository;
 import gent.zeus.tappb.viewmodel.StockViewModel;
 
 public class FavoriteItemFragment extends Fragment implements StockAdapter.StockListener {
@@ -40,7 +41,7 @@ public class FavoriteItemFragment extends Fragment implements StockAdapter.Stock
         viewModel = ViewModelProviders.of(getActivity()).get(StockViewModel.class);
         viewModel.init();
 
-        adapter = new StockAdapter(this);
+        adapter = new StockAdapter(this, false);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         viewModel.getStock().observe(this, adapter::setProducts);
@@ -75,6 +76,7 @@ public class FavoriteItemFragment extends Fragment implements StockAdapter.Stock
     @Override
     public void onClick(StockProduct p) {
         Toast.makeText(getContext(), p.getName(), Toast.LENGTH_SHORT).show();
+        UserRepository.getInstance().setFavoriteItem(p);
         NavHostFragment.findNavController(this).navigateUp();
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/notifications">
+        <SwitchPreferenceCompat
+            android:key="ENABLE_NOTIFICATIONS"
+            android:title="@string/enable_notifications"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/koelkast_settings">
+        <SwitchPreferenceCompat
+            android:key="ACCOUNT_PRIVATE"
+            android:title="@string/koelkast_settings_hidden" />
+        <SwitchPreferenceCompat
+            android:key="FAVORITE_ITEM_HIDDEN"
+            android:title="@string/koelkast_settings_quickpay_hidden" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>
