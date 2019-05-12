@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
+import java.text.DecimalFormat;
+
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.OrderListAdapter;
 import gent.zeus.tappb.databinding.FragmentOrderpageBinding;
@@ -24,6 +26,7 @@ public class OrderPageFragment extends Fragment implements OrderPageListener {
     private OrderViewModel viewModel;
     private OrderListAdapter adapter;
     private FragmentOrderpageBinding binding;
+    private DecimalFormat formatter = new DecimalFormat("#0.00");
 
     public OrderPageFragment() {
         // Required empty public constructor
@@ -44,6 +47,8 @@ public class OrderPageFragment extends Fragment implements OrderPageListener {
 
         viewModel.getOrders().observe(this, adapter::setOrderList);
         viewModel.getScanningState().observe(this, this::setButtonText);
+        viewModel.getTotalPrice().observe(this, price -> binding.totalPrice.setText("€" + formatter.format(price)));
+
 
         return binding.getRoot();
     }
