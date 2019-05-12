@@ -24,6 +24,13 @@ public class Product {
         this.imageURL = "https://tap.zeus.gent/system/products/avatars/000/000/007/medium/bottle-start.png";
     }
 
+    public Product(Product product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.price = product.getPrice();
+        this.imageURL = product.getImageURL();
+    }
+
     public int getId() {
         return id;
     }
@@ -36,6 +43,9 @@ public class Product {
         return price;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,7 +60,4 @@ public class Product {
         return (name + id).hashCode();
     }
 
-    public String getImageURL() {
-        return imageURL;
-    }
 }

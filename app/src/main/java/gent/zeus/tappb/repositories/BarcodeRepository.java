@@ -1,30 +1,37 @@
-package gent.zeus.tappb.entity;
+package gent.zeus.tappb.repositories;
 
 import android.util.Log;
+
+import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gent.zeus.tappb.api.APIException;
 import gent.zeus.tappb.api.TapAPI;
+import gent.zeus.tappb.entity.Barcode;
 
-public class BarcodeList {
-    private static BarcodeList instance;
+public class BarcodeRepository {
+    private static BarcodeRepository instance;
     private List<Barcode> barcodes;
+    private TapAPI api = new TapAPI();
 
-    private BarcodeList(){}
+    private BarcodeRepository(){
+        LiveData<List<Barcode>> apiCodes = api.getBarcodes();
+        apiCodes.observeForever(codes -> barcodes = codes);
+    }
 
-    public static BarcodeList getInstance() {
+    public static BarcodeRepository getInstance() {
         if (instance == null) {
-            instance = new BarcodeList();
+            instance = new BarcodeRepository();
         }
         return instance;
     }
 
     public void reloadBarcodes() {
         try {
+            api.fetchBarcodes();
 
-            barcodes = TapAPI.getBarcodes();
         } catch (APIException ex) {
             barcodes = new ArrayList<>();
             Log.e("BarcodeRequest", "failed to load barcodes");

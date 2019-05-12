@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -33,19 +32,18 @@ public class OrderPageFragment extends Fragment implements OrderPageListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentOrderpageBinding.inflate(inflater, container, false);
-
         binding.setHandler(this);
 
         viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
+
         adapter = new OrderListAdapter(viewModel.getOrders().getValue(), viewModel);
         binding.productList.setAdapter(adapter);
         binding.productList.setItemAnimator(null);
         binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
         viewModel.getOrders().observe(this, adapter::setOrderList);
         viewModel.getScanningState().observe(this, this::setButtonText);
-        viewModel.getOrderState().observe(this, this::handleOrderState);
 
         return binding.getRoot();
     }
@@ -61,7 +59,7 @@ public class OrderPageFragment extends Fragment implements OrderPageListener {
         dialog.setListener(new OkCancelDialogListener() {
             @Override
             public void onDialogPositiveClick(DialogFragment dialog) {
-                viewModel.makeOrder();
+//                viewModel.makeOrder();
             }
 
             @Override
@@ -104,20 +102,6 @@ public class OrderPageFragment extends Fragment implements OrderPageListener {
                 break;
             case EMPTY:
                 button.setEnabled(true);
-                break;
-        }
-    }
-    private void handleOrderState(OrderViewModel.OrderState state) {
-        switch (state) {
-            case ORDER_EMPTY:
-                break;
-            case ORDER_ERROR:
-                break;
-            case ORDER_CANCELLED:
-                Toast.makeText(getContext(), R.string.order_cancelled, Toast.LENGTH_LONG).show();
-                break;
-            case ORDER_COMPLETED:
-                Toast.makeText(getContext(), R.string.order_completed, Toast.LENGTH_LONG).show();
                 break;
         }
     }

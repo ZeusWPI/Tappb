@@ -19,7 +19,9 @@ public class HistoryViewModel extends ViewModel {
 
     private void initializeHistory() {
         history = new MutableLiveData<>();
-        ((MutableLiveData<List<Transaction>>) history).setValue(TabAPI.getTransactions());
+        // TODO
+//        ((MutableLiveData<List<Transaction>>) history).setValue(TabAPI.getTransactions());
+
     }
 
     public LiveData<List<Transaction>> getHistory() {

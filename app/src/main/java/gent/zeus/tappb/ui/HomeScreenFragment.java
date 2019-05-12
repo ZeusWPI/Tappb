@@ -21,6 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeScreenBinding;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.repositories.UserRepository;
 import gent.zeus.tappb.handlers.HomeListener;
 
 /**
@@ -42,8 +43,8 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
         FragmentHomeScreenBinding binding = FragmentHomeScreenBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         binding.setHandler(this);
-        User.getLiveInstance().observe(this, user -> {
-            binding.loginButton.setText(user.isLoaded() ? R.string.logout : R.string.login);
+        UserRepository.getInstance().getUser().observe(this, user -> {
+            binding.loginButton.setText(user != null ? getResources().getText(R.string.logout) : getResources().getText(R.string.login));
         });
         gestureDetector = new GestureDetector(this.getContext(), new GestureListener());
         binding.getRoot().setOnTouchListener(this);
@@ -58,11 +59,12 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
 
     @Override
     public void onLoginClicked() {
-        if (User.getInstance().isLoaded()) {
+        // TODO: do logout in VM
+        if (UserRepository.getInstance().getUser().getValue() != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.confirm_logout)
-                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                        User.logout();
+                    .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
+                        UserRepository.getInstance().logout();
                         SharedPreferences.Editor editor = getContext().getSharedPreferences("tokens", Context.MODE_PRIVATE).edit();
                         editor.clear();
                         editor.apply();

@@ -10,6 +10,7 @@ import gent.zeus.tappb.R;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.handlers.SettingsKoelkastListener;
+import gent.zeus.tappb.repositories.UserRepository;
 
 public class PreferenceFragment extends PreferenceFragmentCompat {
 
@@ -19,20 +20,23 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        User.getInstance().updateTapUser();
-        TapUser tapUser = User.getInstance().getTapUser();
 
         SwitchPreferenceCompat isPrivatePref = (SwitchPreferenceCompat) findPreference("ACCOUNT_PRIVATE");
         SwitchPreferenceCompat isFavoriteItemHiddenPref = (SwitchPreferenceCompat) findPreference("FAVORITE_ITEM_HIDDEN");
+        UserRepository.getInstance().getIsPrivate().observe(this, (flag) -> {
 
-        getPreferenceScreen().getSharedPreferences().edit()
-                                                    .putBoolean("ACCOUNT_PRIVATE",tapUser.isPrivate())
-                                                    .putBoolean("FAVORITE_ITEM_HIDDEN", tapUser.isFavoriteItemHidden())
-                                                    .apply();
+            getPreferenceScreen().getSharedPreferences().edit()
+                    .putBoolean("ACCOUNT_PRIVATE",flag)
+                    .apply();
+            isPrivatePref.setChecked(flag);
+        });
+        UserRepository.getInstance().getIsFavoriteItemHidden().observe(this, (flag) -> {
+            getPreferenceScreen().getSharedPreferences().edit()
+                    .putBoolean("FAVORITE_ITEM_HIDDEN", flag)
+                    .apply();
 
-        isPrivatePref.setChecked(tapUser.isPrivate());
-        isFavoriteItemHiddenPref.setChecked(tapUser.isFavoriteItemHidden());
-
+            isFavoriteItemHiddenPref.setChecked(flag);
+        });
         listener  = new SettingsKoelkastListener(isPrivatePref, isFavoriteItemHiddenPref);
     }
 

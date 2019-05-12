@@ -6,6 +6,7 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.repositories.UserRepository;
 
 public class SettingsKoelkastListener implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -18,19 +19,15 @@ public class SettingsKoelkastListener implements SharedPreferences.OnSharedPrefe
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        User.getInstance().updateTapUser();
-        TapUser tapUser = User.getInstance().getTapUser();
         switch (key) {
             case "ACCOUNT_PRIVATE":
-                tapUser.setPrivate(sharedPreferences.getBoolean("ACCOUNT_PRIVATE", tapUser.isPrivate()));
+                UserRepository.getInstance().setPrivate(sharedPreferences.getBoolean("ACCOUNT_PRIVATE", false));
                 break;
             case "FAVORITE_ITEM_HIDDEN":
-                tapUser.setFavoriteItemHidden(sharedPreferences.getBoolean("FAVORITE_ITEM_HIDDEN", tapUser.isFavoriteItemHidden()));
+                UserRepository.getInstance().setFavoriteItemHidden(sharedPreferences.getBoolean("FAVORITE_ITEM_HIDDEN", false));
                 break;
             default:
                 break;
         }
-        isPrivatePref.setChecked(tapUser.isPrivate());
-        isFavoriteItemHiddenPref.setChecked(tapUser.isFavoriteItemHidden());
     }
 }

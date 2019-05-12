@@ -1,17 +1,22 @@
 package gent.zeus.tappb.entity;
 
-public class OrderProduct {
+public class OrderProduct extends Product{
 
-    private final Product product;
     private int count;
 
     public OrderProduct(Product p, int count) {
-        this.product = p;
+        super(p);
         this.count = count;
     }
 
-    public Product getProduct() {
-        return product;
+    public OrderProduct(int id, String name, double price, String imageURL, int count) {
+        super(id, name, price, imageURL);
+        this.count = count;
+    }
+
+    public OrderProduct(int id, String name, double price, int count) {
+        super(id, name, price);
+        this.count = count;
     }
 
     public int getCount() {
@@ -25,7 +30,4 @@ public class OrderProduct {
         this.count = newCount;
     }
 
-    public double getPrice() {
-        return product.getPrice() * count;
-    }
 }

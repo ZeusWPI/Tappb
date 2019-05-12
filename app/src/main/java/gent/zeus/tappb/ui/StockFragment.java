@@ -56,12 +56,6 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         stockViewModel.getStock().observe(this, adapter::setProducts);
-        stockViewModel.getFetchError().observe(this, (error) -> {
-            if (error) {
-                Toast.makeText(getContext(), "API fetch failed, showing sample data", Toast.LENGTH_LONG).show();
-            }
-        });
-
         binding.setLifecycleOwner(this);
         setHasOptionsMenu(true);
 
@@ -105,6 +99,6 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
     @Override
     public void onClick(StockProduct stockProduct) {
         Toast.makeText(getContext(), stockProduct.getName(), Toast.LENGTH_SHORT).show();
-        orderViewModel.addProduct(stockProduct.getProduct());
+        orderViewModel.addProduct(stockProduct);
     }
 }

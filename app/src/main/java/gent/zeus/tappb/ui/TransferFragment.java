@@ -11,6 +11,7 @@ import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.handlers.OkCancelDialogListener;
+import gent.zeus.tappb.repositories.UserRepository;
 
 import android.text.Editable;
 import android.util.Log;
@@ -95,7 +96,8 @@ public class TransferFragment extends MoneySubmitFragment implements
         } else {
             try {
                 int amount = ((int) (Double.parseDouble(amountEditable.toString()) * 100));
-                TabAPI.createTransaction(User.getInstance().getUsername(), nameEditable.toString(), amount, messageEditable.toString());
+                // TODO: reimplement
+//                TabAPI.createTransaction(UserRepository.getInstance().getUser().getValue().getUsername(), nameEditable.toString(), amount, messageEditable.toString());
             } catch (NumberFormatException e) {
                 Log.d("TransferFragment", amountEditable.toString(), e);
                 Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_LONG).show();

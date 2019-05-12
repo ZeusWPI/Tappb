@@ -50,15 +50,15 @@ public class AccountFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
         viewModel.init();
-        viewModel.getUser().observe(this, (user -> {
-            if (user.isLoaded()) {
-                binding.setUser(user);
-                Picasso.get().load(user.getTapUser().getProfilePictureURL()).into(binding.profilePicture);
-            }
-        }));
+        viewModel.getProfileURL().observe(this, (url) -> {
+            Picasso.get().load(url).into(binding.profilePicture);
+        });
+        viewModel.getUserName().observe(this, binding.username::setText);
+        viewModel.getFavoriteItemName().observe(this, binding.favoriteItem::setText);
 
         binding.setFormatter(formatter);
         binding.setHandler(this);
+        binding.setViewModel(viewModel);
 
         binding.setLifecycleOwner(this);
         return binding.getRoot();
@@ -68,7 +68,7 @@ public class AccountFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.profile_picture_camera_gallery)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
-                    switch (which){
+                    switch (which) {
                         case 0:
                             openCamera();
                             break;
@@ -99,6 +99,7 @@ public class AccountFragment extends Fragment {
             startActivityForResult(galleryIntent, REQUEST_IMAGE_GALLERY);
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap icon;
@@ -116,7 +117,7 @@ public class AccountFragment extends Fragment {
             return;
         }
         int cutoutSize = Math.min(icon.getWidth(), icon.getHeight());
-        Bitmap cutout = Bitmap.createBitmap(icon, (icon.getWidth() - cutoutSize) / 2,(icon.getHeight() - cutoutSize) / 2, cutoutSize, cutoutSize);
+        Bitmap cutout = Bitmap.createBitmap(icon, (icon.getWidth() - cutoutSize) / 2, (icon.getHeight() - cutoutSize) / 2, cutoutSize, cutoutSize);
 
         int finalSize = Math.min(cutoutSize, R.integer.profile_picture_size);
         Bitmap finalImage = Bitmap.createScaledBitmap(cutout, finalSize, finalSize, false);
