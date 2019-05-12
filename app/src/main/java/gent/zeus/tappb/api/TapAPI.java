@@ -164,6 +164,8 @@ public class TapAPI extends API {
     }
 
     public void fetchBarcodes() {
+        fetchStockProduct();
+
         Request request = buildRequest("/barcodes.json").build();
 
         client.newCall(request).enqueue(new Callback() {

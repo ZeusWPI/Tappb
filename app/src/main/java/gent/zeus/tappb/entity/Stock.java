@@ -1,11 +1,13 @@
 package gent.zeus.tappb.entity;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import gent.zeus.tappb.repositories.BarcodeRepository;
 
@@ -37,13 +39,12 @@ public class Stock {
     public Product getProductByBarcode(String barcode) {
         List<Barcode> barcodes = BarcodeRepository.getInstance().getBarcodes();
         if (barcodes == null) {
+            Log.e("PING", "PING");
             return null;
         }
-        for (Barcode b : barcodes) {
-            if (b.getBarcode().equals(barcode)) {
-                return b.getProduct();
-            }
-        }
-        return null;
+
+        Optional<Barcode> maybeBarcode = barcodes.stream().filter(b -> b.getBarcode().equals(barcode)).findFirst();
+
+        return maybeBarcode.map(Barcode::getProduct).orElse(null);
     }
 }

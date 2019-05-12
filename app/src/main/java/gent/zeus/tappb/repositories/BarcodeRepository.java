@@ -18,7 +18,10 @@ public class BarcodeRepository {
 
     private BarcodeRepository(){
         LiveData<List<Barcode>> apiCodes = api.getBarcodes();
-        apiCodes.observeForever(codes -> barcodes = codes);
+        apiCodes.observeForever(codes -> {
+            barcodes = codes;
+            Log.e("REE", "REE" + codes.size());
+        });
     }
 
     public static BarcodeRepository getInstance() {
