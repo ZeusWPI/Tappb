@@ -1,6 +1,6 @@
 package gent.zeus.tappb.entity;
 
-public class StockProduct extends Product{
+public class StockProduct extends Product {
     private int stock;
 
     public StockProduct(int id, String name, double price, String imageURL, int stock) {

@@ -31,10 +31,9 @@ public class BarcodeRepository {
     public void reloadBarcodes() {
         try {
             api.fetchBarcodes();
-
         } catch (APIException ex) {
             barcodes = new ArrayList<>();
-            Log.e("BarcodeRequest", "failed to load barcodes");
+            Log.e("BarcodeRequest", "failed to load barcodes", ex);
         }
     }
 

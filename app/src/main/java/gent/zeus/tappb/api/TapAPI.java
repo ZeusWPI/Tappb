@@ -20,6 +20,7 @@ import gent.zeus.tappb.entity.Stock;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.repositories.UserRepository;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -168,7 +169,7 @@ public class TapAPI extends API {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@Nullable Call call, IOException e) {
-
+                Log.e("TapAPI", "Could not read barcodes", e);
             }
 
             @Override
@@ -178,10 +179,9 @@ public class TapAPI extends API {
                     JSONArray jsonArray = new JSONArray(response.body().string());
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
-                        // TODO
-//                        Product p = StockRepository.getInstance().getApiStock().getValue().getProductById()
-//                        Barcode s = new Barcode(obj.getString("code"), p);
-//                        result.add(s);
+                        Product p = StockRepository.getInstance().getProductById(obj.getInt("id"));
+                        Barcode s = new Barcode(obj.getString("code"), p);
+                        result.add(s);
                     }
                     barcodes.postValue(result);
                 } catch (JSONException e) {

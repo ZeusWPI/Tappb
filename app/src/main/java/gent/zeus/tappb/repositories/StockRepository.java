@@ -60,8 +60,7 @@ public class StockRepository {
         return requestedProduct;
     }
 
-    public Product getProductByBarcode(String displayValue) {
-        //TODO: implement
-        return null;
+    public Product getProductByBarcode(String barcode) {
+        return stock.getProductByBarcode(barcode);
     }
 }
