@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="camera_gallery">
-        <item>Camera</item>
-        <item>Gallery</item>
+        <item>@string/camera</item>
+        <item>@string/gallery</item>
     </string-array>
 </resources>
