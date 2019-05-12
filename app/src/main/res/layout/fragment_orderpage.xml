@@ -51,7 +51,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@color/colorOk"
-                android:contentDescription=""
                 android:onClick="@{() -> handler.executeOrder()}"
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 

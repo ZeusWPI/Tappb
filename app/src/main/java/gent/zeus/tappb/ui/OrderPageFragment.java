@@ -20,7 +20,7 @@ import gent.zeus.tappb.handlers.OkCancelDialogListener;
 import gent.zeus.tappb.handlers.OrderPageListener;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
-public class OrderPageFragment extends Fragment implements OrderPageListener, OkCancelDialogListener {
+public class OrderPageFragment extends Fragment implements OrderPageListener {
     private OrderViewModel viewModel;
     private OrderListAdapter adapter;
     private FragmentOrderpageBinding binding;
@@ -55,14 +55,26 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
 
     @Override
     public void executeOrder() {
-        DialogFragment dialog = new OkCancelDialogFragment(this, "Confirm order?");
-        dialog.show(getFragmentManager(), "ComfirmOrderDialogFragment");
+        OkCancelDialogFragment dialog = OkCancelDialogFragment.newInstance(getString(R.string.order_confirmation));
+        dialog.setListener(new OkCancelDialogListener() {
+            @Override
+            public void onDialogPositiveClick(DialogFragment dialog) {
+//                viewModel.makeOrder();
+            }
+
+            @Override
+            public void onDialogNegativeClick(DialogFragment dialog) {
+
+            }
+        });
+        dialog.show(getFragmentManager(), "ConfirmOrderDialogFragment");
 
     }
 
     @Override
     public void clearOrder() {
-        DialogFragment dialog = new OkCancelDialogFragment(new OkCancelDialogListener() {
+        OkCancelDialogFragment dialog = OkCancelDialogFragment.newInstance(getString(R.string.delete_all_items));
+        dialog.setListener(new OkCancelDialogListener() {
             @Override
             public void onDialogPositiveClick(DialogFragment dialog) {
                 viewModel.clearOrder();
@@ -72,7 +84,7 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
             public void onDialogNegativeClick(DialogFragment dialog) {
 
             }
-        }, "Are you sure you want to delete all items?");
+        });
         dialog.show(getFragmentManager(), "ConfirmDeleteOrderDialogFragment");
     }
 
@@ -80,30 +92,17 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
         ImageButton button = binding.cameraButton;
         switch (scanningState) {
             case SCANNING:
-//                button.setText(R.string.scanning);
                 button.setEnabled(false);
                 break;
             case ERROR:
-//                button.setText(R.string.scanning_error);
                 button.setEnabled(true);
                 break;
             case NOT_SCANNING:
-//                button.setText(R.string.scan_barcode);
                 button.setEnabled(true);
                 break;
             case EMPTY:
-//                button.setText(R.string.scanning_empty);
                 button.setEnabled(true);
                 break;
         }
-    }
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
     }
 }

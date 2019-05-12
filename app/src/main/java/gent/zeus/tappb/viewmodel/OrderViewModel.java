@@ -17,7 +17,6 @@ public class OrderViewModel extends ViewModel {
     private OrderRepository repo = OrderRepository.getInstance();
     private MutableLiveData<ScanningState> scanningState = new MutableLiveData<>();
 
-
     public enum ScanningState {
         NOT_SCANNING,
         SCANNING,

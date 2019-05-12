@@ -68,9 +68,9 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
                         SharedPreferences.Editor editor = getContext().getSharedPreferences("tokens", Context.MODE_PRIVATE).edit();
                         editor.clear();
                         editor.apply();
-                        Toast.makeText(getContext(), "Logged out", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.logged_out, Toast.LENGTH_LONG).show();
                     })
-                    .setNegativeButton(getResources().getText(R.string.cancel), (dialog, which) -> {});
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {});
             builder.create().show();
         } else {
             NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_login);
