@@ -1,6 +1,7 @@
 package gent.zeus.tappb.viewmodel;
 
 import gent.zeus.tappb.entity.Transaction;
+import gent.zeus.tappb.repositories.HistoryRepository;
 
 import java.util.List;
 
@@ -13,14 +14,7 @@ public class HistoryViewModel extends ViewModel {
     private LiveData<List<Transaction>> history;
 
     public void init() {
-        initializeHistory();
-    }
-
-    private void initializeHistory() {
-        history = new MutableLiveData<>();
-        // TODO
-//        ((MutableLiveData<List<Transaction>>) history).setValue(TabAPI.getTransactions());
-
+        history = HistoryRepository.getInstance().getTransactionList();
     }
 
     public LiveData<List<Transaction>> getHistory() {
