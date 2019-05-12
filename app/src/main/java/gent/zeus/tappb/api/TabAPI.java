@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import gent.zeus.tappb.entity.User;
@@ -75,9 +77,10 @@ public class TabAPI extends API {
                 String timestring = obj.getString("time");
                 int amount = obj.getInt("amount");
                 OffsetDateTime d = OffsetDateTime.parse(timestring);
-                Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount * 100.0);
+                Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount / 100.0);
                 result.add(t);
             }
+            Collections.reverse(result);
             return result;
         }
         catch (JSONException ex) {
@@ -117,5 +120,15 @@ public class TabAPI extends API {
         Log.d("TabAPI","Got response" + response);
         // TODO check if transaction succeeded
         return true;
+    }
+
+    public static void uploadDeviceRegistrationToken(String token) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("token", token);
+        } catch (JSONException ex) {
+            throw new APIException("Failed to create JSON");
+        }
+        postBody("/users/" +  User.getInstance().getUsername() +  "/add_registration_token.json", data.toString());
     }
 }

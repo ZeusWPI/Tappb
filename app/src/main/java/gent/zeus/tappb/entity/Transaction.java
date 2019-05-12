@@ -1,5 +1,6 @@
 package gent.zeus.tappb.entity;
 
+import java.text.DecimalFormat;
 import java.time.OffsetDateTime;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ public class Transaction {
     private String message;
     private double amount;
 
+    private boolean userIsDebtor;
+
     public Transaction(int id, OffsetDateTime date, String debtor, String creditor, String message, double amount) {
         this.id = id;
         this.date = date;
@@ -22,6 +25,8 @@ public class Transaction {
         this.creditor = creditor;
         this.message = message;
         this.amount = amount;
+
+        userIsDebtor = User.getInstance().getUsername().equals(debtor);
     }
 
     public int getId() {
@@ -48,8 +53,24 @@ public class Transaction {
         return amount;
     }
 
+    public String getFormattedAmount() {
+        DecimalFormat costFormatter = new DecimalFormat("#0.00");
+        String formatted = "€" + costFormatter.format(amount);
+        if (userIsDebtor) {
+            formatted = "-" + formatted;
+        }
+        return formatted;
+    }
+
+    public String getPersonDescription() {
+        if (userIsDebtor) {
+            return "to: " + creditor;
+        }
+        return "from: " + debtor;
+    }
+
     public String getDayString() {
         int day = date.getDayOfMonth();
-        return day > 9 ? Integer.toString(day) : "0" + Integer.toString(day);
+        return day > 9 ? Integer.toString(day) : "0" + day;
     }
 }

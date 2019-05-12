@@ -111,7 +111,7 @@ public class TapAPI extends API {
         String paddedID = String.format("%09d" , pictureID);
         List<String> splitID = splitString(paddedID, 3);
 
-        return String.format(endpoint + "/system/products/avatars/%s/%s/%s/small/%s",
+        return String.format(endpoint + "/system/products/avatars/%s/%s/%s/medium/%s",
                 splitID.get(0),
                 splitID.get(1),
                 splitID.get(2),
@@ -124,7 +124,7 @@ public class TapAPI extends API {
             String padded = String.format("%09d" , response.getInt("id"));
             List<String> splitID = splitString(padded, 3);
 
-            String path = String.format(endpoint + "/system/users/avatars/%s/%s/%s/small/%s",
+            String path = String.format(endpoint + "/system/users/avatars/%s/%s/%s/medium/%s",
                     splitID.get(0),
                     splitID.get(1),
                     splitID.get(2),
