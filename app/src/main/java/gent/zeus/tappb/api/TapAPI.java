@@ -4,6 +4,7 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
@@ -37,6 +38,11 @@ public class TapAPI extends API {
     private MutableLiveData<Stock> stockProducts = new MutableLiveData<>();
     private MutableLiveData<List<Barcode>> barcodes = new MutableLiveData<>();
     private MutableLiveData<TapUser> user = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSucceeded = new MutableLiveData<>();
+
+    public LiveData<Boolean> getAPISucceeded() {
+        return isSucceeded;
+    }
 
     private Request.Builder buildRequest(String relativeURL) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -82,21 +88,6 @@ public class TapAPI extends API {
         RequestBody body = RequestBody.create(JSON, jsondata);
         Request request = buildRequest(relativeURL)
                 .put(body)
-                .header("Content-Type", "application/json")
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-            return response.body().string();
-        } catch (IOException ex) {
-            throw new APIException("Failed to get body of request: " + relativeURL);
-        }
-    }
-
-    private String postBody(String relativeURL, String jsondata) {
-        OkHttpClient client = new OkHttpClient();
-        RequestBody body = RequestBody.create(JSON, jsondata);
-        Request request = buildRequest(relativeURL)
-                .post(body)
                 .header("Content-Type", "application/json")
                 .build();
         try {
@@ -276,6 +267,22 @@ public class TapAPI extends API {
         } catch (Exception ex) {
             throw new APIException("Failed to construct JSON order request");
         }
-        postBody("/users/" + user.getUsername() + "/orders.json", data.toString());
+        RequestBody body = RequestBody.create(JSON, data.toString());
+        Request request = buildRequest("/users/" + user.getUsername() + "/orders.json")
+                .post(body)
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                throw new APIException("Failed to order products");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                isSucceeded.setValue(response.isSuccessful());
+            }
+        });
     }
 }
