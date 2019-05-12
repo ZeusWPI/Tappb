@@ -130,7 +130,6 @@ public class CameraFragment extends Fragment {
                                         viewModel.addProduct(product);
                                     }
                                 }
-                                viewModel.invalidateOrderList();
                                 viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
                                 navController.navigate(R.id.nav_order);
                             }

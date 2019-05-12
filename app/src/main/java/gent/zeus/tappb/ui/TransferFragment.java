@@ -99,7 +99,8 @@ public class TransferFragment extends MoneySubmitFragment implements
         } else {
             try {
                 int amount = ((int) (Double.parseDouble(amountEditable.toString()) * 100));
-                TabAPI.createTransaction(UserRepository.getInstance().getUser().getValue().getUsername(), nameEditable.toString(), amount, messageEditable.toString());
+                // TODO: reimplement
+//                TabAPI.createTransaction(UserRepository.getInstance().getUser().getValue().getUsername(), nameEditable.toString(), amount, messageEditable.toString());
             } catch (NumberFormatException e) {
                 Log.d("TransferFragment", amountEditable.toString(), e);
                 Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_LONG).show();

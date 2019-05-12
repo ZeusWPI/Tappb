@@ -26,11 +26,25 @@ import okhttp3.Response;
 
 public class TabAPI extends API {
 
-    private static final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
 
     private final static String endpoint = "https://tab.zeus.gent";
+    private MutableLiveData<List<Transaction>> transactions = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSucceeded = new MutableLiveData<>();
+    private MutableLiveData<Integer> balance = new MutableLiveData<>();
 
-    private static Request.Builder buildRequest(String relativeURL) {
+    public LiveData<List<Transaction>> getTransactions() {
+        return transactions;
+    }
+
+    public LiveData<Boolean> getAPISucceeded() {
+        return isSucceeded;
+    }
+    public LiveData<Integer> getBalanceInCents() {
+        return balance;
+    }
+
+    private Request.Builder buildRequest(String relativeURL) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         return new Request.Builder()
@@ -39,10 +53,9 @@ public class TabAPI extends API {
                 .header("Authorization", "Token " + UserRepository.getInstance().getTabToken());
     }
 
-    public static LiveData<List<Transaction>> getTransactions() {
+    public LiveData<List<Transaction>> fetchTransactions() {
         Request request = buildRequest("/users/" + UserRepository.getInstance().getUsername() + "/transactions").build();
 
-        final MutableLiveData<List<Transaction>> transactions = new MutableLiveData<>();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -79,10 +92,9 @@ public class TabAPI extends API {
         return transactions;
     }
 
-    public static LiveData<Integer> getBalanceInCents() {
+    public void fetchBalanceInCents() {
         Request request = buildRequest("/users/" + UserRepository.getInstance().getUsername()).build();
 
-        final MutableLiveData<Integer> balance = new MutableLiveData<>();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -93,25 +105,21 @@ public class TabAPI extends API {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    if (UserRepository.getInstance().getUser().getValue() != null) {
+                    if (! UserRepository.getInstance().isLoggedIn()) {
                         balance.postValue(0);
                     } else {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         balance.postValue(jsonObject.getInt("balance"));
                     }
-                }
-                catch (JSONException ex) {
+                } catch (JSONException ex) {
                     throw new APIException("Failed to parse JSON of request");
                 }
 
             }
         });
-
-        return balance;
     }
 
-    public static LiveData<Boolean> createTransaction(String debtor, String creditor, int cents, String message) {
-        final MutableLiveData<Boolean> isSucceeded = new MutableLiveData<>();
+    public void createTransaction(String debtor, String creditor, int cents, String message) {
 
         JSONObject data = new JSONObject();
         JSONObject transaction = new JSONObject();
@@ -143,7 +151,5 @@ public class TabAPI extends API {
                 isSucceeded.postValue(response.isSuccessful());
             }
         });
-
-        return isSucceeded;
     }
 }

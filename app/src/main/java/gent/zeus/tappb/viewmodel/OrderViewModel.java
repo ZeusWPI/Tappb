@@ -2,21 +2,21 @@ package gent.zeus.tappb.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
+import gent.zeus.tappb.repositories.OrderRepository;
 
 public class OrderViewModel extends ViewModel {
-    private Map<Product, OrderProduct> orderMap = new HashMap<>();
-    private MutableLiveData<List<OrderProduct>> orderProductLive = new MutableLiveData<>();
+    private LiveData<List<OrderProduct>> orderProductList;
+    private OrderRepository repo = OrderRepository.getInstance();
     private MutableLiveData<ScanningState> scanningState = new MutableLiveData<>();
-    private MutableLiveData<OrderState> orderState = new MutableLiveData<>();
+
 
     public enum ScanningState {
         NOT_SCANNING,
@@ -25,111 +25,39 @@ public class OrderViewModel extends ViewModel {
         EMPTY
     }
 
-    public enum OrderState {
-        ORDER_EMPTY,
-        ORDER_COMPLETED,
-        ORDER_CANCELLED,
-        ORDER_ERROR
-    }
-
     public void init() {
-        if (scanningState.getValue() == null) {
-            scanningState.setValue(ScanningState.NOT_SCANNING);
-        }
-        if (orderState.getValue() == null) {
-            orderState.setValue(OrderState.ORDER_EMPTY);
-        }
-        setScanningState(scanningState.getValue());
+        orderProductList = Transformations.map(repo.getLiveOrder(), newOrder ->
+                new ArrayList<>(newOrder.getProductList())
+        );
+
     }
 
     public LiveData<List<OrderProduct>> getOrders() {
-        return orderProductLive;
+        return orderProductList;
     }
 
     public LiveData<ScanningState> getScanningState() {
         return scanningState;
     }
-
-    public LiveData<OrderState> getOrderState() {
-        return orderState;
-    }
-
-
-    public void setScanningState(ScanningState state) {
-        scanningState.setValue(state);
-    }
-
-
-    public void addProduct(Product product, boolean batch) {
-        this.orderMap.compute(product, (k, v) -> {
-            if (v == null) {
-                return new OrderProduct(product, 1);
-            }
-            v.addCount(1);
-            return v;
-        });
-        if (!batch) {
-            invalidateOrderList();
-        }
+    public void setScanningState(ScanningState scanning) {
+        scanningState.postValue(scanning);
     }
 
     public void addProduct(Product product) {
-        addProduct(product, false);
+        repo.addItem(product);
     }
 
-    public void addOrderProduct(OrderProduct orderProduct, boolean batch) {
-        this.orderMap.compute(orderProduct, (k, v) -> {
-            if (v == null) {
-                return orderProduct;
-            }
-            v.addCount(orderProduct.getCount());
-            return v;
-        });
-        if (!batch) {
-            invalidateOrderList();
-        }
-    }
-
-    public void addOrderProduct(OrderProduct orderProduct) {
-        addOrderProduct(orderProduct, false);
-    }
-
-    public void deleteOrderProduct(OrderProduct orderProduct) {
-        this.orderMap.remove(orderProduct);
-        invalidateOrderList();
-    }
 
     public void increaseCount(OrderProduct orderProduct) {
-        if (this.orderMap.containsKey(orderProduct)) {
-            this.orderMap.get(orderProduct).addCount(1);
-        }
+        repo.increaseCount(orderProduct);
     }
 
     public void decreaseCount(OrderProduct orderProduct) {
-        if (this.orderMap.containsKey(orderProduct)) {
-            this.orderMap.get(orderProduct).addCount(-1);
-            if (this.orderMap.get(orderProduct).getCount() <= 0) {
-                deleteOrderProduct(orderProduct);
-            }
-        }
-    }
-
-    public void invalidateOrderList() {
-        this.orderProductLive.setValue(new ArrayList<>(this.orderMap.values()));
-    }
-
-    public void makeOrder() {
-        clearOrder();
-        orderState.setValue(OrderState.ORDER_COMPLETED);
-    }
-
-    public void cancelOrder() {
-        clearOrder();
-        orderState.setValue(OrderState.ORDER_CANCELLED);
+        repo.decreasecount(orderProduct);
     }
 
     public void clearOrder() {
-        this.orderMap.clear();
-        invalidateOrderList();
+        repo.clearOrder();
     }
+
 }

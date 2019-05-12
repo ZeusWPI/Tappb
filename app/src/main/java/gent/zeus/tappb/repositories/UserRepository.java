@@ -3,6 +3,7 @@ package gent.zeus.tappb.repositories;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.api.TapAPI;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.entity.TapUser;
@@ -25,21 +26,24 @@ public class UserRepository {
     private static final UserRepository ourInstance = new UserRepository();
     private MutableLiveData<User> user = new MutableLiveData<>();
     private MutableLiveData<TapUser> tapUser = new MutableLiveData<>();
-    private TapAPI api = new TapAPI();
+    private TapAPI tapAPI = new TapAPI();
+    private TabAPI tabAPI = new TabAPI();
     private MutableLiveData<UserStatus> status = new MutableLiveData<>();
     private LiveData<StockProduct> favoriteItem;
+    private MutableLiveData<Integer> accountBalanceCents = new MutableLiveData<>();
 
     public static UserRepository getInstance() {
         return ourInstance;
     }
 
     private UserRepository() {
-        LiveData<TapUser> apiTapUser = api.getTapUser();
+        LiveData<TapUser> apiTapUser = tapAPI.getTapUser();
         apiTapUser.observeForever(tapusr -> {
             tapUser.setValue(tapusr);
             StockRepository.getInstance().setRequestedId(tapusr.getFavoriteItemId());
         });
         status.setValue(UserStatus.LOGGED_OUT);
+        tabAPI.getBalanceInCents().observeForever((bal) -> accountBalanceCents.postValue(bal));
 
     }
 
@@ -70,7 +74,7 @@ public class UserRepository {
 
     public LiveData<TapUser> getTapUser() {
         assertLoggedIn();
-        api.fetchTapUser(user.getValue());
+        tapAPI.fetchTapUser(user.getValue());
         return tapUser;
     }
 
@@ -84,8 +88,16 @@ public class UserRepository {
         return user.getValue().getTabToken();
     }
 
+    public LiveData<Integer> getAccountBalanceCents() {
+        return accountBalanceCents;
+    }
+
     public boolean isLoggedIn() {
         return status.getValue() == UserStatus.LOGGED_IN;
+    }
+    public void fetchAll() {
+        tabAPI.fetchBalanceInCents();
+        tapAPI.fetchTapUser(user.getValue());
     }
 
     private void assertLoggedIn() {

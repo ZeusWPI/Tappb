@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -32,20 +31,18 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentOrderpageBinding.inflate(inflater, container, false);
-
         binding.setHandler(this);
 
         viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
+
         adapter = new OrderListAdapter(viewModel.getOrders().getValue(), viewModel);
         binding.productList.setAdapter(adapter);
-//        ((DefaultItemAnimator)binding.productList.getItemAnimator()).setSupportsChangeAnimations(false);
         binding.productList.setItemAnimator(null);
         binding.productList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
         viewModel.getOrders().observe(this, adapter::setOrderList);
         viewModel.getScanningState().observe(this, this::setButtonText);
-        viewModel.getOrderState().observe(this, this::handleOrderState);
 
         return binding.getRoot();
     }
@@ -99,24 +96,10 @@ public class OrderPageFragment extends Fragment implements OrderPageListener, Ok
                 break;
         }
     }
-    private void handleOrderState(OrderViewModel.OrderState state) {
-        switch (state) {
-            case ORDER_EMPTY:
-                break;
-            case ORDER_ERROR:
-                break;
-            case ORDER_CANCELLED:
-                Toast.makeText(getContext(), "Order cancelled!", Toast.LENGTH_LONG).show();
-                break;
-            case ORDER_COMPLETED:
-                Toast.makeText(getContext(), "Order Completed! - This is a mock method, the order is not sent to the api", Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        viewModel.makeOrder();
+
     }
 
     @Override
