@@ -1,27 +1,25 @@
 package gent.zeus.tappb.entity;
 
-public class StockProduct {
-    private final Product product;
+public class StockProduct extends Product{
     private int stock;
 
-    public StockProduct(Product product, int stock) {
-        this.product = product;
+    public StockProduct(int id, String name, double price, String imageURL, int stock) {
+        super(id, name, price, imageURL);
         this.stock = stock;
     }
 
-    public Product getProduct() {
-        return product;
+    public StockProduct(int id, String name, double price, int stock) {
+        super(id, name, price);
+        this.stock = stock;
+    }
+
+    public StockProduct(Product product, int stock) {
+        super(product);
+        this.stock = stock;
     }
 
     public int getStock() {
         return stock;
     }
 
-    public String getName() {
-        return product.getName();
-    }
-
-    public double getPrice() {
-        return product.getPrice();
-    }
 }

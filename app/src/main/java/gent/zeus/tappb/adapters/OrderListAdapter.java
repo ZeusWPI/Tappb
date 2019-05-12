@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -17,9 +18,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderItemViewHolder> 
 
 
     private OrderViewModel viewModel;
+    @Nullable
     private List<OrderProduct> orderList;
 
-    public OrderListAdapter(List<OrderProduct> orderList, OrderViewModel viewModel) {
+    public OrderListAdapter(@Nullable List<OrderProduct> orderList, OrderViewModel viewModel) {
         this.orderList = orderList;
         this.viewModel = viewModel;
     }
@@ -40,11 +42,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderItemViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull OrderItemViewHolder holder, int position) {
-        holder.bind(orderList.get(position), position);
+        if (orderList != null) {
+            holder.bind(orderList.get(position), position);
+        }
     }
 
     @Override
     public int getItemCount() {
+        if (orderList == null) {
+            return 0;
+        }
         return orderList.size();
     }
 }

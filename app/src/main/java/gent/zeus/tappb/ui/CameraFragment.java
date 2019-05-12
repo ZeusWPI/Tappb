@@ -30,7 +30,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentCameraBinding;
 import gent.zeus.tappb.entity.Product;
-import gent.zeus.tappb.entity.ProductList;
+import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 public class CameraFragment extends Fragment {
@@ -125,12 +125,11 @@ public class CameraFragment extends Fragment {
                             } else {
                                 for (FirebaseVisionBarcode barcode : barcodes) {
                                     Log.i("OrderPageFragment", barcode.getDisplayValue());
-                                    Product product = ProductList.getInstance().getProductByBarcode(barcode.getDisplayValue());
+                                    Product product = StockRepository.getInstance().getProductByBarcode(barcode.getDisplayValue());
                                     if(product != null) {
                                         viewModel.addProduct(product);
                                     }
                                 }
-                                viewModel.invalidateOrderList();
                                 viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
                                 navController.navigate(R.id.nav_order);
                             }

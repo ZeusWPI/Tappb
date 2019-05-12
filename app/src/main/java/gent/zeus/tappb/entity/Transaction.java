@@ -6,6 +6,8 @@ import java.time.OffsetDateTime;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import gent.zeus.tappb.repositories.UserRepository;
+
 public class Transaction {
 
     private int id;
@@ -16,7 +18,9 @@ public class Transaction {
     private String message;
     private double amount;
 
+    //TODO
     private boolean userIsDebtor;
+
 
     public Transaction(int id, OffsetDateTime date, String debtor, String creditor, String message, double amount) {
         this.id = id;
@@ -25,8 +29,6 @@ public class Transaction {
         this.creditor = creditor;
         this.message = message;
         this.amount = amount;
-
-        userIsDebtor = User.getInstance().getUsername().equals(debtor);
     }
 
     public int getId() {

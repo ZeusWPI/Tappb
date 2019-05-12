@@ -5,14 +5,12 @@
     android:id="@+id/fragment_account">
 
     <data>
-
-        <variable
-            name="user"
-            type="gent.zeus.tappb.entity.User" />
-
         <variable
             name="formatter"
             type="android.icu.text.DecimalFormat" />
+        <variable
+            name="viewModel"
+            type="gent.zeus.tappb.viewmodel.AccountViewModel" />
 
         <variable
             name="handler"
@@ -43,7 +41,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@{user.isLoaded() ? user.getUsername() : @string/not_logged_in}"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/setFavouriteItem"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,10 +67,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:enabled="@{user.isLoaded()}"
             android:onClick="@{() -> handler.setFavoriteItem()}"
             android:text="@string/change_favorite_item"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:enabled="@{viewModel.isLoggedIn()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/username" />
@@ -95,7 +91,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@{user.isLoaded() ? user.getTapUser().getFavoriteItem().getName() : @string/none}"
             app:layout_constraintBottom_toBottomOf="@+id/currently"
             app:layout_constraintStart_toEndOf="@+id/currently"
             app:layout_constraintTop_toTopOf="@+id/currently"
