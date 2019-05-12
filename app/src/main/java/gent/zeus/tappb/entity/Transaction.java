@@ -18,9 +18,7 @@ public class Transaction {
     private String message;
     private double amount;
 
-    //TODO
     private boolean userIsDebtor;
-
 
     public Transaction(int id, OffsetDateTime date, String debtor, String creditor, String message, double amount) {
         this.id = id;
@@ -29,6 +27,10 @@ public class Transaction {
         this.creditor = creditor;
         this.message = message;
         this.amount = amount;
+
+        //TODO do this in a better way
+        String username = UserRepository.getInstance().getUsername();
+        if (username != null) userIsDebtor = username.equals(debtor);
     }
 
     public int getId() {
@@ -55,24 +57,7 @@ public class Transaction {
         return amount;
     }
 
-    public String getFormattedAmount() {
-        DecimalFormat costFormatter = new DecimalFormat("#0.00");
-        String formatted = "€" + costFormatter.format(amount);
-        if (userIsDebtor) {
-            formatted = "-" + formatted;
-        }
-        return formatted;
-    }
-
-    public String getPersonDescription() {
-        if (userIsDebtor) {
-            return "to: " + creditor;
-        }
-        return "from: " + debtor;
-    }
-
-    public String getDayString() {
-        int day = date.getDayOfMonth();
-        return day > 9 ? Integer.toString(day) : "0" + day;
+    public boolean isUserIsDebtor() {
+        return userIsDebtor;
     }
 }
