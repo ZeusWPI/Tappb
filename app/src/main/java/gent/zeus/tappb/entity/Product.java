@@ -21,7 +21,7 @@ public class Product {
         this.name = name;
         this.price = price;
         // MATE
-        this.imageURL = "https://tap.zeus.gent/system/products/avatars/000/000/007/small/bottle-start.png";
+        this.imageURL = "https://tap.zeus.gent/system/products/avatars/000/000/007/medium/bottle-start.png";
     }
 
     public int getId() {
