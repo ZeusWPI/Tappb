@@ -57,18 +57,18 @@ public class TransferFragment extends MoneySubmitFragment implements
 
         String name = binding.nameInput.getText().toString();
         if (name.isEmpty()) {
-            binding.nameInput.setError("No name given");
+            binding.nameInput.setError(getString(R.string.no_name));
             isValid = false;
         }
 
         String amount = binding.amountInput.getText().toString();
         if (amount.isEmpty()) {
-            binding.amountInput.setError("Invalid amount");
+            binding.amountInput.setError(getString(R.string.invalid_amount));
             isValid = false;
         } else {
             double parsed = Double.parseDouble(amount);
             if (parsed <= 0) {
-                binding.amountInput.setError("Invalid amount");
+                binding.amountInput.setError(getString(R.string.invalid_amount));
                 isValid = false;
             }
         }

@@ -43,4 +43,6 @@
     <string name="order_completed">Bestelling voltooid!</string>
     <string name="order_confirmation">Bevestig bestelling?</string>
     <string name="transfer_confirmation">"Schrijf %1$s over naar %2$s "</string>
+    <string name="invalid_amount">Ongeldig bedrag</string>
+    <string name="no_name">Geen naam opgegeven</string>
 </resources>

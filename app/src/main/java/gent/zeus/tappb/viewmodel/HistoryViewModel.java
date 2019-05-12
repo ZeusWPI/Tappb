@@ -1,6 +1,5 @@
 package gent.zeus.tappb.viewmodel;
 
-import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.entity.Transaction;
 
 import java.util.List;
