@@ -13,7 +13,8 @@
     <string name="favorite_drink">Favorite drink</string>
 
     <string name="top_up_balance">Top up balance</string>
-    <string name="top_up_alert">To top up your balance, transfer money to BE32 9799 9370 6502 and poke your nearest board member. Make sure to include your username! </string>
+    <string name="top_up_alert">To top up your balance, transfer money to the following bank account number and poke your nearest board member. Make sure to include your username! </string>
+    <string name="bank_account">BE32 9799 9370 6502</string>
 
     <string name="change_favorite_item">Change favorite item</string>
 
@@ -52,4 +53,5 @@
     <string name="notifications">Notifications</string>
     <string name="enable_notifications">Enable?</string>
     <string name="nav_history">History</string>
+    <string name="copy">Copy to clipboard</string>
 </resources>
