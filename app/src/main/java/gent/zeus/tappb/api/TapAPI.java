@@ -48,6 +48,7 @@ public class TapAPI extends API {
             Response response = client.newCall(request).execute();
             return response.body().string();
         } catch (IOException ex) {
+            Log.e("TapAPI", "Error", ex);
             throw new APIException("Failed to get body of request: " + relativeURL);
         }
     }
@@ -57,6 +58,21 @@ public class TapAPI extends API {
         RequestBody body = RequestBody.create(JSON, jsondata);
         Request request = buildRequest(relativeURL)
                 .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException ex) {
+            throw new APIException("Failed to get body of request: " + relativeURL);
+        }
+    }
+
+    private static String putBody(String relativeURL, String jsondata) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, jsondata);
+        Request request = buildRequest(relativeURL)
+                .put(body)
+                .header("Content-Type", "application/json")
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -119,7 +135,7 @@ public class TapAPI extends API {
             if (!favoriteItemId.equals("null")) {
                 favoriteItem = ProductList.getInstance().getProductById(Integer.parseInt(favoriteItemId)).getProduct();
             }
-            return new TapUser(response.getInt("id"), path, favoriteItem);
+            return new TapUser(response.getInt("id"), path, favoriteItem, response.getBoolean("private"), response.getBoolean("quickpay_hidden"));
         } catch (JSONException exc) {
             Log.e("TapAPI", "JSON parse failed", exc);
             return null;
@@ -151,5 +167,17 @@ public class TapAPI extends API {
             Log.d("exep", ex.toString());
             throw new APIException("Failed to parse JSON of request");
         }
+    }
+
+    public static void setFavoriteItem(Product p) {
+        putBody("/users/" + User.getInstance().getUsername() + ".json", String.format("{\"dagschotel_id\":\"%d\"}", p.getId()));
+    }
+
+    public static void setPrivate(boolean aPrivate) {
+        putBody("/users/" + User.getInstance().getUsername() + ".json", String.format("{\"private\":\"%b\"}", aPrivate));
+    }
+
+    public static void setFavoriteItemHidden(boolean favoriteItemHidden) {
+        putBody("/users/" + User.getInstance().getUsername() + ".json", String.format("{\"quickpay_hidden\":\"%b\"}", favoriteItemHidden));
     }
 }

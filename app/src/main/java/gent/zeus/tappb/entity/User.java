@@ -55,9 +55,13 @@ public class User {
         return tapToken;
     }
 
+    public void updateTapUser() {
+        this.tapUser = TapAPI.getTapUser(this);
+    }
+
     public TapUser getTapUser() {
         if (tapUser == null) {
-            this.tapUser = TapAPI.getTapUser(this);
+            updateTapUser();
         }
         return tapUser;
     }

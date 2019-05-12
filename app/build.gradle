@@ -37,7 +37,6 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.1.0'
     implementation 'com.android.support:recyclerview-v7:28.1.0'
     implementation 'com.android.support:design:28.1.0'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
@@ -56,8 +55,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
 
     implementation "androidx.legacy:legacy-preference-v14:1.0.0"
-    implementation "androidx.preference:preference:1.0.0"
+    implementation "androidx.preference:preference:1.0.0-beta01"
     androidTestImplementation 'androidx.test:rules:1.2.0-beta01'
+    implementation 'com.google.firebase:firebase-messaging:18.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
