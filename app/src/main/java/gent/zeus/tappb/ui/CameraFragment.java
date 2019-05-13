@@ -30,8 +30,6 @@ import java.util.Date;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentCameraBinding;
-import gent.zeus.tappb.entity.Product;
-import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 public class CameraFragment extends Fragment {
@@ -60,7 +58,8 @@ public class CameraFragment extends Fragment {
         FragmentCameraBinding binding = FragmentCameraBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
-        navController=NavHostFragment.findNavController(this);
+        viewModel.refresh();
+        navController = NavHostFragment.findNavController(this);
         return binding.getRoot();
     }
 
@@ -125,12 +124,7 @@ public class CameraFragment extends Fragment {
                                 viewModel.setScanningState(OrderViewModel.ScanningState.EMPTY);
                             } else {
                                 for (FirebaseVisionBarcode barcode : barcodes) {
-                                    Log.i("CameraFragment", barcode.getDisplayValue());
-                                    Product product = StockRepository.getInstance().getProductByBarcode(barcode.getDisplayValue());
-                                    if (product != null) {
-                                        Log.e("Adding", product.getName());
-                                        viewModel.addProduct(product);
-                                    }
+                                    viewModel.addProductByBarcode(barcode.getDisplayValue());
                                 }
                                 viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
                                 navController.navigate(R.id.nav_order);

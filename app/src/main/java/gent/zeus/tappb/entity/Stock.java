@@ -36,15 +36,4 @@ public class Stock {
         products.put(product.getId(), product);
     }
 
-    public Product getProductByBarcode(String barcode) {
-        List<Barcode> barcodes = BarcodeRepository.getInstance().getBarcodes();
-        if (barcodes == null) {
-            Log.e("PING", "PING");
-            return null;
-        }
-
-        Optional<Barcode> maybeBarcode = barcodes.stream().filter(b -> b.getBarcode().equals(barcode)).findFirst();
-
-        return maybeBarcode.map(Barcode::getProduct).orElse(null);
-    }
 }

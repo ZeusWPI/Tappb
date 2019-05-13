@@ -2,18 +2,18 @@ package gent.zeus.tappb.entity;
 
 public class Barcode {
     private String barcode;
-    private Product product;
+    private Integer productId;
 
-    public Barcode(String barcode, Product product) {
+    public Barcode(String barcode, Integer productId) {
         this.barcode = barcode;
-        this.product = product;
-    }
-
-    public Product getProduct() {
-        return product;
+        this.productId = productId;
     }
 
     public String getBarcode() {
         return barcode;
+    }
+
+    public Integer getProductId() {
+        return productId;
     }
 }

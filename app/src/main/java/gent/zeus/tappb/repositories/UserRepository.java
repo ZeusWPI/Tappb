@@ -53,7 +53,14 @@ public class UserRepository {
             tapUser.setValue(tapusr);
             StockRepository.getInstance().setRequestedId(tapusr.getFavoriteItemId());
         });
-        status.setValue(UserStatus.LOGGED_OUT);
+        status.setValue(user.getValue() == null ? UserStatus.LOGGED_OUT : UserStatus.LOGGED_IN);
+        status.observeForever(usr -> {
+            if (usr != null) {
+                status.postValue(UserStatus.LOGGED_IN);
+            } else {
+                status.postValue(UserStatus.LOGGED_OUT);
+            }
+        });
         tabAPI.getBalanceInCents().observeForever((bal) -> accountBalanceCents.postValue(bal));
         isPrivate = Transformations.map(tapUser, TapUser::isPrivate);
         isFavoriteItemHidden = Transformations.map(tapUser, TapUser::isFavoriteItemHidden);
@@ -67,6 +74,7 @@ public class UserRepository {
     public void load(String username, String tab_token, String tap_token) {
         user.setValue(new User(username, tab_token, tap_token));
         status.setValue(UserStatus.LOGGED_IN);
+        StockRepository.getInstance().fetchAll();
     }
 
     public LiveData<StockProduct> getFavoriteItem() {

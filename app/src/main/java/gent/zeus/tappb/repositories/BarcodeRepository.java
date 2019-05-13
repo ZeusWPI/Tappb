@@ -3,9 +3,13 @@ package gent.zeus.tappb.repositories;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gent.zeus.tappb.api.APIException;
 import gent.zeus.tappb.api.TapAPI;
@@ -14,14 +18,30 @@ import gent.zeus.tappb.entity.Barcode;
 public class BarcodeRepository {
     private static BarcodeRepository instance;
     private List<Barcode> barcodes;
-    private TapAPI api = new TapAPI();
+    private Map<String, Barcode> codeMap = new HashMap<>();
+    private MutableLiveData<String> codeRequest = new MutableLiveData<>();
+    private LiveData<Barcode> requestedCode;
+    private MutableLiveData<Barcode> backingCode = new MutableLiveData<>();
+    private TapAPI api;
 
-    private BarcodeRepository(){
-        LiveData<List<Barcode>> apiCodes = api.getBarcodes();
+    private BarcodeRepository() {
+        this.api = new TapAPI();
+        LiveData<Map<String, Barcode>> apiCodes = api.getBarcodes();
         apiCodes.observeForever(codes -> {
-            barcodes = codes;
-            Log.e("REE", "REE" + codes.size());
+            codeMap = codes;
         });
+        requestedCode = Transformations.switchMap(codeRequest, (code) -> {
+            backingCode.postValue(codeMap.get(code));
+            return backingCode;
+        });
+    }
+
+    public void requestBarcodeByCode(String code) {
+        codeRequest.postValue(code);
+    }
+
+    public LiveData<Barcode> getRequestedBarcode() {
+        return requestedCode;
     }
 
     public static BarcodeRepository getInstance() {
@@ -29,6 +49,10 @@ public class BarcodeRepository {
             instance = new BarcodeRepository();
         }
         return instance;
+    }
+
+    public void fetchAll() {
+        api.fetchBarcodes();
     }
 
     public void reloadBarcodes() {
@@ -40,10 +64,4 @@ public class BarcodeRepository {
         }
     }
 
-    public List<Barcode> getBarcodes() {
-        if (barcodes == null) {
-            reloadBarcodes();
-        }
-        return barcodes;
-    }
 }
