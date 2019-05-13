@@ -47,7 +47,11 @@ public class Order {
 
     public void decreaseCount(Product product) {
         if (this.orderItems.containsKey(product.getId())) {
-            this.orderItems.get(product.getId()).addCount(-1);
+            OrderProduct p = this.orderItems.get(product.getId());
+            p.addCount(-1);
+            if (p.getCount() <= 0) {
+                deleteItem(p);
+            }
         }
     }
     public void clear() {
