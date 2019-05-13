@@ -2,20 +2,19 @@ package gent.zeus.tappb.ui;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentDrawerBinding;
@@ -49,6 +48,13 @@ public class DrawerFragment extends Fragment {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        getActivity().getOnBackPressedDispatcher().addCallback(() -> {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawers();
+                return true;
+            }
+            return false;
+        });
         return view;
     }
 }
