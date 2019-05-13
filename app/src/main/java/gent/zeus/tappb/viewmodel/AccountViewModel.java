@@ -19,7 +19,6 @@ import gent.zeus.tappb.repositories.UserRepository;
 import static gent.zeus.tappb.repositories.StockRepository.getInstance;
 
 public class AccountViewModel extends ViewModel {
-    //TODO: implement API
 
     private LiveData<User> user;
     private LiveData<TapUser> tapUser;
@@ -63,5 +62,9 @@ public class AccountViewModel extends ViewModel {
 
     public boolean isLoggedIn() {
         return user.getValue() != null;
+    }
+
+    public void refresh() {
+        UserRepository.getInstance().fetchAll();
     }
 }
