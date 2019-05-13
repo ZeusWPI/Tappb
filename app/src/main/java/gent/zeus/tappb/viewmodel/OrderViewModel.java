@@ -10,11 +10,14 @@ import java.util.List;
 
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
+import gent.zeus.tappb.repositories.BarcodeRepository;
 import gent.zeus.tappb.repositories.OrderRepository;
+import gent.zeus.tappb.repositories.StockRepository;
 
 public class OrderViewModel extends ViewModel {
     private LiveData<List<OrderProduct>> orderProductList;
-    private OrderRepository repo = OrderRepository.getInstance();
+    private OrderRepository orderRepo = OrderRepository.getInstance();
+    private BarcodeRepository barcodeRepo = BarcodeRepository.getInstance();
     private MutableLiveData<ScanningState> scanningState = new MutableLiveData<>();
 
     public enum ScanningState {
@@ -25,9 +28,19 @@ public class OrderViewModel extends ViewModel {
     }
 
     public void init() {
-        orderProductList = Transformations.map(repo.getLiveOrder(), newOrder ->
+        orderProductList = Transformations.map(orderRepo.getLiveOrder(), newOrder ->
                 new ArrayList<>(newOrder.getProductList())
         );
+        barcodeRepo.getRequestedBarcode().observeForever(code ->
+        {
+            if (code != null) {
+                Product p = StockRepository.getInstance().getProductById(code.getProductId());
+                if (p != null) {
+                    addProduct(p);
+                }
+            }
+        });
+
     }
 
     public LiveData<List<OrderProduct>> getOrders() {
@@ -37,29 +50,38 @@ public class OrderViewModel extends ViewModel {
     public LiveData<ScanningState> getScanningState() {
         return scanningState;
     }
+
     public void setScanningState(ScanningState scanning) {
         scanningState.postValue(scanning);
     }
 
     public void addProduct(Product product) {
-        repo.addItem(product);
+        orderRepo.addItem(product);
+    }
+
+    public void addProductByBarcode(String barcode) {
+        BarcodeRepository.getInstance().requestBarcodeByCode(barcode);
     }
 
     public void increaseCount(OrderProduct orderProduct) {
-        repo.increaseCount(orderProduct);
+        orderRepo.increaseCount(orderProduct);
     }
 
     public void decreaseCount(OrderProduct orderProduct) {
-        repo.decreasecount(orderProduct);
+        orderRepo.decreasecount(orderProduct);
     }
 
     public void clearOrder() {
-        repo.clearOrder();
+        orderRepo.clearOrder();
+    }
+
+    public void refresh() {
+        barcodeRepo.fetchAll();
     }
 
 
     public void makeOrder() {
-        repo.makeOrder();
+        orderRepo.makeOrder();
     }
 
     public LiveData<Double> getTotalPrice() {

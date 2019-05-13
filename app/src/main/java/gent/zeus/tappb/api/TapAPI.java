@@ -13,7 +13,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gent.zeus.tappb.entity.Barcode;
 import gent.zeus.tappb.entity.Order;
@@ -37,7 +39,7 @@ public class TapAPI extends API {
 
     private final static String endpoint = "https://tap.zeus.gent";
     private MutableLiveData<Stock> stockProducts = new MutableLiveData<>();
-    private MutableLiveData<List<Barcode>> barcodes = new MutableLiveData<>();
+    private MutableLiveData<Map<String, Barcode>> barcodes = new MutableLiveData<>();
     private MutableLiveData<TapUser> user = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSucceeded = new MutableLiveData<>();
 
@@ -63,7 +65,7 @@ public class TapAPI extends API {
         return stockProducts;
     }
 
-    public MutableLiveData<List<Barcode>> getBarcodes() {
+    public MutableLiveData<Map<String, Barcode>> getBarcodes() {
         return barcodes;
     }
 
@@ -171,26 +173,28 @@ public class TapAPI extends API {
     }
 
     public void fetchBarcodes() {
+
         Request request = buildRequest("/barcodes.json").build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@Nullable Call call, IOException e) {
-
+                Log.e("TapAPI", "Could not read barcodes", e);
             }
 
             @Override
             public void onResponse(@Nullable Call call, Response response) throws IOException {
                 try {
-                    List<Barcode> result = new ArrayList<>();
+                    Map<String, Barcode> result = new HashMap<>();
                     JSONArray jsonArray = new JSONArray(response.body().string());
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
-                        // TODO
-//                        Product p = StockRepository.getInstance().getApiStock().getValue().getProductById()
-//                        Barcode s = new Barcode(obj.getString("code"), p);
-//                        result.add(s);
+                        String code = obj.getString("code");
+                        Integer id = obj.getInt("id");
+                        Barcode s = new Barcode(code, id);
+                        result.put(code, s);
                     }
+                    Log.d("TapAPI", "posting barcodes");
                     barcodes.postValue(result);
                 } catch (JSONException e) {
                     throw new APIException("Failed to parse JSON of request");

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gent.zeus.tappb.api.TapAPI;
+import gent.zeus.tappb.entity.Barcode;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.Stock;
 import gent.zeus.tappb.entity.StockProduct;
@@ -34,7 +35,7 @@ public class StockRepository {
 
         LiveData<UserRepository.UserStatus> userStatus = UserRepository.getInstance().getStatus();
         userStatus.observeForever((status) -> {
-            if (status == UserRepository.UserStatus.LOGGED_IN) {
+            if (UserRepository.getInstance().isLoggedIn()) {
                 api.fetchStockProduct();
             }
         });
@@ -53,16 +54,21 @@ public class StockRepository {
         return stock.getProductById(id);
 
     }
+
     public void setRequestedId(Integer id) {
         requestedId.postValue(id);
     }
+
     public LiveData<StockProduct> getRequestedProduct() {
         return requestedProduct;
     }
 
-    public Product getProductByBarcode(String displayValue) {
-        //TODO: implement
-        return null;
+    public Product getProductByBarcode(Barcode barcode) {
+        return stock.getProductById(barcode.getProductId());
+    }
+
+    public void fetchAll() {
+        api.fetchStockProduct();
     }
 
     public void fetchStock() {

@@ -12,6 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
@@ -22,15 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentCameraBinding;
-import gent.zeus.tappb.entity.Product;
-import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 public class CameraFragment extends Fragment {
@@ -59,7 +58,8 @@ public class CameraFragment extends Fragment {
         FragmentCameraBinding binding = FragmentCameraBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         viewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
-        navController=NavHostFragment.findNavController(this);
+        viewModel.refresh();
+        navController = NavHostFragment.findNavController(this);
         return binding.getRoot();
     }
 
@@ -113,34 +113,30 @@ public class CameraFragment extends Fragment {
             FirebaseVisionImage image;
             try {
                 viewModel.setScanningState(OrderViewModel.ScanningState.SCANNING);
-                Log.d("OrderPageFragment", "Getting picture from " + currentPhotoPath);
+                Log.d("CameraFragment", "Getting picture from " + currentPhotoPath);
                 image = FirebaseVisionImage.fromFilePath(getContext(), Uri.fromFile(new File(currentPhotoPath)));
                 FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance()
                         .getVisionBarcodeDetector(firebaseOptions);
                 detector.detectInImage(image)
                         .addOnSuccessListener(barcodes -> {
-                            Log.i("OrderPageFragment", "Found " + barcodes.size() + " barcodes");
+                            Log.i("CameraFragment", "Found " + barcodes.size() + " barcodes");
                             if (barcodes.isEmpty()) {
                                 viewModel.setScanningState(OrderViewModel.ScanningState.EMPTY);
                             } else {
                                 for (FirebaseVisionBarcode barcode : barcodes) {
-                                    Log.i("OrderPageFragment", barcode.getDisplayValue());
-                                    Product product = StockRepository.getInstance().getProductByBarcode(barcode.getDisplayValue());
-                                    if(product != null) {
-                                        viewModel.addProduct(product);
-                                    }
+                                    viewModel.addProductByBarcode(barcode.getDisplayValue());
                                 }
                                 viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);
                                 navController.navigate(R.id.nav_order);
                             }
                         })
                         .addOnFailureListener(e -> {
-                            Log.e("OrderPageFragment", "detectInImage failed", e);
+                            Log.e("CameraFragment", "detectInImage failed", e);
                             viewModel.setScanningState(OrderViewModel.ScanningState.ERROR);
                             navController.popBackStack();
                         });
             } catch (IOException e) {
-                Log.e("OrderPageFragment", "An error occured finding barcodes", e);
+                Log.e("CameraFragment", "An error occured finding barcodes", e);
                 viewModel.setScanningState(OrderViewModel.ScanningState.ERROR);
             }
         }

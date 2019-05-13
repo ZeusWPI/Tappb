@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.entity.User;
+import gent.zeus.tappb.repositories.StockRepository;
+import gent.zeus.tappb.repositories.UserRepository;
 
 public class MainActivity extends AppCompatActivity {
 

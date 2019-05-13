@@ -23,6 +23,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.api.TabAPI;
+import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.repositories.UserRepository;
 import gent.zeus.tappb.ui.LoginFragment;
 import gent.zeus.tappb.viewmodel.AccountViewModel;

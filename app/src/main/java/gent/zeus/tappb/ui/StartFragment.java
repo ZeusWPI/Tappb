@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentStartBinding;
+import gent.zeus.tappb.repositories.StockRepository;
+import gent.zeus.tappb.repositories.UserRepository;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 
 import androidx.annotation.NonNull;
@@ -42,6 +44,7 @@ public class StartFragment extends Fragment {
 
         OrderViewModel orderViewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
         orderViewModel.init();
+
 
         return view;
     }
