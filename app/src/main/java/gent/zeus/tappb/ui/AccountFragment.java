@@ -54,7 +54,12 @@ public class AccountFragment extends Fragment implements SwipeRefreshLayout.OnRe
             binding.refresher.setRefreshing(false);
         });
         viewModel.getUserName().observe(this, binding.username::setText);
-        viewModel.getFavoriteItemName().observe(this, binding.favoriteItem::setText);
+        viewModel.getFavoriteItemName().observe(this, text -> {
+            if (text == null) {
+                text = getResources().getString(R.string.none);
+            }
+            binding.favoriteItem.setText(text);
+        });
 
         binding.setFormatter(formatter);
         binding.setHandler(this);
