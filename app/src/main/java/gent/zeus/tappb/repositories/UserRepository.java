@@ -54,7 +54,7 @@ public class UserRepository {
             StockRepository.getInstance().setRequestedId(tapusr.getFavoriteItemId());
         });
         status.setValue(user.getValue() == null ? UserStatus.LOGGED_OUT : UserStatus.LOGGED_IN);
-        status.observeForever(usr -> {
+        user.observeForever(usr -> {
             if (usr != null) {
                 status.postValue(UserStatus.LOGGED_IN);
             } else {
