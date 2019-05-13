@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gent.zeus.tappb.entity.Barcode;
+import gent.zeus.tappb.entity.Order;
 import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.Stock;
@@ -251,24 +252,24 @@ public class TapAPI extends API {
         }
     }
 
-    public void createOrder(User user, List<OrderProduct> orderProducts) {
+    public void createOrder(Order orderToCreate) {
         JSONObject data = new JSONObject();
         try {
             JSONArray order_items_attributes = new JSONArray();
-            for (OrderProduct orderProduct : orderProducts) {
+            for (OrderProduct orderProduct : orderToCreate.getProductList()) {
                 JSONObject item = new JSONObject();
                 item.put("product_id", orderProduct.getId());
                 item.put("count", orderProduct.getCount());
                 order_items_attributes.put(item);
             }
             JSONObject order = new JSONObject();
-            order.put("order_item_attributes", order_items_attributes);
+            order.put("order_items_attributes", order_items_attributes);
             data.put("order", order);
         } catch (Exception ex) {
             throw new APIException("Failed to construct JSON order request");
         }
         RequestBody body = RequestBody.create(JSON, data.toString());
-        Request request = buildRequest("/users/" + user.getUsername() + "/orders.json")
+        Request request = buildRequest("/users/" + UserRepository.getInstance().getUsername() + "/orders.json")
                 .post(body)
                 .build();
 
@@ -281,7 +282,7 @@ public class TapAPI extends API {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                isSucceeded.setValue(response.isSuccessful());
+                isSucceeded.postValue(response.isSuccessful());
             }
         });
     }

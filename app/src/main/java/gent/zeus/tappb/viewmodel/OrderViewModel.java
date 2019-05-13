@@ -59,4 +59,8 @@ public class OrderViewModel extends ViewModel {
         repo.clearOrder();
     }
 
+    public void makeOrder() {
+        repo.makeOrder();
+    }
+
 }
