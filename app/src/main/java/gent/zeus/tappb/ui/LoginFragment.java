@@ -19,6 +19,7 @@ import com.google.firebase.iid.InstanceIdResult;
 
 import gent.zeus.tappb.databinding.FragmentLoginBinding;
 import gent.zeus.tappb.login.LoginWebviewClient;
+import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.repositories.UserRepository;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -45,6 +46,7 @@ public class LoginFragment extends Fragment {
             String tapToken = tokenPreferences.getString(TAP_TOKEN_KEY, null);
             UserRepository.getInstance().load(username, tabToken, tapToken);
             getFragmentManager().popBackStack();
+            loadData();
             return binding.getRoot();
         }
 
@@ -58,6 +60,7 @@ public class LoginFragment extends Fragment {
                 tokenEditor.putString(TAB_TOKEN_KEY, UserRepository.getInstance().getUser().getValue().getTabToken());
                 tokenEditor.putString(TAP_TOKEN_KEY, UserRepository.getInstance().getUser().getValue().getTapToken());
                 tokenEditor.apply();
+                loadData();
                 // upload device registration token
                 Task<InstanceIdResult> task = FirebaseInstanceId.getInstance().getInstanceId();
                 task.addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
@@ -75,5 +78,13 @@ public class LoginFragment extends Fragment {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("https://tabbp.zeus.gent/login");
         return binding.getRoot();
+    }
+
+    private void loadData() {
+        // Initiate Stock
+        StockRepository.getInstance();
+
+        // Initiate User
+        UserRepository.getInstance().fetchAll();
     }
 }
