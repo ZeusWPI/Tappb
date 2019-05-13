@@ -33,52 +33,43 @@
                 android:id="@+id/profile_picture"
                 android:layout_width="101dp"
                 android:layout_height="99dp"
+                android:layout_marginTop="96dp"
                 android:contentDescription="@string/profile_picture"
                 android:src="@drawable/ic_account"
-                app:layout_constraintBottom_toTopOf="@id/username"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.48000002" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@id/setFavouriteItem"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_picture"
-                tools:text="@tools:sample/first_names" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="8dp"
-                android:background="#FFFFFF"
-                android:contentDescription="@string/profile_picture"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_picture"
+                app:layout_constraintBottom_toTopOf="@+id/setFavouriteItem"
                 app:layout_constraintEnd_toEndOf="@+id/profile_picture"
-                app:layout_constraintHorizontal_bias="0.49"
-                app:layout_constraintStart_toEndOf="@+id/profile_picture"
-                app:srcCompat="@drawable/ic_edit" />
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="@+id/profile_picture"
+                app:layout_constraintTop_toBottomOf="@+id/profile_picture"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="@tools:sample/first_names" />
 
             <Button
                 android:id="@+id/setFavouriteItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:enabled="@{viewModel.isLoggedIn()}"
                 android:onClick="@{() -> handler.setFavoriteItem()}"
                 android:text="@string/change_favorite_item"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/username" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/currently"

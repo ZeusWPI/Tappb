@@ -5,11 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentHomeScreenBinding;
-import gent.zeus.tappb.entity.User;
-import gent.zeus.tappb.repositories.UserRepository;
 import gent.zeus.tappb.handlers.HomeListener;
+import gent.zeus.tappb.repositories.OrderRepository;
+import gent.zeus.tappb.repositories.UserRepository;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,13 +45,21 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
         });
         gestureDetector = new GestureDetector(this.getContext(), new GestureListener());
         binding.getRoot().setOnTouchListener(this);
+
         return binding.getRoot();
     }
 
 
     @Override
-    public void onCartClicked() {
-        NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_order);
+    public void onInstantOrderClicked() {
+        UserRepository.getInstance().getFavoriteItem().observe(this, product -> {
+            if (product == null) {
+                Toast.makeText(getContext(), getResources().getString(R.string.no_favorite_item), Toast.LENGTH_LONG).show();
+            } else {
+                OrderRepository.getInstance().addItem(product);
+                NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_order);
+            }
+        });
     }
 
     @Override
