@@ -4,13 +4,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
+import gent.zeus.tappb.R;
 import gent.zeus.tappb.handlers.MoneyTextWatcher;
 import gent.zeus.tappb.api.TabAPI;
 import gent.zeus.tappb.databinding.FragmentTransferBinding;
 import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.handlers.OkCancelDialogListener;
 import gent.zeus.tappb.repositories.UserRepository;
+import gent.zeus.tappb.viewmodel.TransferViewModel;
 
 import android.text.Editable;
 import android.util.Log;
@@ -28,10 +31,14 @@ public class TransferFragment extends MoneySubmitFragment implements
         OkCancelDialogListener {
 
     private FragmentTransferBinding binding;
+    private TransferViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        viewModel = ViewModelProviders.of(getActivity()).get(TransferViewModel.class);
+        viewModel.init();
+
         binding = FragmentTransferBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         binding.transfer.setOnClickListener(this);
@@ -56,27 +63,28 @@ public class TransferFragment extends MoneySubmitFragment implements
 
         String name = binding.nameInput.getText().toString();
         if (name.isEmpty()) {
-            binding.nameInput.setError("No name given");
+            binding.nameInput.setError(getString(R.string.no_name));
             isValid = false;
         }
 
         String amount = binding.amountInput.getText().toString();
         if (amount.isEmpty()) {
-            binding.amountInput.setError("Invalid amount");
+            binding.amountInput.setError(getString(R.string.invalid_amount));
             isValid = false;
         } else {
             double parsed = Double.parseDouble(amount);
             if (parsed <= 0) {
-                binding.amountInput.setError("Invalid amount");
+                binding.amountInput.setError(getString(R.string.invalid_amount));
                 isValid = false;
             }
         }
 
         String message = binding.messageInput.getText().toString();
 
-        String dialogMessage = "Send " + amount + " to " + name + "?";
+        String dialogMessage = getString(R.string.transfer_confirmation, amount, name);
         if (isValid) {
-            DialogFragment dialog = new OkCancelDialogFragment(this, dialogMessage);
+            OkCancelDialogFragment dialog = OkCancelDialogFragment.newInstance(dialogMessage);
+            dialog.setListener(this);
             dialog.show(getFragmentManager(), "ConfirmTransferDialogFragment");
         }
     }
@@ -95,8 +103,7 @@ public class TransferFragment extends MoneySubmitFragment implements
         } else {
             try {
                 int amount = ((int) (Double.parseDouble(amountEditable.toString()) * 100));
-                // TODO: reimplement
-//                TabAPI.createTransaction(UserRepository.getInstance().getUser().getValue().getUsername(), nameEditable.toString(), amount, messageEditable.toString());
+                viewModel.createTransaction(nameEditable.toString(), amount, messageEditable.toString());
             } catch (NumberFormatException e) {
                 Log.d("TransferFragment", amountEditable.toString(), e);
                 Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_LONG).show();
@@ -109,6 +116,6 @@ public class TransferFragment extends MoneySubmitFragment implements
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        Toast.makeText(getContext(), "DECLINED", Toast.LENGTH_SHORT).show();
+
     }
 }

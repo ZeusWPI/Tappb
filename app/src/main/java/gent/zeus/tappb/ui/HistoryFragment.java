@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import gent.zeus.tappb.viewmodel.HistoryViewModel;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private HistoryViewModel viewModel;
 
@@ -34,12 +35,20 @@ public class HistoryFragment extends Fragment {
         viewModel.init();
 
         HistoryListAdapter adapter = new HistoryListAdapter();
-        viewModel.getHistory().observe(this, adapter::submitList);
+        viewModel.getHistory().observe(this, list -> {
+            adapter.submitList(list);
+            binding.refresher.setRefreshing(false);
+        });
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         binding.setLifecycleOwner(this);
+        binding.refresher.setOnRefreshListener(this);
 
         return binding.getRoot();
     }
 
+    @Override
+    public void onRefresh() {
+        viewModel.refreshHistory();
+    }
 }

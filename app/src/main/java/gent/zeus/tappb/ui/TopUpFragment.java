@@ -39,17 +39,16 @@ public class TopUpFragment extends MoneySubmitFragment {
         ClipData clip = ClipData.newPlainText("account number", getString(R.string.bank_account));
         clipboard.setPrimaryClip(clip);
 
-        Toast.makeText(getContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.copied_clipboard, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        Toast.makeText(getContext(), "CONFIRMED", Toast.LENGTH_SHORT).show();
-        navigateBack();
+
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        Toast.makeText(getContext(), "DECLINED", Toast.LENGTH_SHORT).show();
+
     }
 }

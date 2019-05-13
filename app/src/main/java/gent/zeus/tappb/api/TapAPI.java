@@ -4,6 +4,7 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import gent.zeus.tappb.entity.Barcode;
+import gent.zeus.tappb.entity.Order;
+import gent.zeus.tappb.entity.OrderProduct;
 import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.Stock;
 import gent.zeus.tappb.entity.StockProduct;
@@ -38,6 +41,11 @@ public class TapAPI extends API {
     private MutableLiveData<Stock> stockProducts = new MutableLiveData<>();
     private MutableLiveData<Map<String, Barcode>> barcodes = new MutableLiveData<>();
     private MutableLiveData<TapUser> user = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSucceeded = new MutableLiveData<>();
+
+    public LiveData<Boolean> getAPISucceeded() {
+        return isSucceeded;
+    }
 
     private Request.Builder buildRequest(String relativeURL) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -246,5 +254,40 @@ public class TapAPI extends API {
         } catch (Exception ex) {
             throw new APIException("Failed to get body of request: ");
         }
+    }
+
+    public void createOrder(Order orderToCreate) {
+        JSONObject data = new JSONObject();
+        try {
+            JSONArray order_items_attributes = new JSONArray();
+            for (OrderProduct orderProduct : orderToCreate.getProductList()) {
+                JSONObject item = new JSONObject();
+                item.put("product_id", orderProduct.getId());
+                item.put("count", orderProduct.getCount());
+                order_items_attributes.put(item);
+            }
+            JSONObject order = new JSONObject();
+            order.put("order_items_attributes", order_items_attributes);
+            data.put("order", order);
+        } catch (Exception ex) {
+            throw new APIException("Failed to construct JSON order request");
+        }
+        RequestBody body = RequestBody.create(JSON, data.toString());
+        Request request = buildRequest("/users/" + UserRepository.getInstance().getUsername() + "/orders.json")
+                .post(body)
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                throw new APIException("Failed to order products");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                isSucceeded.postValue(response.isSuccessful());
+            }
+        });
     }
 }

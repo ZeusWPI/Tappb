@@ -3,23 +3,14 @@ package gent.zeus.tappb.viewmodel;
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProviders;
 
-import gent.zeus.tappb.api.TapAPI;
-import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.entity.TapUser;
 import gent.zeus.tappb.entity.User;
-import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.repositories.UserRepository;
 
-import static gent.zeus.tappb.repositories.StockRepository.getInstance;
-
 public class AccountViewModel extends ViewModel {
-    //TODO: implement API
 
     private LiveData<User> user;
     private LiveData<TapUser> tapUser;
@@ -63,5 +54,9 @@ public class AccountViewModel extends ViewModel {
 
     public boolean isLoggedIn() {
         return user.getValue() != null;
+    }
+
+    public void refresh() {
+        UserRepository.getInstance().fetchAll();
     }
 }

@@ -70,4 +70,8 @@ public class StockRepository {
     public void fetchAll() {
         api.fetchStockProduct();
     }
+
+    public void fetchStock() {
+        api.fetchStockProduct();
+    }
 }

@@ -43,9 +43,11 @@ public class TabAPI extends API {
     public LiveData<Boolean> getAPISucceeded() {
         return isSucceeded;
     }
+
     public LiveData<Integer> getBalanceInCents() {
         return balance;
     }
+
     private String postBody(String relativeURL, String jsondata) {
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, jsondata);
@@ -68,7 +70,7 @@ public class TabAPI extends API {
                 .header("Authorization", "Token " + UserRepository.getInstance().getTabToken());
     }
 
-    public LiveData<List<Transaction>> fetchTransactions() {
+    public void fetchTransactions() {
         Request request = buildRequest("/users/" + UserRepository.getInstance().getUsername() + "/transactions").build();
 
 
@@ -94,7 +96,7 @@ public class TabAPI extends API {
                         String timestring = obj.getString("time");
                         int amount = obj.getInt("amount");
                         OffsetDateTime d = OffsetDateTime.parse(timestring);
-                        Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount * 100.0);
+                        Transaction t = new Transaction(transactionID, d, debtor, creditor, message, amount/100.0);
                         result.add(t);
                     }
                     Collections.reverse(result);
@@ -105,8 +107,6 @@ public class TabAPI extends API {
                 }
             }
         });
-
-        return transactions;
     }
 
     public void fetchBalanceInCents() {

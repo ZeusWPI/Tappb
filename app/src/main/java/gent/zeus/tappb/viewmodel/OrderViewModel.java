@@ -20,7 +20,6 @@ public class OrderViewModel extends ViewModel {
     private BarcodeRepository barcodeRepo = BarcodeRepository.getInstance();
     private MutableLiveData<ScanningState> scanningState = new MutableLiveData<>();
 
-
     public enum ScanningState {
         NOT_SCANNING,
         SCANNING,
@@ -80,4 +79,13 @@ public class OrderViewModel extends ViewModel {
         barcodeRepo.fetchAll();
     }
 
+
+    public void makeOrder() {
+        orderRepo.makeOrder();
+    }
+
+    public LiveData<Double> getTotalPrice() {
+        return Transformations.map(orderProductList, list ->
+                list.stream().mapToDouble(op -> op.getCount() * op.getPrice()).sum());
+    }
 }

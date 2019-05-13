@@ -1,7 +1,6 @@
 package gent.zeus.tappb.ui;
 
 import android.app.Activity;
-import android.content.ContentProvider;
 import android.content.ContentProviderClient;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,27 +14,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.squareup.picasso.Picasso;
 
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.FragmentAccountBinding;
-import gent.zeus.tappb.entity.Product;
 import gent.zeus.tappb.viewmodel.AccountViewModel;
 
-public class AccountFragment extends Fragment {
+public class AccountFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final int REQUEST_IMAGE_CAPTURE = 100;
     private static final int REQUEST_IMAGE_GALLERY = 101;
 
     private AccountViewModel viewModel;
     private DecimalFormat formatter = new DecimalFormat("€ #0.00;€ -#0.00");
+    private FragmentAccountBinding binding;
 
 
     public AccountFragment() {
@@ -52,13 +51,20 @@ public class AccountFragment extends Fragment {
         viewModel.init();
         viewModel.getProfileURL().observe(this, (url) -> {
             Picasso.get().load(url).into(binding.profilePicture);
+            binding.refresher.setRefreshing(false);
         });
         viewModel.getUserName().observe(this, binding.username::setText);
-        viewModel.getFavoriteItemName().observe(this, binding.favoriteItem::setText);
+        viewModel.getFavoriteItemName().observe(this, text -> {
+            if (text == null) {
+                text = getResources().getString(R.string.none);
+            }
+            binding.favoriteItem.setText(text);
+        });
 
         binding.setFormatter(formatter);
         binding.setHandler(this);
         binding.setViewModel(viewModel);
+        binding.refresher.setOnRefreshListener(this);
 
         binding.setLifecycleOwner(this);
         return binding.getRoot();
@@ -129,5 +135,10 @@ public class AccountFragment extends Fragment {
         NavController navController = Navigation.findNavController(getActivity().findViewById(R.id.nav_host_fragment));
         navController.navigate(R.id.action_nav_account_to_nav_favorite_item);
         return true;
+    }
+
+    @Override
+    public void onRefresh() {
+        viewModel.refresh();
     }
 }
