@@ -64,4 +64,8 @@ public class StockRepository {
         //TODO: implement
         return null;
     }
+
+    public void fetchStock() {
+        api.fetchStockProduct();
+    }
 }

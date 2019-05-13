@@ -20,4 +20,8 @@ public class HistoryViewModel extends ViewModel {
     public LiveData<List<Transaction>> getHistory() {
         return history;
     }
+
+    public void refreshHistory() {
+        HistoryRepository.getInstance().fetchAll();
+    }
 }

@@ -103,7 +103,6 @@ public class TransferFragment extends MoneySubmitFragment implements
         } else {
             try {
                 int amount = ((int) (Double.parseDouble(amountEditable.toString()) * 100));
-                // TODO: reimplement
                 viewModel.createTransaction(nameEditable.toString(), amount, messageEditable.toString());
             } catch (NumberFormatException e) {
                 Log.d("TransferFragment", amountEditable.toString(), e);

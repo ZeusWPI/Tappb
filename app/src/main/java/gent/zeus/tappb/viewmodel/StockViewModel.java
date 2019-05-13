@@ -30,6 +30,10 @@ public class StockViewModel extends ViewModel {
         return fetchError;
     }
 
+    public void refresh() {
+        stockRepository.fetchStock();
+    }
+
 
 //    public void initializeStock() {
 //        if (fetchError == null) {

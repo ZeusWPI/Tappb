@@ -26,6 +26,7 @@
     <string name="confirm_logout">Are you sure you want to log out?</string>
     <string name="currently">Currently:</string>
     <string name="not_logged_in">Not logged in</string>
+    <string name="none">None</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="notifications">Notifications</string>
@@ -49,6 +50,7 @@
     <string name="no_name">No name given</string>
     <string name="invalid_amount">Invalid amount</string>
     <string name="order_favorite_item">Order Favorite Item</string>
-    <string name="none">None</string>
     <string name="no_favorite_item">You have no favorite item set</string>
+    <string name="to">to</string>
+    <string name="from">from</string>
 </resources>

@@ -47,4 +47,6 @@
     <string name="no_name">Geen naam opgegeven</string>
     <string name="order_favorite_item">Bestel favoriet item</string>
     <string name="no_favorite_item">Je hebt geen favoriet item ingesteld</string>
+    <string name="from">van</string>
+    <string name="to">aan</string>
 </resources>
