@@ -13,12 +13,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.entity.Transaction;
+import gent.zeus.tappb.entity.User;
 import gent.zeus.tappb.repositories.UserRepository;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -166,6 +165,7 @@ public class TabAPI extends API {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 isSucceeded.postValue(response.isSuccessful());
+                UserRepository.getInstance().fetchAll();
             }
         });
     }
