@@ -49,4 +49,6 @@
     <string name="transfer_confirmation">Send %1$s to %2$s </string>
     <string name="no_name">No name given</string>
     <string name="invalid_amount">Invalid amount</string>
+    <string name="to">to</string>
+    <string name="from">from</string>
 </resources>
