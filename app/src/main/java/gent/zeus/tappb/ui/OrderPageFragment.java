@@ -1,6 +1,7 @@
 package gent.zeus.tappb.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class OrderPageFragment extends Fragment implements OrderPageListener {
         dialog.setListener(new OkCancelDialogListener() {
             @Override
             public void onDialogPositiveClick(DialogFragment dialog) {
-//                viewModel.makeOrder();
+                viewModel.makeOrder();
             }
 
             @Override

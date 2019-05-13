@@ -57,6 +57,11 @@ public class OrderViewModel extends ViewModel {
         repo.clearOrder();
     }
 
+
+    public void makeOrder() {
+        repo.makeOrder();
+    }
+
     public LiveData<Double> getTotalPrice() {
         return Transformations.map(orderProductList, list ->
                 list.stream().mapToDouble(op -> op.getCount() * op.getPrice()).sum());
