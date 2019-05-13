@@ -234,8 +234,12 @@ public class TapAPI extends API {
     }
 
     public void setFavoriteItem(User user, Product p) {
-        putBody("/users/" + user.getUsername() + ".json", String.format("{\"dagschotel_id\":\"%d\"}", p.getId()));
-        fetchTapUser(user);
+        String body = putBody("/users/" + user.getUsername() + ".json", String.format("{\"dagschotel_id\":\"%d\"}", p.getId()));
+        try {
+            this.user.postValue(parseTapUser(body));
+        } catch (Exception ex) {
+            throw new APIException("Failed to get body of request: ");
+        }
     }
 
     public void setPrivate(User user, boolean aPrivate) {
