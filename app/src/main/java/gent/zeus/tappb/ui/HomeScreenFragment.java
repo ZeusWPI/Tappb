@@ -64,22 +64,19 @@ public class HomeScreenFragment extends Fragment implements HomeListener, View.O
 
     @Override
     public void onLoginClicked() {
-        // TODO: do logout in VM
-        if (UserRepository.getInstance().getUser().getValue() != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage(R.string.confirm_logout)
-                    .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
-                        UserRepository.getInstance().logout();
-                        SharedPreferences.Editor editor = getContext().getSharedPreferences("tokens", Context.MODE_PRIVATE).edit();
-                        editor.clear();
-                        editor.apply();
-                        Toast.makeText(getContext(), R.string.logged_out, Toast.LENGTH_LONG).show();
-                    })
-                    .setNegativeButton(R.string.cancel, (dialog, which) -> {});
-            builder.create().show();
-        } else {
-            NavHostFragment.findNavController(this).navigate(R.id.action_nav_home_to_nav_login);
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.confirm_logout)
+                .setPositiveButton(getResources().getText(R.string.confirm), (dialog, which) -> {
+                    UserRepository.getInstance().logout();
+                    SharedPreferences.Editor editor = getContext().getSharedPreferences("tokens", Context.MODE_PRIVATE).edit();
+                    editor.clear();
+                    editor.apply();
+                    Toast.makeText(getContext(), R.string.logged_out, Toast.LENGTH_LONG).show();
+                    getActivity().finish();
+                    startActivity(getActivity().getIntent());
+                })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {});
+        builder.create().show();
     }
 
     @Override

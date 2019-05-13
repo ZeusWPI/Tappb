@@ -12,7 +12,6 @@ import android.webkit.WebView;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -63,13 +62,10 @@ public class LoginFragment extends Fragment {
                 loadData();
                 // upload device registration token
                 Task<InstanceIdResult> task = FirebaseInstanceId.getInstance().getInstanceId();
-                task.addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult authResult) {
-                        String deviceRegistrationToken = authResult.getToken();
-                        Log.i("registrationToken", deviceRegistrationToken);
-                        UserRepository.getInstance().uploadDeviceRegistrationToken(deviceRegistrationToken);
-                    }
+                task.addOnSuccessListener(authResult -> {
+                    String deviceRegistrationToken = authResult.getToken();
+                    Log.i("registrationToken", deviceRegistrationToken);
+                    UserRepository.getInstance().uploadDeviceRegistrationToken(deviceRegistrationToken);
                 });
                 getFragmentManager().popBackStack();
             }
