@@ -44,6 +44,7 @@ public class StartFragment extends Fragment {
 
         OrderViewModel orderViewModel = ViewModelProviders.of(getActivity()).get(OrderViewModel.class);
         orderViewModel.init();
+        getActivity().getOnBackPressedDispatcher().addCallback(navController::popBackStack);
 
 
         return view;

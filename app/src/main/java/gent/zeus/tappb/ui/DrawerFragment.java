@@ -53,7 +53,7 @@ public class DrawerFragment extends Fragment {
                 drawerLayout.closeDrawers();
                 return true;
             }
-            return false;
+            return navController.popBackStack();
         });
         return view;
     }
