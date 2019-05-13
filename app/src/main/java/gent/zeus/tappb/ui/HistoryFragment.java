@@ -39,6 +39,7 @@ public class HistoryFragment extends Fragment implements SwipeRefreshLayout.OnRe
             adapter.submitList(list);
             binding.refresher.setRefreshing(false);
         });
+        binding.refresher.setRefreshing(true);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         binding.setLifecycleOwner(this);

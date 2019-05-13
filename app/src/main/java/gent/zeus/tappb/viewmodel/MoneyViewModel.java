@@ -10,11 +10,14 @@ public class MoneyViewModel extends ViewModel {
 
     public void init() {
         balanceInCents = UserRepository.getInstance().getAccountBalanceCents();
-
     }
 
     public LiveData<Integer> getBalanceInCents() {
         UserRepository.getInstance().fetchAll();
         return balanceInCents;
+    }
+
+    public void refresh() {
+        UserRepository.getInstance().fetchAll();
     }
 }
