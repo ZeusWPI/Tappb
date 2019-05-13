@@ -33,7 +33,6 @@ public class OrderRepository {
     public void addItem(OrderProduct product) {
         order.addItem(product);
         invalidateLiveOrder();
-
     }
 
     public void clearOrder() {

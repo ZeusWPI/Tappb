@@ -39,5 +39,4 @@ public class TapUser {
     public boolean isFavoriteItemHidden() {
         return favoriteItemHidden;
     }
-
 }

@@ -1,13 +1,6 @@
 package gent.zeus.tappb.ui;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,14 +11,21 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import gent.zeus.tappb.R;
 import gent.zeus.tappb.adapters.StockAdapter;
+import gent.zeus.tappb.databinding.FragmentStockBinding;
 import gent.zeus.tappb.entity.StockProduct;
 import gent.zeus.tappb.viewmodel.OrderViewModel;
 import gent.zeus.tappb.viewmodel.StockViewModel;
-import gent.zeus.tappb.databinding.FragmentStockBinding;
 
-public class StockFragment extends Fragment implements StockAdapter.StockListener, SearchView.OnQueryTextListener {
+public class StockFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, StockAdapter.StockListener, SearchView.OnQueryTextListener {
+
 
     private OrderViewModel orderViewModel;
     private StockViewModel stockViewModel;
@@ -55,7 +55,13 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
         adapter = new StockAdapter(this, true);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        stockViewModel.getStock().observe(this, adapter::setProducts);
+        stockViewModel.getStock().observe(this, products -> {
+            adapter.setProducts(products);
+            binding.refresher.setRefreshing(false);
+        });
+
+        binding.refresher.setOnRefreshListener(this);
+
         binding.setLifecycleOwner(this);
         setHasOptionsMenu(true);
 
@@ -100,5 +106,11 @@ public class StockFragment extends Fragment implements StockAdapter.StockListene
     public void onClick(StockProduct stockProduct) {
         Toast.makeText(getContext(), stockProduct.getName(), Toast.LENGTH_SHORT).show();
         orderViewModel.addProduct(stockProduct);
+    }
+
+    @Override
+    public void onRefresh() {
+        stockViewModel.refresh();
+
     }
 }

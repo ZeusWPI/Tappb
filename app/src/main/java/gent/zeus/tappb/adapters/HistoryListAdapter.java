@@ -1,8 +1,10 @@
 package gent.zeus.tappb.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import gent.zeus.tappb.R;
 import gent.zeus.tappb.databinding.HistoryItemBinding;
 import gent.zeus.tappb.entity.Transaction;
 
@@ -40,7 +42,7 @@ public class HistoryListAdapter extends ListAdapter<Transaction, HistoryListAdap
         return new ViewHolder(
                 HistoryItemBinding.inflate(LayoutInflater.from(parent.getContext()),
                         parent,
-                        false));
+                        false), parent.getContext());
     }
 
     @Override
@@ -50,16 +52,41 @@ public class HistoryListAdapter extends ListAdapter<Transaction, HistoryListAdap
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        HistoryItemBinding itemBinding;
+        private HistoryItemBinding itemBinding;
+        private Context context;
 
-        public ViewHolder(@NonNull HistoryItemBinding binding) {
+        public ViewHolder(@NonNull HistoryItemBinding binding, Context context) {
             super(binding.getRoot());
+            this.context = context;
             itemBinding = binding;
             itemBinding.setMonthFormatter(HistoryListAdapter.this.monthFormatter);
         }
 
         public void bind(Transaction item) {
             itemBinding.setTransaction(item);
+            itemBinding.personDescription.setText(getPersonDescription(item));
+            itemBinding.cost.setText(getFormattedAmount(item));
+            itemBinding.day.setText(getDayString(item));
+        }
+
+        private String getPersonDescription(Transaction item) {
+            return item.isUserIsDebtor() ?
+                    context.getResources().getString(R.string.to) + ": " + item.getCreditor() :
+                    context.getResources().getString(R.string.from) + ": " + item.getDebtor();
+        }
+
+        private String getFormattedAmount(Transaction item) {
+            DecimalFormat costFormatter = new DecimalFormat("#0.00");
+            String formatted = "€" + costFormatter.format(item.getAmount());
+            if (item.isUserIsDebtor()) {
+                formatted = "-" + formatted;
+            }
+            return formatted;
+        }
+
+        private String getDayString(Transaction item) {
+            int day = item.getDate().getDayOfMonth();
+            return day > 9 ? Integer.toString(day) : "0" + day;
         }
     }
 }

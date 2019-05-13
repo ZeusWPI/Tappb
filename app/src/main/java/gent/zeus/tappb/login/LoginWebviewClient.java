@@ -47,7 +47,6 @@ public class LoginWebviewClient extends WebViewClient {
                     Log.d(TAG, value);
                     JSONObject reader = new JSONObject(value);
                     Log.d(TAG, reader.getString("username"));
-                    // TODO save user
                     UserRepository.getInstance().load(reader.getString("username"), reader.getString("tab_token"), reader.getString("tap_token"));
                     navigateAway();
                 } catch (JSONException | UnsupportedEncodingException ex) {
