@@ -18,6 +18,7 @@ import com.google.firebase.iid.InstanceIdResult;
 
 import gent.zeus.tappb.databinding.FragmentLoginBinding;
 import gent.zeus.tappb.login.LoginWebviewClient;
+import gent.zeus.tappb.repositories.BarcodeRepository;
 import gent.zeus.tappb.repositories.StockRepository;
 import gent.zeus.tappb.repositories.UserRepository;
 
@@ -82,5 +83,7 @@ public class LoginFragment extends Fragment {
 
         // Initiate User
         UserRepository.getInstance().fetchAll();
+
+        BarcodeRepository.getInstance().fetchAll();
     }
 }
