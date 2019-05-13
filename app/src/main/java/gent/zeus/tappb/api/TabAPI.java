@@ -43,9 +43,11 @@ public class TabAPI extends API {
     public LiveData<Boolean> getAPISucceeded() {
         return isSucceeded;
     }
+
     public LiveData<Integer> getBalanceInCents() {
         return balance;
     }
+
     private String postBody(String relativeURL, String jsondata) {
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, jsondata);

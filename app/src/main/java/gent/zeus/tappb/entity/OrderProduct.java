@@ -29,5 +29,4 @@ public class OrderProduct extends Product{
     public void setCount(int newCount) {
         this.count = newCount;
     }
-
 }

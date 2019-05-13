@@ -28,7 +28,6 @@ public class OrderViewModel extends ViewModel {
         orderProductList = Transformations.map(repo.getLiveOrder(), newOrder ->
                 new ArrayList<>(newOrder.getProductList())
         );
-
     }
 
     public LiveData<List<OrderProduct>> getOrders() {
@@ -46,7 +45,6 @@ public class OrderViewModel extends ViewModel {
         repo.addItem(product);
     }
 
-
     public void increaseCount(OrderProduct orderProduct) {
         repo.increaseCount(orderProduct);
     }
@@ -59,4 +57,8 @@ public class OrderViewModel extends ViewModel {
         repo.clearOrder();
     }
 
+    public LiveData<Double> getTotalPrice() {
+        return Transformations.map(orderProductList, list ->
+                list.stream().mapToDouble(op -> op.getCount() * op.getPrice()).sum());
+    }
 }
