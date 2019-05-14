@@ -124,6 +124,7 @@ public class CameraFragment extends Fragment {
                                 viewModel.setScanningState(OrderViewModel.ScanningState.EMPTY);
                             } else {
                                 for (FirebaseVisionBarcode barcode : barcodes) {
+                                    Log.i("CameraFragment", barcode.getDisplayValue());
                                     viewModel.addProductByBarcode(barcode.getDisplayValue());
                                 }
                                 viewModel.setScanningState(OrderViewModel.ScanningState.NOT_SCANNING);

@@ -190,7 +190,7 @@ public class TapAPI extends API {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         String code = obj.getString("code");
-                        Integer id = obj.getInt("id");
+                        Integer id = obj.getInt("product_id");
                         Barcode s = new Barcode(code, id);
                         result.put(code, s);
                     }

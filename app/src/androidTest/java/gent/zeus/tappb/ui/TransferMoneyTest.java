@@ -88,11 +88,6 @@ public class TransferMoneyTest {
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.transfer), withText("Transfer"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.nav_host_fragment),
-                                        0),
-                                3),
                         isDisplayed()));
         appCompatButton.perform(click());
 
